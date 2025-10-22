@@ -5,81 +5,116 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Хостинг картинок</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        /* Добавим стили для footer */
+        .footer {
+            background-color: #2c3e50; /* Цвет фона */
+            color: #ecf0f1; /* Цвет текста */
+            text-align: center; /* Центрируем текст */
+            padding: 15px 0; /* Отступы сверху/снизу */
+            margin-top: auto; /* Прижимает футер к низу */
+        }
+
+        /* Убедимся, что body/html растягиваются на всю высоту */
+        html, body {
+            height: 100%;
+        }
+
+        .page-container {
+            min-height: 100vh; /* Минимальная высота - вся высота окна */
+            display: flex;
+            flex-direction: column; /* Располагаем элементы вертикально */
+        }
+
+        .content-wrap {
+            flex: 1; /* Основной контент растягивается */
+        }
+    </style>
 </head>
 <body>
-    <div class="container">
-        <!-- Левая колонка - загрузка (30%) -->
-        <div class="upload-section">
-            <h1>Загрузка изображений</h1>
+    <div class="page-container"> <!-- Контейнер для всей страницы -->
+        <div class="content-wrap"> <!-- Контейнер для основного контента -->
 
-            {% if error %}
-            <div class="error">{{ error }}</div>
-            {% endif %}
+            <div class="container">
+                <!-- Левая колонка - загрузка (30%) -->
+                <div class="upload-section">
+                    <h1>Загрузка изображений</h1>
 
-            <form method="POST" enctype="multipart/form-data">
-                <div class="form-group">
-                    <label for="client_name">Имя клиента:</label>
-                    <input type="text" id="client_name" name="client_name"
-                           value="{{ client_name or '' }}" required>
-                </div>
+                    {% if error %}
+                    <div class="error">{{ error }}</div>
+                    {% endif %}
 
-                <div class="form-group">
-                    <label for="product_name">Имя товара:</label>
-                    <input type="text" id="product_name" name="product_name"
-                           value="{{ product_name or '' }}" required>
-                </div>
-
-                <div class="form-group">
-                    <label for="images">Изображения:</label>
-                    <input type="file" id="images" name="images"
-                           multiple accept="image/*" required>
-                </div>
-
-                <button type="submit" class="btn">Загрузить изображения</button>
-            </form>
-        </div>
-
-        <!-- Правая колонка - ссылки с превью (70%) -->
-        <div class="links-section">
-            <h1>Сгенерированные ссылки</h1>
-
-            {% if image_urls %}
-            <div class="url-list" id="urlList">
-                {% for url in image_urls %}
-                <div class="url-item">
-                    <div class="preview-container">
-                        <img src="{{ url }}" alt="Preview" class="image-preview"
-                             onerror="this.onerror=null; this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjQiIGhlaWdodD0iNjQiIHZpZXdCb3g9IjAgMCA2NCA2NCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iNjQiIGhlaWdodD0iNjQiIGZpbGw9IiNmMGYwZjAiLz48dGV4dCB4PSIzMCIgeT0iMzIiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIxMiIgZmlsbD0iI2FhYSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZHk9Ii4zZW0iPmltZzwvdGV4dD48L3N2Zz4='; this.style.display='flex';">
-                    </div>
-                    <div class="url-content">
-                        <div class="url-text">{{ url }}</div>
-                        <div class="url-actions">
-                            <!-- Убран onclick -->
-                            <button class="btn copy-btn" data-url="{{ url }}">
-                                📋 Копировать
-                            </button>
+                    <form method="POST" enctype="multipart/form-data">
+                        <div class="form-group">
+                            <label for="client_name">Имя клиента:</label>
+                            <input type="text" id="client_name" name="client_name"
+                                   value="{{ client_name or '' }}" required>
                         </div>
-                    </div>
+
+                        <div class="form-group">
+                            <label for="product_name">Имя товара:</label>
+                            <input type="text" id="product_name" name="product_name"
+                                   value="{{ product_name or '' }}" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="images">Изображения:</label>
+                            <input type="file" id="images" name="images"
+                                   multiple accept="image/*" required>
+                        </div>
+
+                        <button type="submit" class="btn">Загрузить изображения</button>
+                    </form>
                 </div>
-                {% endfor %}
+
+                <!-- Правая колонка - ссылки с превью (70%) -->
+                <div class="links-section">
+                    <h1>Сгенерированные ссылки</h1>
+
+                    {% if image_urls %}
+                    <div class="url-list" id="urlList">
+                        {% for url in image_urls %}
+                        <div class="url-item">
+                            <div class="preview-container">
+                                <img src="{{ url }}" alt="Preview" class="image-preview"
+                                     onerror="this.onerror=null; this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjQiIGhlaWdodD0iNjQiIHZpZXdCb3g9IjAgMCA2NCA2NCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iNjQiIGhlaWdodD0iNjQiIGZpbGw9IiNmMGYwZjAiLz48dGV4dCB4PSIzMCIgeT0iMzIiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIxMiIgZmlsbD0iI2FhYSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZHk9Ii4zZW0iPmltZzwvdGV4dD48L3N2Zz4='; this.style.display='flex';">
+                            </div>
+                            <div class="url-content">
+                                <div class="url-text">{{ url }}</div>
+                                <div class="url-actions">
+                                    <button class="btn copy-btn" data-url="{{ url }}">
+                                        📋 Копировать
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+
+                    <div class="bulk-actions">
+                        <button class="btn btn-secondary" id="downloadAllBtn">
+                            📥 Скачать все ссылки (TXT)
+                        </button>
+                        <button class="btn btn-secondary" id="copyAllBtn">
+                            📋 Копировать все ссылки
+                        </button>
+                    </div>
+                    {% else %}
+                    <div class="empty-state">
+                        <p>Загрузите изображения, чтобы увидеть ссылки и превью</p>
+                    </div>
+                    {% endif %}
+                </div>
             </div>
 
-            <div class="bulk-actions">
-                <!-- Убраны onclick -->
-                <button class="btn btn-secondary" id="downloadAllBtn">
-                    📥 Скачать все ссылки (TXT)
-                </button>
-                <button class="btn btn-secondary" id="copyAllBtn">
-                    📋 Копировать все ссылки
-                </button>
-            </div>
-            {% else %}
-            <div class="empty-state">
-                <p>Загрузите изображения, чтобы увидеть ссылки и превью</p>
-            </div>
-            {% endif %}
-        </div>
-    </div>
+        </div> <!-- / .content-wrap -->
+
+        <!-- Footer -->
+        <footer class="footer">
+            <p>Сделано в ГРАДИЕНТ</p>
+        </footer>
+
+    </div> <!-- / .page-container -->
 
     <script>
         // Скрипт перемещен внутрь HTML, но без inline обработчиков

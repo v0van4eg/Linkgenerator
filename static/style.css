@@ -9,15 +9,33 @@ body {
     line-height: 1.6;
     color: #333;
     background-color: #f8f9fa;
+    display: flex; /* Добавлено для flexbox layout */
+    flex-direction: column; /* Располагаем элементы вертикально */
+    min-height: 100vh; /* Минимальная высота body - высота окна */
+}
+
+/* Контейнер для основного контента (до футера) */
+.content-wrap {
+    flex: 1; /* Занимает всё доступное пространство */
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Центрируем .container */
+    width: 100%; /* Убедимся, что ширина 100% */
 }
 
 .container {
     max-width: 1400px;
-    margin: 0 auto;
+    margin: 0 auto; /* Центрируем .container */
     padding: 20px;
     display: flex;
     gap: 30px;
-    min-height: 100vh;
+    /* min-height: 100vh; УБРАНО ИЗ .container */
+    flex: 1; /* Позволяем .container растягиваться */
+    width: 100%; /* Убедимся, что ширина 100% */
+    /* Добавим максимальную высоту, чтобы .container не вышел за пределы .content-wrap */
+    max-height: 100vh;
+    /* Или max-height: calc(100vh - высота_футера - отступы_вне_container); */
+    /* Но проще использовать flex: 1 и overflow */
 }
 
 /* Левая колонка - загрузка (30%) */
@@ -27,18 +45,24 @@ body {
     padding: 30px;
     border-radius: 15px;
     box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-    height: fit-content;
-    position: sticky;
-    top: 20px;
+    height: fit-content; /* Высота по содержимому */
+    position: sticky; /* Фиксируем при прокрутке */
+    top: 20px; /* Отступ от верха */
+    max-height: calc(100vh - 40px); /* Ограничиваем высоту */
+    overflow-y: auto; /* Добавляем прокрутку при необходимости */
 }
 
 /* Правая колонка - ссылки (70%) */
 .links-section {
     flex: 0 0 70%;
     background: white;
-    padding: 30px;
+    padding: 30px; /* Учтем отступы */
     border-radius: 15px;
     box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    display: flex; /* Для flexbox layout */
+    flex-direction: column; /* Располагаем содержимое вертикально */
+    max-height: calc(100vh - 40px); /* Ограничиваем высоту, учитывая отступы .container */
+    overflow: hidden; /* Скрываем переполнение */
 }
 
 h1 {
@@ -106,9 +130,13 @@ input[type="text"]:focus {
 
 /* Стили для списка ссылок с превью */
 .url-list {
-    max-height: 600px;
-    overflow-y: auto;
-    padding-right: 10px;
+    /* height: 400px; УБРАНО ИЗ .url-list */
+    /* max-height: 600px; УБРАНО ИЗ .url-list */
+    flex: 1; /* Позволяем .url-list растягиваться на оставшееся место */
+    min-height: 0; /* Важно для корректной работы overflow */
+    overflow-y: auto; /* Добавлена прокрутка по вертикали */
+    padding-right: 10px; /* Отступ для полосы прокрутки */
+    margin-bottom: 25px; /* Отступ перед .bulk-actions */
 }
 
 .url-item {
@@ -162,7 +190,7 @@ input[type="text"]:focus {
     word-break: break-all;
     margin-bottom: 15px;
     font-family: 'Monaco', 'Consolas', monospace;
-    font-size: 14px;
+    font-size: 12px;
     background: white;
     padding: 12px;
     border-radius: 6px;
@@ -182,10 +210,17 @@ input[type="text"]:focus {
 }
 
 .bulk-actions {
-    margin-top: 25px;
+    /* margin-top: 25px; УБРАНО ИЗ .bulk-actions */
+    /* display: flex; */
+    /* gap: 15px; */
+    /* justify-content: center; */
+    /* Эти стили остаются */
     display: flex;
     gap: 15px;
     justify-content: center;
+    /* margin-top: auto; Помещаем .bulk-actions в конец */
+    margin-top: auto;
+    flex-shrink: 0; /* Не сжимаем .bulk-actions */
 }
 
 .bulk-actions .btn {
@@ -302,6 +337,28 @@ input[type="text"]:focus {
         max-width: 100%; /* Не выходит за границы */
         max-height: 200px;
     }
+
+    /* На планшетах и мобильных .links-section может стать выше, чем окно */
+    .links-section {
+        max-height: 60vh; /* Ограничиваем высоту на мобильных */
+        overflow: visible; /* Позволяем overflow, чтобы .url-list мог прокручиваться */
+    }
+
+    /* .url-list внутри .links-section на мобильных */
+    .url-list {
+        /* flex: 1; */
+        /* min-height: 0; */
+        /* overflow-y: auto; */
+        /* margin-bottom: 25px; */
+        /* Убедимся, что .url-list прокручивается внутри .links-section */
+        max-height: 50vh; /* Ограничиваем высоту на мобильных */
+        overflow-y: auto;
+    }
+
+    .bulk-actions {
+        /* margin-top: auto; Убираем на мобильных, чтобы кнопки были под списком */
+        margin-top: 25px; /* Возвращаем отступ сверху */
+    }
 }
 
 @media (max-width: 768px) {
@@ -326,3 +383,4 @@ input[type="text"]:focus {
         width: 100%;
     }
 }
+
