@@ -4,75 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="833d8bc1-62c9-4d5d-a67a-39b96751b185" name="Changes" comment="Рабочий прототип c preview">
-      <change afterPath="$PROJECT_DIR$/uploads/A1/a1/01f1b5d76dd144c98b1fc4687045e96f.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/A1/a1/0d135dfadcf44eb6b22dac2301ea2dec.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/A1/a1/18e45662d42248619e7eca2ee9bfd194.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/A1/a1/1d5650b4b98f4ec5a54a8b91e8e306c2.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/A1/a1/2e5b43ce43d5401c84266bf7a0b8de4e.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/A1/a1/4018d8e66fc24a97b9173cf4df3e2522.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/A1/a1/449ddc49b0714db58c8d31c5aa162b35.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/A1/a1/4a26d3bc5c5d47b296ddae605b79507b.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/A1/a1/51fa8c9f580c40c293c2a0fc729c1eb5.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/A1/a1/7a02cdcf0e7548fc89452220d24e7569.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/A1/a1/7ab8efd9214741d2a3f6506ab12333be.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/A1/a1/7fa813ff14a14525b282bd99deb98af9.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/A1/a1/86ee159939e8461bbea976cf9229b059.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/A1/a1/8cc28bef1d9f47ebbf6f336adcd9cc68.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/A1/a1/ac39edb1b1d44e739be54e76b6a00b69.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/A1/a1/ac50e325cc854047b25cd3bed6c389ba.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/A1/a1/b4d2f5d8be5548f282661e74e4ab1a7e.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/A1/a1/cf5d1e741f9e4dd79a4f5f18e3f75c30.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/A1/a1/d095d04abd1e4c7dabde2066c639a531.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/A1/a1/d26246a5f27449a88328d20a2262d2b0.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/A1/a1/d8268b14cd2249298ca036087ebf30bf.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/A1/a1/dcfcf09e28e94ff79fd09da399145bfb.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/A1/a1/e47b352b8d664b6f842429f516a8ff71.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/A1/a1/ea6877c879034f80a75eacc7ead8a6ee.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/Aq/Gt/5ee7dc887cd54cf9a308b0ba772daa62.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/As/ss/2b594527807d47fc8e0827ca4a3b0668.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/As/ss/303b9a26b5c04c84974cd31e4386546c.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/As/ss/3351fe773ac24516a1ec6434c9dae5ed.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/As/ss/4043182daafa4d668811e42493de6264.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/As/ss/7650c56d240c4252989a8cffbcfa4bdb.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/As/ss/7fe3ab39456c493586f728e6ea790e7e.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/As/ss/87d8a822a5694e108c5a03152ec74471.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/As/ss/a44dbb6af63941c1956f59100bce3ad2.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/As/ss/b85df839db434249bd2c40da6fe9913b.webp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/As/ss/b8df1b60ac834216aea13e5fddd1d2c2.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/As/ss/bf1cecd8237b41b2848d79f986581186.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/As/ss/bf2a6ac18f1942219cad4be2aa8f08fd.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/As/ss/e3e359f29de24e32a407f1e478c92207.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/As/ss/e53a959778d04396afd625b6dbce348b.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/As/ss/e71d1abba1e6423895a5fdafade2fb8c.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/As/ss/e74a2087d74d411b91434e93adf0ead9.webp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/B1/fed/11173daab286487497e4ad617f750fff.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/B1/fed/129e0e5e995846f6ae10bfae550949d5.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/B1/fed/20c651d68cea4ced88f20f16ab264714.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/B1/fed/283f2c42b19a40088183b766c486acbc.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/B1/fed/31cef6c4653b48cba11bb2a46cb17956.jpeg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/B1/fed/3b25fd3edd9540839abf900002bacc43.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/B1/fed/492bf596ef7f4788bcfa8db79e5b8d83.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/B1/fed/4afb278e1c084181a40a6fd325400abc.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/B1/fed/5bd5b51ebcbd408480a1b5e26f95c689.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/B1/fed/5e2f7e8d83664836b8e9884f3654a50a.webp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/B1/fed/67bef1a1293a4afd9a514d39e40679d8.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/B1/fed/7c6bcc66169b41129d1141f98b4740ee.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/B1/fed/84664160b8c3445bb85880b80c144ebc.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/B1/fed/8aeebcf9b1b6434fad8eb47e9cf2e447.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/B1/fed/98628709986b41fd9a3e4f889eeea5df.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/B1/fed/9fd65e4251384cb1b1bb0719331cf690.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/B1/fed/a3c9b117cd5f403790b47a3b6ec25d41.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/B1/fed/a59833237f8140528cdc3c7e0f71e32f.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/B1/fed/b2441921c84a404c9457c1d10becf0a1.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/B1/fed/ba9697e35a62493b8fe0cb2cd4f69fed.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/B1/fed/cdd4e3a668ef49bda854555a6071a278.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/B1/fed/d34326579a9e412c91f34ec035e51b89.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/B1/fed/eb23e20f55b64b2f88e060789c79391e.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    <list default="true" id="833d8bc1-62c9-4d5d-a67a-39b96751b185" name="Changes" comment="Footer gradient">
       <change beforePath="$PROJECT_DIR$/static/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/static/style.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Задача.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Задача.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -81,13 +14,14 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="RESET_MODE" value="HARD" />
   </component>
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$PROJECT_DIR$/Задача.txt" root0="FORCE_HIGHLIGHTING" />
   </component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "associatedIndex": 0
-}]]></component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 0
+}</component>
   <component name="ProjectId" id="34QiXq7QcF3VzlKqR6b1QKoI76R" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <ConfirmationsSetting value="2" id="Add" />
@@ -103,6 +37,7 @@
     "Docker.uploads/docker-compose-nginx.yml: Compose Deployment.executor": "Run",
     "Python.app.executor": "Run",
     "Python.create_src.executor": "Run",
+    "Python.main.executor": "Run",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "git-widget-placeholder": "master"
@@ -185,14 +120,34 @@
       <option name="project" value="LOCAL" />
       <updated>1761159240370</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="Footer gradient">
+      <option name="closed" value="true" />
+      <created>1761167953816</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1761167953816</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
     <MESSAGE value="Начало начал" />
     <MESSAGE value="Рабочий прототип" />
     <MESSAGE value="Рабочий прототип c preview" />
-    <option name="LAST_COMMIT_MESSAGE" value="Рабочий прототип c preview" />
+    <MESSAGE value="Footer gradient" />
+    <option name="LAST_COMMIT_MESSAGE" value="Footer gradient" />
   </component>
 </project>
