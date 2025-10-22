@@ -5,27 +5,39 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="833d8bc1-62c9-4d5d-a67a-39b96751b185" name="Changes" comment="Рабочий прототип">
-      <change afterPath="$PROJECT_DIR$/temp_links_850330f5c55d41688a8dc11448fdf199.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/temp_links_85e6f7c9e0204a89aeabe6b1f20f85a4.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/A1/aa11/5e4cb7a8edd84ccdb531ce414949e053.webp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/A1/aa11/a948dfb05be343feb0c71ecda508a63a.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/A1/aa11/bf2af521a2fe48e99896d9e35a4799f7.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/A1/aa11/c53845defb7a4e12b9a21cff179ceb1c.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/A1/aa11/e9520e114f744ed1bf52bf8fcef7442e.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/A1/aa11/efc8c41a67e9493ebde2ad60562f21a5.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/A1/aa11/f7edaf71099e446a86674f420e7fbf7e.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/As/fed/08e80acb1e664c01a7741741048863dd.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/As/fed/24a281d001c14259a3b31c21a7ba1806.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/As/fed/3afab24624934e01add110edfb4e750c.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/As/fed/601fbcc571a54487965566fbbce047dc.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/As/fed/71a4dba21f624cd1b3195937d16e2de4.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/As/fed/77ff82702c56412cb9509cbb0699544a.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/As/fed/822c027c6d7d48b29926b4d21c3819d3.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/As/fed/c6d0ce5def24458ca86d8951229c3972.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/As/fed/e398ffdeb0434f65836e680b25cc36f0.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/As/fed/ef056024cabc4e0c93343b5b7592c15c.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/uploads/As/ss/12527dfbaffe4b4bb5d9b15aaa4fdc9f.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/uploads/As/ss/273e4715b0cd4f37bda645d9c43a09af.webp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/uploads/As/ss/352fae81fea54bc880eb8faef4c57dfd.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/uploads/As/ss/389d5997900e4cd2944a5d7eb46594e4.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/uploads/As/ss/5d70925756e3445db0c15a4e12685741.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/uploads/As/ss/66ae6e67075a4ff2b9d6bf4142417a45.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/uploads/As/ss/6ab28949a1b84b33b057b786f44a4f49.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/uploads/As/ss/6f2f2564c1ed4b6489e2772121a91d1a.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/uploads/As/ss/7c79427e94d7412d9c999c7360bdf78a.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/uploads/As/ss/7dd446727ed444fa9f1b5624a495a8f5.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/uploads/As/ss/93572a0c379e4588b2277a6c0230c1fc.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/uploads/As/ss/9680a50bdd1d40a187157ecc8464224e.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/uploads/As/ss/9a8c233030ff48d395c2c3fce5ff435c.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/uploads/As/ss/a43510c1e5b94b57a01ef7b3396cc3ae.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/uploads/As/ss/a83a0c429e6f4ab68e878c6bc926ee9b.webp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/uploads/As/ss/abf47b7ca5f14ba9b7f76e1901645fb4.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/uploads/As/ss/ae063216271f417b870904ba3f95b334.webp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/uploads/As/ss/cda385ddc0794c2facabf137f60fbe59.webp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/uploads/As/ss/cec6aab6b6b64da593282c4cc6f3366c.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/uploads/As/ss/d3ffdc2e3a43433ba460ea043a4522d1.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/uploads/As/ss/d478549dbfc0477795755447d4d7a0eb.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/uploads/As/ss/dccdd31677bb4543b7c4bc7e7a5280b5.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/uploads/As/ss/e58ac32768624a5fb1c5b0d428e1c682.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/uploads/s/d/4987e3490222446491070e26ae6eb22c.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/uploads/s/d/5589ed57f8334330ae32c2101fc58b66.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/uploads/s/d/6f62c6a1be1a422292d8df476b970971.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/uploads/s/d/7065728ece054eb693c3f40130dc66ab.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/uploads/s/d/7fc786a9760b4608a136109a3006e958.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/uploads/s/d/915c93c9820842cf91668c651ec491cf.jpg" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/static/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/static/style.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Задача.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Задача.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -122,7 +134,15 @@
       <option name="project" value="LOCAL" />
       <updated>1761156248571</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="Рабочий прототип">
+      <option name="closed" value="true" />
+      <created>1761156993569</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1761156993569</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">

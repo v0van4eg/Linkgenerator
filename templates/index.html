@@ -8,6 +8,7 @@
 </head>
 <body>
     <div class="container">
+        <!-- Левая колонка - загрузка (30%) -->
         <div class="upload-section">
             <h1>Загрузка изображений</h1>
 
@@ -38,6 +39,7 @@
             </form>
         </div>
 
+        <!-- Правая колонка - ссылки с превью (70%) -->
         <div class="links-section">
             <h1>Сгенерированные ссылки</h1>
 
@@ -45,69 +47,268 @@
             <div class="url-list" id="urlList">
                 {% for url in image_urls %}
                 <div class="url-item">
-                    <div class="url-text">{{ url }}</div>
-                    <div class="url-actions">
-                        <button class="btn" onclick="copyToClipboard('{{ url }}')">
-                            Копировать
-                        </button>
+                    <div class="preview-container">
+                        <img src="{{ url }}" alt="Preview" class="image-preview"
+                             onerror="this.onerror=null; this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjQiIGhlaWdodD0iNjQiIHZpZXdCb3g9IjAgMCA2NCA2NCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iNjQiIGhlaWdodD0iNjQiIGZpbGw9IiNmMGYwZjAiLz48dGV4dCB4PSIzMCIgeT0iMzIiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIxMiIgZmlsbD0iI2FhYSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZHk9Ii4zZW0iPmltZzwvdGV4dD48L3N2Zz4='; this.style.display='flex';">
+                    </div>
+                    <div class="url-content">
+                        <div class="url-text">{{ url }}</div>
+                        <div class="url-actions">
+                            <!-- Убран onclick -->
+                            <button class="btn copy-btn" data-url="{{ url }}">
+                                📋 Копировать
+                            </button>
+                        </div>
                     </div>
                 </div>
                 {% endfor %}
             </div>
 
             <div class="bulk-actions">
-                <button class="btn btn-secondary" onclick="downloadAllLinks()">
-                    Скачать все ссылки (TXT)
+                <!-- Убраны onclick -->
+                <button class="btn btn-secondary" id="downloadAllBtn">
+                    📥 Скачать все ссылки (TXT)
                 </button>
-                <button class="btn btn-secondary" onclick="copyAllToClipboard()">
-                    Копировать все ссылки
+                <button class="btn btn-secondary" id="copyAllBtn">
+                    📋 Копировать все ссылки
                 </button>
             </div>
             {% else %}
-            <p>Загрузите изображения, чтобы увидеть ссылки</p>
+            <div class="empty-state">
+                <p>Загрузите изображения, чтобы увидеть ссылки и превью</p>
+            </div>
             {% endif %}
         </div>
     </div>
 
     <script>
-        function copyToClipboard(text) {
-            navigator.clipboard.writeText(text).then(function() {
-                alert('Ссылка скопирована в буфер обмена!');
-            }, function(err) {
-                // Fallback для старых браузеров
-                const textArea = document.createElement('textarea');
-                textArea.value = text;
-                document.body.appendChild(textArea);
-                textArea.select();
-                document.execCommand('copy');
-                document.body.removeChild(textArea);
-                alert('Ссылка скопирована в буфер обмена!');
-            });
-        }
+        // Скрипт перемещен внутрь HTML, но без inline обработчиков
+        document.addEventListener('DOMContentLoaded', function() {
+            // Функция для показа уведомлений
+            function showNotification(message, type = 'success') {
+                // Удаляем предыдущие уведомления
+                const existingNotifications = document.querySelectorAll('.notification');
+                existingNotifications.forEach(notif => notif.remove());
 
-        function copyAllToClipboard() {
-            const urlItems = document.querySelectorAll('.url-text');
-            const allUrls = Array.from(urlItems).map(item => item.textContent);
-            const text = allUrls.join(', ');
-            copyToClipboard(text);
-        }
+                const notification = document.createElement('div');
+                notification.className = `notification ${type}`;
+                notification.textContent = message;
+                notification.style.cssText = `
+                    position: fixed;
+                    top: 20px;
+                    right: 20px;
+                    padding: 15px 20px;
+                    background: ${type === 'success' ? '#27ae60' : '#e74c3c'};
+                    color: white;
+                    border-radius: 5px;
+                    z-index: 1000;
+                    animation: slideIn 0.3s ease;
+                `;
 
-        function downloadAllLinks() {
-            const urlItems = document.querySelectorAll('.url-text');
-            const allUrls = Array.from(urlItems).map(item => item.textContent);
+                document.body.appendChild(notification);
 
-            if (allUrls.length === 0) {
-                alert('Нет ссылок для скачивания');
-                return;
+                setTimeout(() => {
+                    notification.remove();
+                }, 3000);
             }
 
-            // Создаем URL параметры для передачи ссылок
-            const params = new URLSearchParams();
-            allUrls.forEach(url => params.append('urls', url));
+            // --- Функция копирования одной ссылки ---
+            function copyToClipboard(button, text) {
+                // Проверяем, доступен ли современный Clipboard API
+                if (navigator.clipboard && window.isSecureContext) {
+                    navigator.clipboard.writeText(text).then(function() {
+                        showNotification('Ссылка скопирована в буфер обмена!');
+                        // Визуальная обратная связь
+                        const originalText = button.innerHTML;
+                        button.innerHTML = '✓ Скопировано!';
+                        setTimeout(() => {
+                            button.innerHTML = originalText;
+                        }, 2000);
+                    }).catch(function(err) {
+                        console.error('Ошибка Clipboard API:', err);
+                        // Fallback на execCommand
+                        fallbackCopyTextToClipboard(button, text);
+                    });
+                } else {
+                    // Fallback для старых браузеров или не-secure context
+                    fallbackCopyTextToClipboard(button, text);
+                }
+            }
 
-            // Скачиваем файл
-            window.location.href = '/download-links?' + params.toString();
-        }
+            // Вспомогательная функция для fallback
+            function fallbackCopyTextToClipboard(button, text) {
+                const textArea = document.createElement('textarea');
+                textArea.value = text;
+                // Стили, чтобы textarea не был виден и не влиял на страницу
+                textArea.style.cssText = `
+                    position: fixed;
+                    top: 0;
+                    left: 0;
+                    width: 2em;
+                    height: 2em;
+                    padding: 0;
+                    border: none;
+                    outline: none;
+                    boxShadow: none;
+                    background: transparent;
+                    color: transparent;
+                `;
+                document.body.appendChild(textArea);
+                textArea.focus();
+                textArea.select();
+
+                try {
+                    const successful = document.execCommand('copy');
+                    if (successful) {
+                        showNotification('Ссылка скопирована в буфер обмена!');
+                        // Визуальная обратная связь
+                        const originalText = button.innerHTML;
+                        button.innerHTML = '✓ Скопировано!';
+                        setTimeout(() => {
+                            button.innerHTML = originalText;
+                        }, 2000);
+                    } else {
+                        showNotification('Не удалось скопировать ссылку', 'error');
+                    }
+                } catch (err) {
+                    console.error('Ошибка при копировании execCommand: ', err);
+                    showNotification('Ошибка копирования', 'error');
+                }
+
+                document.body.removeChild(textArea);
+            }
+
+            // --- Функция копирования всех ссылок ---
+            function copyAllToClipboard() {
+                const urlItems = document.querySelectorAll('.url-text');
+                if (!urlItems.length) {
+                    showNotification('Нет ссылок для копирования', 'error');
+                    return;
+                }
+                const allUrls = Array.from(urlItems).map(item => item.textContent).join('\n');
+
+                if (navigator.clipboard && window.isSecureContext) {
+                    navigator.clipboard.writeText(allUrls).then(function() {
+                        showNotification('Все ссылки скопированы в буфер обмена!');
+                    }).catch(function(err) {
+                        console.error('Ошибка Clipboard API при копировании всех:', err);
+                        fallbackCopyAllToClipboard(allUrls);
+                    });
+                } else {
+                    fallbackCopyAllToClipboard(allUrls);
+                }
+            }
+
+            function fallbackCopyAllToClipboard(text) {
+                const textArea = document.createElement('textarea');
+                textArea.value = text;
+                textArea.style.cssText = `
+                    position: fixed;
+                    top: 0;
+                    left: 0;
+                    width: 2em;
+                    height: 2em;
+                    padding: 0;
+                    border: none;
+                    outline: none;
+                    boxShadow: none;
+                    background: transparent;
+                    color: transparent;
+                `;
+                document.body.appendChild(textArea);
+                textArea.focus();
+                textArea.select();
+
+                try {
+                    const successful = document.execCommand('copy');
+                    if (successful) {
+                        showNotification('Все ссылки скопированы в буфер обмена!');
+                    } else {
+                        showNotification('Не удалось скопировать все ссылки', 'error');
+                    }
+                } catch (err) {
+                    console.error('Ошибка при копировании всех ссылок execCommand: ', err);
+                    showNotification('Ошибка копирования всех ссылок', 'error');
+                }
+
+                document.body.removeChild(textArea);
+            }
+
+            // --- Функция скачивания всех ссылок ---
+            function downloadAllLinks() {
+                const urlItems = document.querySelectorAll('.url-text');
+                if (!urlItems.length) {
+                    showNotification('Нет ссылок для скачивания', 'error');
+                    return;
+                }
+                const allUrls = Array.from(urlItems).map(item => item.textContent);
+
+                // Создаем URL параметры для передачи ссылок
+                const params = new URLSearchParams();
+                allUrls.forEach(url => params.append('urls', url));
+
+                // Скачиваем файл
+                window.location.href = '/download-links?' + params.toString();
+            }
+
+            // --- Привязка событий ---
+            // Привязка к кнопке "Копировать" для каждой ссылки
+            document.querySelectorAll('.copy-btn').forEach(button => {
+                button.addEventListener('click', function() {
+                    const url = this.getAttribute('data-url'); // Получаем URL из data-атрибута
+                    if (url) {
+                        copyToClipboard(this, url);
+                    }
+                });
+            });
+
+            // Привязка к кнопке "Копировать все"
+            const copyAllBtn = document.getElementById('copyAllBtn');
+            if (copyAllBtn) {
+                copyAllBtn.addEventListener('click', copyAllToClipboard);
+            }
+
+            // Привязка к кнопке "Скачать все"
+            const downloadAllBtn = document.getElementById('downloadAllBtn');
+            if (downloadAllBtn) {
+                downloadAllBtn.addEventListener('click', downloadAllLinks);
+            }
+
+            // --- Предпросмотр файлов ---
+            const imagesInput = document.getElementById('images');
+            if (imagesInput) {
+                imagesInput.addEventListener('change', function(e) {
+                    const files = e.target.files;
+                    let previewContainer = document.querySelector('.upload-preview');
+
+                    // Удаляем старый превью если есть
+                    if (previewContainer) {
+                        previewContainer.remove();
+                    }
+
+                    if (files.length > 0) {
+                        previewContainer = document.createElement('div');
+                        previewContainer.className = 'upload-preview';
+                        previewContainer.innerHTML = '<h3>Выбранные файлы:</h3>';
+
+                        Array.from(files).forEach(file => {
+                            if (file.type.startsWith('image/')) {
+                                const reader = new FileReader();
+                                reader.onload = function(e) {
+                                    const img = document.createElement('img');
+                                    img.src = e.target.result;
+                                    img.style.cssText = 'max-width: 100px; max-height: 100px; margin: 5px;';
+                                    previewContainer.appendChild(img);
+                                };
+                                reader.readAsDataURL(file);
+                            }
+                        });
+
+                        document.querySelector('.upload-section').appendChild(previewContainer);
+                    }
+                });
+            }
+        });
     </script>
 </body>
 </html>
