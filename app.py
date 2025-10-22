@@ -61,7 +61,7 @@ def download_links():
     # Создаем временный файл
     temp_file = f"temp_links_{uuid.uuid4().hex}.txt"
     with open(temp_file, 'w', encoding='utf-8') as f:
-        f.write(', '.join(urls))
+        f.write('\n'.join(urls))
 
     return send_file(temp_file,
                      as_attachment=True,
