@@ -1,3 +1,78 @@
+/* Определяем переменные для светлой темы по умолчанию */
+:root {
+  --bg-color: #f8f9fa;
+  --text-color: #333;
+  --container-bg: white;
+  --container-shadow: 0 4px 15px rgba(0,0,0,0.1);
+  --header-color: #2c3e50;
+  --label-color: #555;
+  --input-border: #e1e8ed;
+  --input-focus-border: #3498db;
+  --input-focus-shadow: rgba(52, 152, 219, 0.1);
+  --btn-gradient-start: #3498db;
+  --btn-gradient-end: #2980b9;
+  --btn-secondary-gradient-start: #95a5a6;
+  --btn-secondary-gradient-end: #7f8c8d;
+  --url-item-bg: #f8f9fa;
+  --url-item-border: #3498db;
+  --url-text-bg: white;
+  --url-text-border: #e1e8ed;
+  --upload-preview-bg: #f8f9fa;
+  --upload-preview-border: #bdc3c7;
+  --upload-preview-img-border: #3498db;
+  --error-bg: #e74c3c;
+  --success-bg: #27ae60;
+  --empty-state-color: #7f8c8d;
+  --scrollbar-track: #f1f1f1;
+  --scrollbar-thumb: #c1c1c1;
+  --scrollbar-thumb-hover: #a8a8a8;
+  --image-preview-bg: #fff;
+  --image-preview-bg-error: #f0f0f0;
+  --image-preview-color-error: #aaa;
+  --notification-success: #27ae60;
+  --notification-error: #e74c3c;
+  --footer-bg: linear-gradient(135deg, #3498db, #27ae60);
+  --footer-color: #ecf0f1;
+}
+
+/* Определяем переменные для тёмной темы */
+.dark-theme {
+  --bg-color: #1a1a1a;
+  --text-color: #ecf0f1;
+  --container-bg: #2c2c2c;
+  --container-shadow: 0 4px 15px rgba(0,0,0,0.5);
+  --header-color: #ecf0f1;
+  --label-color: #bdc3c7;
+  --input-border: #4a4a4a;
+  --input-focus-border: #3498db;
+  --input-focus-shadow: rgba(52, 152, 219, 0.2);
+  --btn-gradient-start: #2980b9;
+  --btn-gradient-end: #3498db;
+  --btn-secondary-gradient-start: #7f8c8d;
+  --btn-secondary-gradient-end: #95a5a6;
+  --url-item-bg: #3c3c3c;
+  --url-item-border: #3498db;
+  --url-text-bg: #3c3c3c;
+  --url-text-border: #4a4a4a;
+  --upload-preview-bg: #3c3c3c;
+  --upload-preview-border: #4a4a4a;
+  --upload-preview-img-border: #3498db;
+  --error-bg: #c0392b;
+  --success-bg: #2ecc71;
+  --empty-state-color: #95a5a6;
+  --scrollbar-track: #3c3c3c;
+  --scrollbar-thumb: #5a5a5a;
+  --scrollbar-thumb-hover: #7a7a7a;
+  --image-preview-bg: #3c3c3c;
+  --image-preview-bg-error: #4a4a4a;
+  --image-preview-color-error: #95a5a6;
+  --notification-success: #2ecc71;
+  --notification-error: #c0392b;
+  --footer-bg: linear-gradient(135deg, #2980b9, #27ae60);
+  --footer-color: #ecf0f1;
+}
+
+/* Сброс отступов и боксов */
 * {
     margin: 0;
     padding: 0;
@@ -7,68 +82,98 @@
 body {
     font-family: 'Arial', sans-serif;
     line-height: 1.6;
-    color: #333;
-    background-color: #f8f9fa;
-    display: flex; /* Добавлено для flexbox layout */
-    flex-direction: column; /* Располагаем элементы вертикально */
-    min-height: 100vh; /* Минимальная высота body - высота окна */
+    color: var(--text-color);
+    background-color: var(--bg-color);
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
 }
 
-/* Контейнер для основного контента (до футера) */
-.content-wrap {
-    flex: 1; /* Занимает всё доступное пространство */
+/* Основной контейнер страницы */
+.page-container {
+    min-height: 100vh;
     display: flex;
     flex-direction: column;
-    align-items: center; /* Центрируем .container */
-    width: 100%; /* Убедимся, что ширина 100% */
 }
 
-.container {
-    max-width: 1400px;
-    margin: 0 auto; /* Центрируем .container */
+/* Контейнер для основного контента */
+.content-wrap {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
     padding: 20px;
+    max-width: 100%;
+    overflow-x: hidden;
+}
+
+/* ОСНОВНОЙ КОНТЕЙНЕР ДЛЯ КОЛОНОК */
+.container {
     display: flex;
     gap: 30px;
-    /* min-height: 100vh; УБРАНО ИЗ .container */
-    flex: 1; /* Позволяем .container растягиваться */
-    width: 100%; /* Убедимся, что ширина 100% */
-    /* Добавим максимальную высоту, чтобы .container не вышел за пределы .content-wrap */
-    max-height: 100vh;
-    /* Или max-height: calc(100vh - высота_футера - отступы_вне_container); */
-    /* Но проще использовать flex: 1 и overflow */
+    width: 100%;
+    max-width: 100%;
+    margin: 0 auto;
+    /* ОСНОВНОЕ ИЗМЕНЕНИЕ: ограничиваем высоту контейнера */
+    height: calc(100vh - 140px); /* Высота viewport минус отступы и футер */
+    min-height: 500px; /* Минимальная высота */
 }
 
 /* Левая колонка - загрузка (30%) */
 .upload-section {
-    flex: 0 0 30%;
-    background: white;
+    flex: 0 0 calc(30% - 15px);
+    background: var(--container-bg);
     padding: 30px;
     border-radius: 15px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-    height: fit-content; /* Высота по содержимому */
-    position: sticky; /* Фиксируем при прокрутке */
-    top: 20px; /* Отступ от верха */
-    max-height: calc(100vh - 40px); /* Ограничиваем высоту */
-    overflow-y: auto; /* Добавляем прокрутку при необходимости */
+    box-shadow: var(--container-shadow);
+    max-width: calc(30% - 15px);
+    /* Добавляем прокрутку если контент не помещается */
+    overflow-y: auto;
 }
 
-/* Правая колонка - ссылки (70%) */
+/* Правая колонка - ссылки (70%) - ОСНОВНЫЕ ИЗМЕНЕНИЯ */
 .links-section {
-    flex: 0 0 70%;
-    background: white;
-    padding: 30px; /* Учтем отступы */
+    flex: 0 0 calc(70% - 15px);
+    background: var(--container-bg);
+    padding: 30px;
     border-radius: 15px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-    display: flex; /* Для flexbox layout */
-    flex-direction: column; /* Располагаем содержимое вертикально */
-    max-height: calc(100vh - 40px); /* Ограничиваем высоту, учитывая отступы .container */
-    overflow: hidden; /* Скрываем переполнение */
+    box-shadow: var(--container-shadow);
+    display: flex;
+    flex-direction: column;
+    max-width: calc(70% - 15px);
+    /* ОГРАНИЧИВАЕМ ВЫСОТУ И ДЕЛАЕМ FLEX-КОНТЕЙНЕРОМ */
+    height: 100%;
 }
 
+/* Заголовок в правой колонке */
+.links-section h1 {
+    flex: 0 0 auto; /* Не растягивается */
+    margin-bottom: 20px;
+}
+
+/* Список ссылок - ОСНОВНЫЕ ИЗМЕНЕНИЯ */
+.url-list {
+    flex: 1; /* Занимает всё доступное пространство */
+    min-height: 0; /* Важно для корректной работы overflow */
+    overflow-y: auto; /* Прокрутка только внутри списка */
+    padding-right: 10px;
+    margin-bottom: 20px;
+}
+
+/* Кнопки внизу правой колонки */
+.bulk-actions {
+    flex: 0 0 auto; /* Фиксированная высота */
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-top: auto; /* Прижимаем к низу */
+}
+
+/* Остальные стили остаются без изменений */
 h1 {
     text-align: center;
     margin-bottom: 30px;
-    color: #2c3e50;
+    color: var(--header-color);
     font-size: 24px;
 }
 
@@ -80,7 +185,7 @@ label {
     display: block;
     margin-bottom: 8px;
     font-weight: bold;
-    color: #555;
+    color: var(--label-color);
     font-size: 14px;
 }
 
@@ -88,20 +193,22 @@ input[type="text"],
 input[type="file"] {
     width: 100%;
     padding: 12px;
-    border: 2px solid #e1e8ed;
+    border: 2px solid var(--input-border);
     border-radius: 8px;
     font-size: 16px;
     transition: border-color 0.3s;
+    background-color: var(--container-bg);
+    color: var(--text-color);
 }
 
 input[type="text"]:focus {
-    border-color: #3498db;
+    border-color: var(--input-focus-border);
     outline: none;
-    box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+    box-shadow: 0 0 0 3px var(--input-focus-shadow);
 }
 
 .btn {
-    background: linear-gradient(135deg, #3498db, #2980b9);
+    background: linear-gradient(135deg, var(--btn-gradient-start), var(--btn-gradient-end));
     color: white;
     padding: 14px 30px;
     border: none;
@@ -114,76 +221,67 @@ input[type="text"]:focus {
 }
 
 .btn:hover {
-    background: linear-gradient(135deg, #2980b9, #3498db);
+    background: linear-gradient(135deg, var(--btn-gradient-end), var(--btn-gradient-start));
     transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(52, 152, 219, 0.3);
+    box-shadow: 0 4px 12px var(--input-focus-shadow);
 }
 
 .btn-secondary {
-    background: linear-gradient(135deg, #95a5a6, #7f8c8d);
+    background: linear-gradient(135deg, var(--btn-secondary-gradient-start), var(--btn-secondary-gradient-end));
 }
 
 .btn-secondary:hover {
-    background: linear-gradient(135deg, #7f8c8d, #95a5a6);
-    box-shadow: 0 4px 12px rgba(149, 165, 166, 0.3);
-}
-
-/* Стили для списка ссылок с превью */
-.url-list {
-    /* height: 400px; УБРАНО ИЗ .url-list */
-    /* max-height: 600px; УБРАНО ИЗ .url-list */
-    flex: 1; /* Позволяем .url-list растягиваться на оставшееся место */
-    min-height: 0; /* Важно для корректной работы overflow */
-    overflow-y: auto; /* Добавлена прокрутка по вертикали */
-    padding-right: 10px; /* Отступ для полосы прокрутки */
-    margin-bottom: 25px; /* Отступ перед .bulk-actions */
+    background: linear-gradient(135deg, var(--btn-secondary-gradient-end), var(--btn-secondary-gradient-start));
+    box-shadow: 0 4px 12px var(--input-focus-shadow);
 }
 
 .url-item {
     display: flex;
     align-items: flex-start;
     gap: 15px;
-    background: #f8f9fa;
+    background: var(--url-item-bg);
     padding: 20px;
     margin-bottom: 15px;
     border-radius: 10px;
-    border-left: 4px solid #3498db;
+    border-left: 4px solid var(--url-item-border);
     transition: transform 0.2s, box-shadow 0.2s;
+    max-width: 100%;
+    overflow: hidden;
 }
 
 .url-item:hover {
     transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    box-shadow: var(--container-shadow);
 }
 
 /* Контейнер для превью */
 .preview-container {
-    flex: 0 0 64px; /* Установлен фиксированный размер */
+    flex: 0 0 64px;
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
 .image-preview {
-    width: 64px; /* Фиксированная ширина */
-    height: 64px; /* Фиксированная высота */
-    object-fit: cover; /* Изображение обрезается, чтобы заполнить контейнер */
+    width: 64px;
+    height: 64px;
+    object-fit: cover;
     border-radius: 8px;
-    border: 2px solid #e1e8ed;
-    background: #fff;
-    /* Добавлено для обработки ошибок загрузки */
-    background-color: #f0f0f0;
+    border: 2px solid var(--input-border);
+    background: var(--image-preview-bg);
+    background-color: var(--image-preview-bg-error);
     display: flex;
     align-items: center;
     justify-content: center;
     font-size: 24px;
-    color: #aaa;
+    color: var(--image-preview-color-error);
 }
 
 /* Контент ссылки */
 .url-content {
     flex: 1;
-    min-width: 0; /* Для правильного переноса текста */
+    min-width: 0;
+    overflow: hidden;
 }
 
 .url-text {
@@ -191,11 +289,14 @@ input[type="text"]:focus {
     margin-bottom: 15px;
     font-family: 'Monaco', 'Consolas', monospace;
     font-size: 12px;
-    background: white;
+    background: var(--url-text-bg);
     padding: 12px;
     border-radius: 6px;
-    border: 1px solid #e1e8ed;
+    border: 1px solid var(--url-text-border);
     line-height: 1.4;
+    color: var(--text-color);
+    overflow-wrap: break-word;
+    max-width: 100%;
 }
 
 .url-actions {
@@ -207,29 +308,18 @@ input[type="text"]:focus {
     width: auto;
     padding: 10px 20px;
     font-size: 14px;
-}
-
-.bulk-actions {
-    /* margin-top: 25px; УБРАНО ИЗ .bulk-actions */
-    /* display: flex; */
-    /* gap: 15px; */
-    /* justify-content: center; */
-    /* Эти стили остаются */
-    display: flex;
-    gap: 15px;
-    justify-content: center;
-    /* margin-top: auto; Помещаем .bulk-actions в конец */
-    margin-top: auto;
-    flex-shrink: 0; /* Не сжимаем .bulk-actions */
+    white-space: nowrap;
 }
 
 .bulk-actions .btn {
     width: auto;
     padding: 12px 25px;
+    flex: 1;
+    min-width: 200px;
 }
 
 .error {
-    background: #e74c3c;
+    background: var(--error-bg);
     color: white;
     padding: 12px;
     border-radius: 8px;
@@ -238,7 +328,7 @@ input[type="text"]:focus {
 }
 
 .success {
-    background: #27ae60;
+    background: var(--success-bg);
     color: white;
     padding: 12px;
     border-radius: 8px;
@@ -249,7 +339,7 @@ input[type="text"]:focus {
 .empty-state {
     text-align: center;
     padding: 60px 20px;
-    color: #7f8c8d;
+    color: var(--empty-state-color);
 }
 
 .empty-state p {
@@ -260,20 +350,26 @@ input[type="text"]:focus {
 .upload-preview {
     margin-top: 20px;
     padding: 15px;
-    background: #f8f9fa;
+    background: var(--upload-preview-bg);
     border-radius: 8px;
-    border: 2px dashed #bdc3c7;
+    border: 2px dashed var(--upload-preview-border);
+    max-height: 200px;
+    overflow-y: auto;
 }
 
 .upload-preview h3 {
     margin-bottom: 10px;
-    color: #2c3e50;
+    color: var(--header-color);
     font-size: 16px;
 }
 
 .upload-preview img {
-    border: 2px solid #3498db;
+    max-width: 80px;
+    max-height: 80px;
+    border: 2px solid var(--upload-preview-img-border);
     border-radius: 6px;
+    margin: 5px;
+    object-fit: contain;
 }
 
 /* Анимации */
@@ -289,80 +385,133 @@ input[type="text"]:focus {
 }
 
 /* Полоса прокрутки */
-.url-list::-webkit-scrollbar {
+.url-list::-webkit-scrollbar,
+.upload-section::-webkit-scrollbar {
     width: 8px;
 }
 
-.url-list::-webkit-scrollbar-track {
-    background: #f1f1f1;
+.url-list::-webkit-scrollbar-track,
+.upload-section::-webkit-scrollbar-track {
+    background: var(--scrollbar-track);
     border-radius: 4px;
 }
 
-.url-list::-webkit-scrollbar-thumb {
-    background: #c1c1c1;
+.url-list::-webkit-scrollbar-thumb,
+.upload-section::-webkit-scrollbar-thumb {
+    background: var(--scrollbar-thumb);
     border-radius: 4px;
 }
 
-.url-list::-webkit-scrollbar-thumb:hover {
-    background: #a8a8a8;
+.url-list::-webkit-scrollbar-thumb:hover,
+.upload-section::-webkit-scrollbar-thumb:hover {
+    background: var(--scrollbar-thumb-hover);
+}
+
+/* Стили для footer */
+.footer {
+    background: var(--footer-bg);
+    color: var(--footer-color);
+    text-align: center;
+    padding: 15px 0;
+}
+
+/* Кнопка переключения темы */
+.theme-toggle {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 1001;
+    background: linear-gradient(135deg, var(--btn-gradient-start), var(--btn-gradient-end));
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    cursor: pointer;
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.theme-toggle:hover {
+    transform: scale(1.1);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+}
+
+/* Уведомления */
+.notification {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    padding: 15px 20px;
+    background: var(--notification-success);
+    color: white;
+    border-radius: 5px;
+    z-index: 1000;
+    animation: slideIn 0.3s ease;
+}
+
+.notification.error {
+    background: var(--notification-error);
 }
 
 /* Адаптивность */
+@media (max-width: 1200px) {
+    .container {
+        gap: 20px;
+        height: calc(100vh - 120px); /* Уменьшаем высоту на мобильных */
+    }
+
+    .upload-section,
+    .links-section {
+        padding: 20px;
+    }
+}
+
 @media (max-width: 1024px) {
+    .content-wrap {
+        padding: 15px;
+    }
+
     .container {
         flex-direction: column;
         gap: 20px;
+        height: auto; /* На мобильных убираем фиксированную высоту */
+        min-height: auto;
     }
 
     .upload-section,
     .links-section {
         flex: none;
         width: 100%;
-        position: static;
+        max-width: 100%;
+        height: auto; /* На мобильных автоматическая высота */
+    }
+
+    .url-list {
+        max-height: 50vh; /* Ограничиваем высоту списка на мобильных */
     }
 
     .url-item {
-        flex-direction: column;
+        flex-direction: row;
+        align-items: flex-start;
     }
 
     .preview-container {
-        flex: none;
-        width: 100%;
-        text-align: center;
+        flex: 0 0 64px;
     }
 
     .image-preview {
-        width: 120px; /* Ширина для мобильных */
-        height: 120px; /* Высота для мобильных */
-        max-width: 100%; /* Не выходит за границы */
-        max-height: 200px;
-    }
-
-    /* На планшетах и мобильных .links-section может стать выше, чем окно */
-    .links-section {
-        max-height: 60vh; /* Ограничиваем высоту на мобильных */
-        overflow: visible; /* Позволяем overflow, чтобы .url-list мог прокручиваться */
-    }
-
-    /* .url-list внутри .links-section на мобильных */
-    .url-list {
-        /* flex: 1; */
-        /* min-height: 0; */
-        /* overflow-y: auto; */
-        /* margin-bottom: 25px; */
-        /* Убедимся, что .url-list прокручивается внутри .links-section */
-        max-height: 50vh; /* Ограничиваем высоту на мобильных */
-        overflow-y: auto;
-    }
-
-    .bulk-actions {
-        /* margin-top: auto; Убираем на мобильных, чтобы кнопки были под списком */
-        margin-top: 25px; /* Возвращаем отступ сверху */
+        width: 64px;
+        height: 64px;
     }
 }
 
 @media (max-width: 768px) {
-    .container {
+    .content-wrap {
         padding: 10px;
     }
 
@@ -382,5 +531,64 @@ input[type="text"]:focus {
     .copy-btn {
         width: 100%;
     }
+
+    .bulk-actions .btn {
+        min-width: auto;
+        width: 100%;
+    }
+
+    .url-item {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+    .preview-container {
+        margin-bottom: 10px;
+    }
+
+    .url-content {
+        width: 100%;
+    }
+
+    .url-list {
+        max-height: 40vh; /* Еще меньше на маленьких экранах */
+    }
 }
 
+@media (max-width: 480px) {
+    .content-wrap {
+        padding: 5px;
+    }
+
+    .upload-section,
+    .links-section {
+        padding: 15px;
+    }
+
+    h1 {
+        font-size: 20px;
+        margin-bottom: 20px;
+    }
+
+    .url-item {
+        padding: 15px;
+    }
+
+    .url-text {
+        font-size: 11px;
+        padding: 10px;
+    }
+
+    .theme-toggle {
+        top: 10px;
+        right: 10px;
+        width: 35px;
+        height: 35px;
+        font-size: 16px;
+    }
+
+    .container {
+        height: auto; /* На очень маленьких экранах - авто высота */
+    }
+}
