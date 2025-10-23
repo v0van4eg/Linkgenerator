@@ -4,16 +4,19 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="833d8bc1-62c9-4d5d-a67a-39b96751b185" name="Changes" comment="Footer gradient">
-      <change afterPath="$PROJECT_DIR$/Исходники.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/linkgenerator.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/linkgenerator.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+    <list default="true" id="833d8bc1-62c9-4d5d-a67a-39b96751b185" name="Changes" comment="Working app">
+      <change afterPath="$PROJECT_DIR$/uploads/Мегамаркет/ssss/1-bc0a5a.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/uploads/Мегамаркет/ssss/2151078873-db3bb4.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/uploads/Мегамаркет/ssss/3d_spiral_steklo-337272.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/uploads/Мегамаркет/ssss/9036-IMG_20250617_151410-d3bf39.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/uploads/Мегамаркет/ssss/99px_ru_wallpaper_363569_chashka_stoit_u_morja_v_nej_koralli_i-e42412.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/uploads/Мегамаркет/ssss/Gradient_logo-045d38.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/uploads/Мегамаркет/ssss/IMG_20230614_131836-34a29c.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/uploads/Мегамаркет/ssss/IMG_20230614_131939-17599f.jpg" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/app.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config.py" beforeDir="false" afterPath="$PROJECT_DIR$/config.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/create_src.py" beforeDir="false" afterPath="$PROJECT_DIR$/create_src.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Задача.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Задача.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -144,7 +147,15 @@
       <option name="project" value="LOCAL" />
       <updated>1761168450750</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="Working app">
+      <option name="closed" value="true" />
+      <created>1761220642620</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1761220642620</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -164,6 +175,7 @@
     <MESSAGE value="Рабочий прототип" />
     <MESSAGE value="Рабочий прототип c preview" />
     <MESSAGE value="Footer gradient" />
-    <option name="LAST_COMMIT_MESSAGE" value="Footer gradient" />
+    <MESSAGE value="Working app" />
+    <option name="LAST_COMMIT_MESSAGE" value="Working app" />
   </component>
 </project>

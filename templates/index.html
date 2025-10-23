@@ -252,6 +252,35 @@
                 document.body.removeChild(textArea);
             }
 
+            // --- Функция для скачивания XLSX документа ---
+            function downloadXLSXDocument() {
+                const urlItems = document.querySelectorAll('.url-text');
+                if (!urlItems.length) {
+                    showNotification('Нет ссылок для генерации документа', 'error');
+                    return;
+                }
+
+                const allUrls = Array.from(urlItems).map(item => item.getAttribute('data-url'));
+                const clientName = "{{ client_name or '' }}";
+                const productName = "{{ product_name or '' }}";
+
+                // Создаем URL параметры для передачи данных
+                const params = new URLSearchParams();
+                allUrls.forEach(url => params.append('urls', url));
+                params.append('client_name', clientName);
+                params.append('product_name', productName);
+
+                // Скачиваем файл
+                window.location.href = '/download-xlsx?' + params.toString();
+            }
+
+            // --- Привязка к кнопке "Сгенерировать документ XLSX" ---
+            const downloadXLSXBtn = document.getElementById('downloadXLSXBtn');
+            if (downloadXLSXBtn) {
+                downloadXLSXBtn.addEventListener('click', downloadXLSXDocument);
+            }
+
+
             // --- Функция скачивания всех ссылок ---
             function downloadAllLinks() {
                 const urlItems = document.querySelectorAll('.url-text');
