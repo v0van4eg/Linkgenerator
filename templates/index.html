@@ -74,6 +74,9 @@
                         <button class="btn btn-secondary" id="copyAllBtn">
                             📋 Копировать все ссылки
                         </button>
+                        <button class="btn btn-secondary" id="downloadXLSXBtn">
+                            📋 Сгенерировать документ XLSX
+                        </button>
                     </div>
                     {% else %}
                     <div class="empty-state">
@@ -82,13 +85,13 @@
                     {% endif %}
                 </div>
             </div>
-        </div> <!-- / .content-wrap -->
+        </div>
 
         <!-- Footer -->
         <footer class="footer">
             <p>Сделано в ГРАДИЕНТ</p>
         </footer>
-    </div> <!-- / .page-container -->
+    </div>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {

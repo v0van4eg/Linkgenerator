@@ -30,7 +30,7 @@ def load_gitignore_rules(startpath):
     ignore_rules.append("__pycache__")
     ignore_rules.append("__init__.py")
     ignore_rules.append("create_src.py")
-    ignore_rules.append("README.md")
+    ignore_rules.append("Задача.txt")
     ignore_rules.append("Исходники.txt")
     return ignore_rules
 

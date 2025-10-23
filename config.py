@@ -5,7 +5,7 @@ class Config:
     UPLOAD_FOLDER = 'uploads'
     MAX_CONTENT_LENGTH = 1 * 1024 * 1024 * 1024 # 1GB max file size
     ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif', 'webp'}
-    BASE_URL = 'http://tecnobook'  # Замените на ваш домен
+    BASE_URL = 'http://vladimir-hp.gradient.ru'  # Замените на ваш домен
 
 def allowed_file(filename):
     return '.' in filename and \
