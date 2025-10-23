@@ -98,7 +98,7 @@
                                 {% if current_article is not none %}
                                     {# Закрываем предыдущую группу, если она была #}
                                 {% endif %}
-                                <div class="article-info">Артикул: {{ item.article }}</div>
+
                                 {% set current_article = item.article %}
                             {% endif %}
                             <div class="url-item">
@@ -107,6 +107,7 @@
                                          onerror="this.onerror=null; this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjQiIGhlaWdodD0iNjQiIHZpZXdCb3g9IjAgMCA2NCA2NCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iNjQiIGhlaWdodD0iNjQiIGZpbGw9IiNmMGYwZjAiLz48dGV4dCB4PSIzMCIgeT0iMzIiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIxMiIgZmlsbD0iI2FhYSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZHk9Ii4zZW0iPmltZzwvdGV4dD48L3N2Zz4='; this.style.display='flex';">
                                 </div>
                                 <div class="url-content">
+                                    <span class="article-info">Артикул: {{ item.article }}</span>
                                     <div class="url-text" data-url="{{ item.url }}">
                                         {{ item.url }}
                                         <span class="copy-hint">🔗 Кликните чтобы скопировать</span>

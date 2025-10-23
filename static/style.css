@@ -54,8 +54,8 @@
   --btn-secondary-gradient-start: #7f8c8d;
   --btn-secondary-gradient-end: #95a5a6;
   --url-item-bg: #3c3c3c;
-  --url-item-border: #3498db;
-  --url-text-bg: #3c3c3c;
+  --url-item-border: #3c3c3c;
+  --url-text-bg: #2c2c2c;
   --url-text-border: #4a4a4a;
   --upload-preview-bg: #3c3c3c;
   --upload-preview-border: #4a4a4a;
@@ -265,8 +265,8 @@ input[type="text"]:focus {
 }
 
 .image-preview {
-    width: 64px;
-    height: 64px;
+    width: 100px;
+    height: 100px;
     object-fit: cover;
     border-radius: 8px;
     border: 2px solid var(--input-border);
