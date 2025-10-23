@@ -33,6 +33,9 @@
   --notification-error: #e74c3c;
   --footer-bg: linear-gradient(135deg, #3498db, #27ae60);
   --footer-color: #ecf0f1;
+  --url-text-hover-bg: #e3f2fd;
+  --url-text-copied-bg: #e8f5e8;
+  --url-text-copied-border: #27ae60;
 }
 
 /* Определяем переменные для тёмной темы */
@@ -70,6 +73,9 @@
   --notification-error: #c0392b;
   --footer-bg: linear-gradient(135deg, #2980b9, #27ae60);
   --footer-color: #ecf0f1;
+  --url-text-hover-bg: #2a4365;
+  --url-text-copied-bg: #1a472a;
+  --url-text-copied-border: #2ecc71;
 }
 
 /* Сброс отступов и боксов */
@@ -113,9 +119,8 @@ body {
     width: 100%;
     max-width: 100%;
     margin: 0 auto;
-    /* ОСНОВНОЕ ИЗМЕНЕНИЕ: ограничиваем высоту контейнера */
-    height: calc(100vh - 140px); /* Высота viewport минус отступы и футер */
-    min-height: 500px; /* Минимальная высота */
+    height: calc(100vh - 140px);
+    min-height: 500px;
 }
 
 /* Левая колонка - загрузка (30%) */
@@ -126,11 +131,10 @@ body {
     border-radius: 15px;
     box-shadow: var(--container-shadow);
     max-width: calc(30% - 15px);
-    /* Добавляем прокрутку если контент не помещается */
     overflow-y: auto;
 }
 
-/* Правая колонка - ссылки (70%) - ОСНОВНЫЕ ИЗМЕНЕНИЯ */
+/* Правая колонка - ссылки (70%) */
 .links-section {
     flex: 0 0 calc(70% - 15px);
     background: var(--container-bg);
@@ -140,36 +144,34 @@ body {
     display: flex;
     flex-direction: column;
     max-width: calc(70% - 15px);
-    /* ОГРАНИЧИВАЕМ ВЫСОТУ И ДЕЛАЕМ FLEX-КОНТЕЙНЕРОМ */
     height: 100%;
 }
 
 /* Заголовок в правой колонке */
 .links-section h1 {
-    flex: 0 0 auto; /* Не растягивается */
+    flex: 0 0 auto;
     margin-bottom: 20px;
 }
 
-/* Список ссылок - ОСНОВНЫЕ ИЗМЕНЕНИЯ */
+/* Список ссылок */
 .url-list {
-    flex: 1; /* Занимает всё доступное пространство */
-    min-height: 0; /* Важно для корректной работы overflow */
-    overflow-y: auto; /* Прокрутка только внутри списка */
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
     padding-right: 10px;
     margin-bottom: 20px;
 }
 
 /* Кнопки внизу правой колонки */
 .bulk-actions {
-    flex: 0 0 auto; /* Фиксированная высота */
+    flex: 0 0 auto;
     display: flex;
     gap: 15px;
     justify-content: center;
     flex-wrap: wrap;
-    margin-top: auto; /* Прижимаем к низу */
+    margin-top: auto;
 }
 
-/* Остальные стили остаются без изменений */
 h1 {
     text-align: center;
     margin-bottom: 30px;
@@ -277,7 +279,7 @@ input[type="text"]:focus {
     color: var(--image-preview-color-error);
 }
 
-/* Контент ссылки */
+/* Контент ссылки - ОСНОВНЫЕ ИЗМЕНЕНИЯ */
 .url-content {
     flex: 1;
     min-width: 0;
@@ -286,7 +288,7 @@ input[type="text"]:focus {
 
 .url-text {
     word-break: break-all;
-    margin-bottom: 15px;
+    margin-bottom: 0; /* Убрали отступ снизу */
     font-family: 'Monaco', 'Consolas', monospace;
     font-size: 12px;
     background: var(--url-text-bg);
@@ -297,18 +299,50 @@ input[type="text"]:focus {
     color: var(--text-color);
     overflow-wrap: break-word;
     max-width: 100%;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
 }
 
-.url-actions {
-    display: flex;
-    gap: 10px;
+/* Подсказка для копирования */
+.copy-hint {
+    display: block;
+    font-size: 10px;
+    color: var(--label-color);
+    margin-top: 8px;
+    opacity: 0.7;
+    transition: opacity 0.3s ease;
 }
 
-.copy-btn {
-    width: auto;
-    padding: 10px 20px;
-    font-size: 14px;
-    white-space: nowrap;
+/* Стили при наведении на ссылку */
+.url-text:hover {
+    background: var(--url-text-hover-bg);
+    border-color: var(--input-focus-border);
+}
+
+.url-text:hover .copy-hint {
+    opacity: 1;
+}
+
+/* Стили после копирования */
+.url-text.copied {
+    background: var(--url-text-copied-bg);
+    border-color: var(--url-text-copied-border);
+    animation: pulse 0.5s ease;
+}
+
+.url-text.copied::after {
+    content: "✓ Скопировано!";
+    position: absolute;
+    top: 50%;
+    right: 12px;
+    transform: translateY(-50%);
+    background: var(--success-bg);
+    color: white;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 10px;
+    font-weight: bold;
 }
 
 .bulk-actions .btn {
@@ -353,7 +387,7 @@ input[type="text"]:focus {
     background: var(--upload-preview-bg);
     border-radius: 8px;
     border: 2px dashed var(--upload-preview-border);
-    max-height: 200px;
+    max-height: 300px;
     overflow-y: auto;
 }
 
@@ -384,6 +418,12 @@ input[type="text"]:focus {
     }
 }
 
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.02); }
+    100% { transform: scale(1); }
+}
+
 /* Полоса прокрутки */
 .url-list::-webkit-scrollbar,
 .upload-section::-webkit-scrollbar {
@@ -412,7 +452,7 @@ input[type="text"]:focus {
     background: var(--footer-bg);
     color: var(--footer-color);
     text-align: center;
-    padding: 15px 0;
+    padding: 5px 0;
 }
 
 /* Кнопка переключения темы */
@@ -462,7 +502,7 @@ input[type="text"]:focus {
 @media (max-width: 1200px) {
     .container {
         gap: 20px;
-        height: calc(100vh - 120px); /* Уменьшаем высоту на мобильных */
+        height: calc(100vh - 120px);
     }
 
     .upload-section,
@@ -479,7 +519,7 @@ input[type="text"]:focus {
     .container {
         flex-direction: column;
         gap: 20px;
-        height: auto; /* На мобильных убираем фиксированную высоту */
+        height: auto;
         min-height: auto;
     }
 
@@ -488,11 +528,11 @@ input[type="text"]:focus {
         flex: none;
         width: 100%;
         max-width: 100%;
-        height: auto; /* На мобильных автоматическая высота */
+        height: auto;
     }
 
     .url-list {
-        max-height: 50vh; /* Ограничиваем высоту списка на мобильных */
+        max-height: 50vh;
     }
 
     .url-item {
@@ -508,6 +548,13 @@ input[type="text"]:focus {
         width: 64px;
         height: 64px;
     }
+
+    .url-text.copied::after {
+        position: static;
+        transform: none;
+        display: block;
+        margin-top: 8px;
+    }
 }
 
 @media (max-width: 768px) {
@@ -522,14 +569,6 @@ input[type="text"]:focus {
 
     .bulk-actions {
         flex-direction: column;
-    }
-
-    .url-actions {
-        flex-direction: column;
-    }
-
-    .copy-btn {
-        width: 100%;
     }
 
     .bulk-actions .btn {
@@ -552,7 +591,14 @@ input[type="text"]:focus {
     }
 
     .url-list {
-        max-height: 40vh; /* Еще меньше на маленьких экранах */
+        max-height: 40vh;
+    }
+
+    .url-text.copied::after {
+        position: static;
+        transform: none;
+        display: block;
+        margin-top: 8px;
     }
 }
 
@@ -589,6 +635,10 @@ input[type="text"]:focus {
     }
 
     .container {
-        height: auto; /* На очень маленьких экранах - авто высота */
+        height: auto;
+    }
+
+    .copy-hint {
+        font-size: 9px;
     }
 }
