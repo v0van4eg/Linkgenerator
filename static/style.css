@@ -642,3 +642,72 @@ input[type="text"]:focus {
         font-size: 9px;
     }
 }
+
+/* Стили для вкладок загрузки */
+.upload-tabs {
+    display: flex;
+    margin-bottom: 20px;
+    border-bottom: 2px solid var(--input-border);
+}
+
+.tab-button {
+    padding: 12px 20px;
+    background: var(--url-text-bg);
+    border: none;
+    border-bottom: 3px solid transparent;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: bold;
+    color: var(--label-color);
+    transition: all 0.3s ease;
+    flex: 1;
+    text-align: center;
+}
+
+.tab-button.active {
+    color: var(--input-focus-border);
+    border-bottom-color: var(--input-focus-border);
+    background: var(--container-bg);
+}
+
+.tab-button:hover {
+    background: var(--url-text-hover-bg);
+}
+
+.tab-content {
+    display: none;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+/* Стили для подсказки */
+.help-text {
+    font-size: 12px;
+    color: var(--label-color);
+    margin-top: 5px;
+    line-height: 1.4;
+}
+
+/* Стили для информации об артикуле в списке ссылок */
+.article-info {
+    background: var(--url-item-border);
+    color: white;
+    padding: 8px 12px;
+    border-radius: 6px;
+    margin-bottom: 10px;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+/* Адаптивность для вкладок */
+@media (max-width: 768px) {
+    .upload-tabs {
+        flex-direction: column;
+    }
+
+    .tab-button {
+        margin-bottom: 5px;
+    }
+}
