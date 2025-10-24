@@ -118,9 +118,9 @@
                     </div>
 
                     <div class="bulk-actions">
-                        <button class="btn btn-secondary" id="downloadAllBtn">
-                            📥 Скачать все ссылки (TXT)
-                        </button>
+<!--                        <button class="btn btn-secondary" id="downloadAllBtn">-->
+<!--                            📥 Скачать все ссылки (TXT)-->
+<!--                        </button>-->
                         <button class="btn btn-secondary" id="copyAllBtn">
                             📋 Копировать все ссылки
                         </button>
@@ -284,7 +284,7 @@
                     showNotification('Нет ссылок для копирования', 'error');
                     return;
                 }
-                const allUrls = Array.from(urlItems).map(item => item.getAttribute('data-url')).join('\n');
+                const allUrls = Array.from(urlItems).map(item => item.getAttribute('data-url')).join(', ');
 
                 if (navigator.clipboard && window.isSecureContext) {
                     navigator.clipboard.writeText(allUrls).then(function() {
@@ -360,19 +360,17 @@
 
                 // Собираем данные об изображениях с артикулами
                 const imageData = [];
-                let currentArticle = '';
 
-                // Проходим по всем элементам в списке
-                document.querySelectorAll('#urlList > *').forEach(element => {
-                    if (element.classList.contains('article-info')) {
-                        // Это заголовок артикула
-                        currentArticle = element.textContent.replace('Артикул: ', '').trim();
-                    } else if (element.classList.contains('url-item')) {
-                        // Это элемент с изображением
-                        const urlElement = element.querySelector('.url-text');
+                // Проходим по всем элементам с изображениями
+                document.querySelectorAll('.url-item').forEach(itemElement => {
+                    const articleElement = itemElement.querySelector('.article-info');
+                    const urlElement = itemElement.querySelector('.url-text');
+
+                    if (articleElement && urlElement) {
+                        const article = articleElement.textContent.replace('Артикул: ', '').trim();
                         imageData.push({
                             url: urlElement.getAttribute('data-url'),
-                            article: currentArticle,
+                            article: article,
                             filename: urlElement.getAttribute('data-url').split('/').pop()
                         });
                     }
@@ -424,7 +422,6 @@
                     showNotification('Ошибка при генерации XLSX: ' + error.message, 'error');
                 });
             }
-
             // --- Привязка событий для копирования при клике на ссылку ---
             document.querySelectorAll('.url-text').forEach(urlElement => {
                 urlElement.addEventListener('click', function(e) {
