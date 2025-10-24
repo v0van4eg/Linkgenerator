@@ -3,13 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Хостинг картинок</title>
+    <title>StashLink</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
     <!-- Кнопка переключения темы -->
     <button class="theme-toggle" id="themeToggle">🌙</button>
-
     <!-- Основной контейнер для всей страницы -->
     <div class="page-container">
         <!-- Контейнер для основного контента (до футера) -->
@@ -18,19 +17,16 @@
             <div class="container">
                 <div class="upload-section">
                     <h1>Загрузка изображений</h1>
-
                     {% if error %}
                     <div class="error">{{ error }}</div>
                     {% endif %}
-
                     <!-- Табы для переключения между типами загрузки -->
                     <div class="upload-tabs">
                         <button type="button" class="tab-button active" data-tab="single">Отдельные изображения</button>
                         <button type="button" class="tab-button" data-tab="archive">Загрузить архив</button>
                     </div>
-
                     <!-- Форма для отдельных изображений -->
-                    <form method="POST" enctype="multipart/form-data" id="single-form" class="tab-content active">
+                    <form method="POST" action="{{ url_for('handle_upload') }}" enctype="multipart/form-data" id="single-form" class="tab-content active"> <!-- Изменили action -->
                         <div class="form-group">
                             <label for="client_name">Имя клиента:</label>
                             <select id="client_name" name="client_name" required>
@@ -43,24 +39,20 @@
                                 {% endfor %}
                             </select>
                         </div>
-
                         <div class="form-group">
                             <label for="product_name">Имя товара:</label>
                             <input type="text" id="product_name" name="product_name"
                                    value="{{ product_name or '' }}" required>
                         </div>
-
                         <div class="form-group">
                             <label for="images">Изображения:</label>
                             <input type="file" id="images" name="images"
                                    multiple accept="image/*" required>
                         </div>
-
                         <button type="submit" class="btn">Загрузить изображения</button>
                     </form>
-
                     <!-- Форма для архива -->
-                    <form method="POST" enctype="multipart/form-data" id="archive-form" class="tab-content">
+                    <form method="POST" action="{{ url_for('handle_upload') }}" enctype="multipart/form-data" id="archive-form" class="tab-content"> <!-- Изменили action -->
                         <div class="form-group">
                             <label for="client_name_archive">Имя клиента:</label>
                             <select id="client_name_archive" name="client_name" required>
@@ -73,7 +65,6 @@
                                 {% endfor %}
                             </select>
                         </div>
-
                         <div class="form-group">
                             <label for="archive">ZIP-архив:</label>
                             <input type="file" id="archive" name="archive" accept=".zip" required>
@@ -82,14 +73,11 @@
                                 Пример: archive.zip → 100256601929 → 100256601929_1.jpg
                             </div>
                         </div>
-
                         <button type="submit" class="btn">📦 Загрузить архив</button>
                     </form>
                 </div>
-
                 <div class="links-section">
                     <h1>Сгенерированные ссылки</h1>
-
                     {% if image_urls %}
                     <div class="url-list" id="urlList">
                         {% set current_article = None %}
@@ -98,7 +86,6 @@
                                 {% if current_article is not none %}
                                     {# Закрываем предыдущую группу, если она была #}
                                 {% endif %}
-
                                 {% set current_article = item.article %}
                             {% endif %}
                             <div class="url-item">
@@ -116,13 +103,12 @@
                             </div>
                         {% endfor %}
                     </div>
-
                     <div class="bulk-actions">
-<!--                        <button class="btn btn-secondary" id="downloadAllBtn">-->
-<!--                            📥 Скачать все ссылки (TXT)-->
-<!--                        </button>-->
                         <button class="btn btn-secondary" id="copyAllBtn">
-                            📋 Копировать все ссылки
+                            📋 Копировать ссылки через запятую
+                        </button>
+                        <button class="btn btn-secondary" id="copyAllListBtn">
+                            📝 Скопировать списком (перенос строки)
                         </button>
                         <button class="btn btn-secondary" id="downloadXLSXBtn">
                             📋 Сгенерировать документ XLSX
@@ -136,18 +122,22 @@
                 </div>
             </div>
         </div>
-
         <!-- Footer -->
         <footer class="footer">
             <p>Сделано в ГРАДИЕНТ</p>
         </footer>
     </div>
-
     <script>
+        // ... (весь JavaScript из оригинального index.html)
+        // НЕ ИЗМЕНЯЕМ JavaScript, так как он работает с данными, уже находящимися в HTML.
+        // Главное изменение - это то, что image_urls, selected_client, product_name теперь
+        // передаются в шаблон Flask-ом и отображаются в HTML, а не зависят от session.
+        // Кнопки и функции копирования/скачивания продолжают работать как раньше,
+        // потому что они оперируют данными, доступными на странице (DOM).
         document.addEventListener('DOMContentLoaded', function() {
+            // --- Код JavaScript остается без изменений ---
             const themeToggle = document.getElementById('themeToggle');
             const body = document.body;
-
             // Проверяем сохранённую тему в localStorage
             const savedTheme = localStorage.getItem('theme');
             if (savedTheme === 'dark') {
@@ -156,10 +146,8 @@
             } else {
                 themeToggle.textContent = '🌙';
             }
-
             themeToggle.addEventListener('click', function() {
                 body.classList.toggle('dark-theme');
-
                 if (body.classList.contains('dark-theme')) {
                     themeToggle.textContent = '☀️';
                     localStorage.setItem('theme', 'dark');
@@ -168,25 +156,20 @@
                     localStorage.setItem('theme', 'light');
                 }
             });
-
             // --- Переключение между вкладками загрузки ---
             const tabButtons = document.querySelectorAll('.tab-button');
             const tabContents = document.querySelectorAll('.tab-content');
-
             tabButtons.forEach(button => {
                 button.addEventListener('click', function() {
                     const tabName = this.getAttribute('data-tab');
-
                     // Убираем активный класс у всех кнопок и контента
                     tabButtons.forEach(btn => btn.classList.remove('active'));
                     tabContents.forEach(content => content.classList.remove('active'));
-
                     // Добавляем активный класс текущей кнопке и соответствующему контенту
                     this.classList.add('active');
                     document.getElementById(`${tabName}-form`).classList.add('active');
                 });
             });
-
             // Синхронизация выбора клиента между формами
             const clientSelects = document.querySelectorAll('select[name="client_name"]');
             clientSelects.forEach(select => {
@@ -199,12 +182,10 @@
                     });
                 });
             });
-
             // --- Функция для показа уведомлений ---
             function showNotification(message, type = 'success') {
                 const existingNotifications = document.querySelectorAll('.notification');
                 existingNotifications.forEach(notif => notif.remove());
-
                 const notification = document.createElement('div');
                 notification.className = `notification ${type}`;
                 notification.textContent = message;
@@ -219,14 +200,11 @@
                     z-index: 1000;
                     animation: slideIn 0.3s ease;
                 `;
-
                 document.body.appendChild(notification);
-
                 setTimeout(() => {
                     notification.remove();
                 }, 3000);
             }
-
             // --- Функция копирования текста ---
             function copyToClipboard(text) {
                 if (navigator.clipboard && window.isSecureContext) {
@@ -240,7 +218,6 @@
                     fallbackCopyTextToClipboard(text);
                 }
             }
-
             // Вспомогательная функция для fallback
             function fallbackCopyTextToClipboard(text) {
                 const textArea = document.createElement('textarea');
@@ -261,7 +238,6 @@
                 document.body.appendChild(textArea);
                 textArea.focus();
                 textArea.select();
-
                 try {
                     const successful = document.execCommand('copy');
                     if (successful) {
@@ -273,11 +249,70 @@
                     console.error('Ошибка при копировании execCommand: ', err);
                     showNotification('Ошибка копирования', 'error');
                 }
-
                 document.body.removeChild(textArea);
             }
 
-            // --- Функция копирования всех ссылок ---
+
+            // --- Функция копирования всех ссылок списком (разделённых переносом строки) ---
+            function copyAllListToClipboard() {
+                const urlItems = document.querySelectorAll('.url-text');
+                if (!urlItems.length) {
+                    showNotification('Нет ссылок для копирования', 'error');
+                    return;
+                }
+                // Извлекаем URL из атрибута data-url и объединяем с новой строки
+                const allUrls = Array.from(urlItems)
+                    .map(item => item.getAttribute('data-url'))
+                    .join('\n'); // Используем \n для разделения строк
+
+                if (navigator.clipboard && window.isSecureContext) {
+                    navigator.clipboard.writeText(allUrls).then(function() {
+                        showNotification('Список ссылок скопирован в буфер обмена (разделённые строками)!');
+                    }).catch(function(err) {
+                        console.error('Ошибка Clipboard API при копировании списка:', err);
+                        fallbackCopyAllListToClipboard(allUrls); // Резервный метод, если понадобится
+                    });
+                } else {
+                    fallbackCopyAllListToClipboard(allUrls); // Резервный метод
+                }
+            }
+
+            // Резервный метод для копирования списка ссылок (аналогично основному fallback)
+            function fallbackCopyAllListToClipboard(text) {
+                const textArea = document.createElement('textarea');
+                textArea.value = text;
+                // Стили для скрытия textarea
+                textArea.style.cssText = `
+                    position: fixed;
+                    top: 0;
+                    left: 0;
+                    width: 2em;
+                    height: 2em;
+                    padding: 0;
+                    border: none;
+                    outline: none;
+                    boxShadow: none;
+                    background: transparent;
+                    color: transparent;
+                `;
+                document.body.appendChild(textArea);
+                textArea.focus();
+                textArea.select();
+                try {
+                    const successful = document.execCommand('copy');
+                    if (successful) {
+                        showNotification('Список ссылок скопирован в буфер обмена (разделённые строками)!');
+                    } else {
+                        showNotification('Не удалось скопировать список ссылок', 'error');
+                    }
+                } catch (err) {
+                    console.error('Ошибка при копировании списка ссылок execCommand: ', err);
+                    showNotification('Ошибка копирования списка ссылок', 'error');
+                }
+                document.body.removeChild(textArea);
+            }
+
+            // --- Функция копирования всех ссылок (запятая) ---
             function copyAllToClipboard() {
                 const urlItems = document.querySelectorAll('.url-text');
                 if (!urlItems.length) {
@@ -285,7 +320,6 @@
                     return;
                 }
                 const allUrls = Array.from(urlItems).map(item => item.getAttribute('data-url')).join(', ');
-
                 if (navigator.clipboard && window.isSecureContext) {
                     navigator.clipboard.writeText(allUrls).then(function() {
                         showNotification('Все ссылки скопированы в буфер обмена!');
@@ -297,7 +331,6 @@
                     fallbackCopyAllToClipboard(allUrls);
                 }
             }
-
             function fallbackCopyAllToClipboard(text) {
                 const textArea = document.createElement('textarea');
                 textArea.value = text;
@@ -317,7 +350,6 @@
                 document.body.appendChild(textArea);
                 textArea.focus();
                 textArea.select();
-
                 try {
                     const successful = document.execCommand('copy');
                     if (successful) {
@@ -329,10 +361,8 @@
                     console.error('Ошибка при копировании всех ссылок execCommand: ', err);
                     showNotification('Ошибка копирования всех ссылок', 'error');
                 }
-
                 document.body.removeChild(textArea);
             }
-
             // --- Функция скачивания всех ссылок ---
             function downloadAllLinks() {
                 const urlItems = document.querySelectorAll('.url-text');
@@ -341,15 +371,12 @@
                     return;
                 }
                 const allUrls = Array.from(urlItems).map(item => item.getAttribute('data-url'));
-
                 // Создаем URL параметры для передачи ссылок
                 const params = new URLSearchParams();
                 allUrls.forEach(url => params.append('urls', url));
-
                 // Скачиваем файл
                 window.location.href = '/download-links?' + params.toString();
             }
-
             // --- Функция для скачивания XLSX документа ---
             function downloadXLSXDocument() {
                 const urlItems = document.querySelectorAll('.url-item');
@@ -357,15 +384,12 @@
                     showNotification('Нет ссылок для генерации документа', 'error');
                     return;
                 }
-
                 // Собираем данные об изображениях с артикулами
                 const imageData = [];
-
                 // Проходим по всем элементам с изображениями
                 document.querySelectorAll('.url-item').forEach(itemElement => {
                     const articleElement = itemElement.querySelector('.article-info');
                     const urlElement = itemElement.querySelector('.url-text');
-
                     if (articleElement && urlElement) {
                         const article = articleElement.textContent.replace('Артикул: ', '').trim();
                         imageData.push({
@@ -375,17 +399,13 @@
                         });
                     }
                 });
-
                 const clientName = "{{ selected_client or '' }}";
-
                 console.log('Отправляемые данные:', {
                     image_data: imageData,
                     client_name: clientName
                 });
-
                 // Показываем уведомление о начале генерации
                 showNotification('Генерация XLSX документа...', 'success');
-
                 // Отправляем POST запрос с данными
                 fetch('/download-xlsx', {
                     method: 'POST',
@@ -414,7 +434,6 @@
                     a.click();
                     window.URL.revokeObjectURL(url);
                     document.body.removeChild(a);
-
                     showNotification('XLSX документ успешно сгенерирован и скачан!', 'success');
                 })
                 .catch(error => {
@@ -427,11 +446,9 @@
                 urlElement.addEventListener('click', function(e) {
                     // Не копируем если кликнули на подсказку
                     if (e.target.classList.contains('copy-hint')) return;
-
                     const url = this.getAttribute('data-url');
                     if (url) {
                         copyToClipboard(url);
-
                         // Визуальная обратная связь
                         this.classList.add('copied');
                         setTimeout(() => {
@@ -440,42 +457,45 @@
                     }
                 });
             });
-
             // --- Привязка к кнопке "Копировать все" ---
             const copyAllBtn = document.getElementById('copyAllBtn');
             if (copyAllBtn) {
                 copyAllBtn.addEventListener('click', copyAllToClipboard);
             }
-
+            // --- Привязка к кнопке "Копировать все" (старая, разделённые запятой) ---
+            if (copyAllBtn) {
+                copyAllBtn.addEventListener('click', copyAllToClipboard);
+            }
+            // --- Привязка к НОВОЙ кнопке "Копировать все ссылки списком" ---
+            const copyAllListBtn = document.getElementById('copyAllListBtn');
+            if (copyAllListBtn) {
+                copyAllListBtn.addEventListener('click', copyAllListToClipboard);
+            }
+            // --- Привязка к кнопке "Скачать все" ---
             // --- Привязка к кнопке "Скачать все" ---
             const downloadAllBtn = document.getElementById('downloadAllBtn');
             if (downloadAllBtn) {
                 downloadAllBtn.addEventListener('click', downloadAllLinks);
             }
-
             // --- Привязка к кнопке "Сгенерировать документ XLSX" ---
             const downloadXLSXBtn = document.getElementById('downloadXLSXBtn');
             if (downloadXLSXBtn) {
                 downloadXLSXBtn.addEventListener('click', downloadXLSXDocument);
             }
-
             // --- Предпросмотр файлов ---
             const imagesInput = document.getElementById('images');
             if (imagesInput) {
                 imagesInput.addEventListener('change', function(e) {
                     const files = e.target.files;
                     let previewContainer = document.querySelector('.upload-preview');
-
                     // Удаляем старый превью если есть
                     if (previewContainer) {
                         previewContainer.remove();
                     }
-
                     if (files.length > 0) {
                         previewContainer = document.createElement('div');
                         previewContainer.className = 'upload-preview';
                         previewContainer.innerHTML = '<h3>Выбранные файлы:</h3>';
-
                         Array.from(files).forEach(file => {
                             if (file.type.startsWith('image/')) {
                                 const reader = new FileReader();
@@ -488,7 +508,6 @@
                                 reader.readAsDataURL(file);
                             }
                         });
-
                         document.querySelector('.upload-section').appendChild(previewContainer);
                     }
                 });

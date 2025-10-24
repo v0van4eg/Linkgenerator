@@ -1,13 +1,12 @@
 import os
 
-
 class Config:
     SECRET_KEY = 'your-secret-key-here'
     UPLOAD_FOLDER = 'uploads'
+    RESULTS_FOLDER = 'results'  # <-- Добавляем папку для результатов
     MAX_CONTENT_LENGTH = 5 * 1024 * 1024 * 1024  # 1GB max file size
     ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif', 'webp'}
-    BASE_URL = 'http://vladimir-hp.gradient.ru'  # Замените на ваш домен
-
+    BASE_URL = 'http://tecnobook'  # Замените на ваш домен
     # Список клиентов
     CLIENTS = [
         'ЭЛИЗЕ',
@@ -15,7 +14,6 @@ class Config:
         'ЯндексМаркет',
         'МагнитКосметик'
     ]
-
     # Пути к шаблонам XLSX
     TEMPLATE_PATHS = {
         'ЭЛИЗЕ': 'templates/elise.xlsx',
@@ -24,6 +22,9 @@ class Config:
         'МагнитКосметик': 'templates/magnitcosmetic.xlsx'
     }
 
+    # Убедимся, что папки существуют
+    os.makedirs(UPLOAD_FOLDER, exist_ok=True)
+    os.makedirs(RESULTS_FOLDER, exist_ok=True) # <-- Добавляем создание папки результатов
 
 def allowed_file(filename):
     return '.' in filename and \
