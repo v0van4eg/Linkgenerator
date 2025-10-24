@@ -16,6 +16,15 @@ class Config:
         'МагнитКосметик'
     ]
 
+    # Пути к шаблонам XLSX
+    TEMPLATE_PATHS = {
+        'ЭЛИЗЕ': 'templates/elise.xlsx',
+        'Мегамаркет': 'templates/megamarket.xlsx',
+        'ЯндексМаркет': 'templates/yandexmarket.xlsx',
+        'МагнитКосметик': 'templates/magnitcosmetic.xlsx'
+    }
+
+
 def allowed_file(filename):
     return '.' in filename and \
         filename.rsplit('.', 1)[1].lower() in Config.ALLOWED_EXTENSIONS
