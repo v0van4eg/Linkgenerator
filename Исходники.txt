@@ -8,7 +8,10 @@
 ├── static
 │   └── style.css
 ├── templates
-│   └── index.html
+│   ├── elise.xlsx
+│   ├── index.html
+│   ├── megamarket.xlsx
+│   └── yandexmarket.xlsx
 ├── uploads
 
 
@@ -29,6 +32,8 @@ from openpyxl.utils import get_column_letter
 import io
 import tempfile
 import shutil
+from openpyxl import Workbook, load_workbook
+
 
 app = Flask(__name__)
 app.config.from_object(Config)
@@ -124,101 +129,356 @@ def process_zip_archive(zip_file, client_name):
     return image_urls
 
 
+def generate_megamarket_xlsx(image_data, client_name):
+    """
+    Генерирует XLSX документ для Мегамаркет по шаблону
+    Столбцы: "Код товара СММ(обязательно)", "Ссылка на основное фото", "Ссылка на доп. фото №1" - "Ссылка на доп. фото №9"
+    """
+    try:
+        # Пытаемся загрузить шаблон, если он существует
+        template_path = os.path.join('templates', 'megamarket.xlsx')
+        if os.path.exists(template_path):
+            wb = load_workbook(template_path)
+            ws = wb.active
+            # Начинаем со второй строки (после заголовков)
+            start_row = 2
+        else:
+            # Создаем новый файл если шаблон не найден
+            wb = Workbook()
+            ws = wb.active
+            ws.title = "Megamarket Images"
+
+            # Заголовки столбцов
+            headers = ["Код товара СММ(обязательно)", "Ссылка на основное фото"]
+            for i in range(1, 10):
+                headers.append(f"Ссылка на доп. фото №{i}")
+
+            ws.append(headers)
+            start_row = 2
+
+            # Стили для заголовков
+            header_font = Font(bold=True)
+            for cell in ws[1]:
+                cell.font = header_font
+                cell.alignment = Alignment(horizontal='center', vertical='center')
+
+        # Группируем изображения по артикулам
+        articles = {}
+        for item in image_data:
+            article = item['article']
+            if article not in articles:
+                articles[article] = []
+            articles[article].append(item['url'])
+
+        print(f"Мегамаркет: найдено артикулов: {len(articles)}")
+
+        # Создаем строки для каждого артикула
+        current_row = start_row
+        for article, urls in articles.items():
+            # Основные данные
+            row_data = [article]  # Код товара СММ
+
+            # Добавляем ссылки на изображения
+            # Первая ссылка - основное фото
+            if urls:
+                row_data.append(urls[0])  # Основное фото
+                # Дополнительные фото (максимум 9)
+                for i in range(1, 10):
+                    if i < len(urls):
+                        row_data.append(urls[i])
+                    else:
+                        row_data.append("")
+            else:
+                # Если нет изображений, добавляем пустые ячейки
+                row_data.append("")  # Основное фото
+                for i in range(1, 10):
+                    row_data.append("")
+
+            # Записываем данные
+            for col, value in enumerate(row_data, 1):
+                ws.cell(row=current_row, column=col, value=value)
+
+            current_row += 1
+
+        # Настраиваем ширину столбцов
+        column_widths = {
+            'A': 20,  # Код товара
+            'B': 40,  # Основное фото
+        }
+        for i in range(3, 12):  # Столбцы C-K для доп. фото
+            column_letter = get_column_letter(i)
+            column_widths[column_letter] = 40
+
+        for col, width in column_widths.items():
+            ws.column_dimensions[col].width = width
+
+        # Сохраняем в буфер
+        buffer = io.BytesIO()
+        wb.save(buffer)
+        buffer.seek(0)
+
+        return buffer
+
+    except Exception as e:
+        app.logger.error(f"Error generating Megamarket XLSX: {str(e)}")
+        raise
+
+
+def generate_elise_xlsx(image_data, client_name):
+    """
+    Генерирует XLSX документ для ЭЛИЗЕ по шаблону
+    Столбцы: "Бренд", "Номенклатура", "Артикул", "Базовый Штрихкод", "Измерение",
+    "ЗначениеИзмерения", "Заголовок", "КраткоеОписание", "СпособПрименения",
+    "ЛинейкаБренда", "Каждый цвет", "ИмяФайлаКартинки1" - "ИмяФайлаКартинки20"
+    """
+    try:
+        # Пытаемся загрузить шаблон, если он существует
+        template_path = os.path.join('templates', 'elise.xlsx')
+        if os.path.exists(template_path):
+            wb = load_workbook(template_path)
+            ws = wb.active
+            # Начинаем со второй строки (после заголовков)
+            start_row = 2
+        else:
+            # Создаем новый файл если шаблон не найден
+            wb = Workbook()
+            ws = wb.active
+            ws.title = "ELISE Images"
+
+            # Заголовки столбцов
+            headers = [
+                "Бренд", "Номенклатура", "Артикул", "Базовый Штрихкод",
+                "Измерение", "ЗначениеИзмерения",
+                "Заголовок (Без бренда)", "КраткоеОписание", "СпособПрименения",
+                "ЛинейкаБренда", "Каждый цвет"
+            ]
+
+            # Добавляем столбцы для изображений
+            max_images = 20
+            for i in range(1, max_images + 1):
+                headers.append(f"ИмяФайлаКартинки{i}")
+
+            ws.append(headers)
+            start_row = 2
+
+            # Стили для заголовков
+            header_font = Font(bold=True)
+            for cell in ws[1]:
+                cell.font = header_font
+                cell.alignment = Alignment(horizontal='center', vertical='center')
+
+        # Группируем изображения по артикулам
+        articles = {}
+        for item in image_data:
+            article = item['article']
+            if article not in articles:
+                articles[article] = []
+            articles[article].append(item['url'])
+
+        print(f"ЭЛИЗЕ: найдено артикулов: {len(articles)}")
+
+        # Создаем строки для каждого артикула
+        current_row = start_row
+        for article, urls in articles.items():
+            # Данные для строки
+            row_data = [
+                "ARTDECO",  # Бренд
+                f"ARTDECO Товар артикул {article}",  # Номенклатура
+                article,  # Артикул
+                "",  # Базовый Штрихкод
+                "",  # Измерение
+                "",  # ЗначениеИзмерения
+                f"Товар артикул {article}",  # Заголовок (Без бренда)
+                f"Изображения товара артикул {article} для клиента {client_name}",  # КраткоеОписание
+                "Нанести",  # СпособПрименения
+                "АРТДЕКО",  # Линейка Бренда
+                "Каждый цвет"  # Каждый цвет
+            ]
+
+            # Добавляем ссылки на изображения
+            max_images = 20
+            for i, url in enumerate(urls):
+                if i >= max_images:
+                    break
+                row_data.append(url)
+
+            # Заполняем оставшиеся ячейки для изображений пустыми значениями
+            remaining_images = max_images - min(len(urls), max_images)
+            for _ in range(remaining_images):
+                row_data.append("")
+
+            # Записываем данные
+            for col, value in enumerate(row_data, 1):
+                ws.cell(row=current_row, column=col, value=value)
+
+            current_row += 1
+
+        # Настраиваем ширину столбцов
+        column_widths = {
+            'A': 15, 'B': 30, 'C': 15, 'D': 20, 'E': 15,
+            'F': 25, 'G': 25, 'H': 40, 'I': 20, 'J': 20,
+            'K': 25
+        }
+
+        # Устанавливаем ширину для столбцов с изображениями
+        for i in range(12, 12 + 20):  # Столбцы L-AE для изображений
+            column_letter = get_column_letter(i)
+            column_widths[column_letter] = 30
+
+        for col, width in column_widths.items():
+            ws.column_dimensions[col].width = width
+
+        # Сохраняем в буфер
+        buffer = io.BytesIO()
+        wb.save(buffer)
+        buffer.seek(0)
+
+        return buffer
+
+    except Exception as e:
+        app.logger.error(f"Error generating ELISE XLSX: {str(e)}")
+        raise
+
+
+def generate_yandexmarket_xlsx(image_data, client_name):
+    """
+    Генерирует XLSX документ для ЯндексМаркет (базовый шаблон)
+    """
+    try:
+        wb = Workbook()
+        ws = wb.active
+        ws.title = "YandexMarket Images"
+
+        # Заголовки для ЯндексМаркет
+        headers = ["Артикул", "Основное изображение"]
+        for i in range(1, 11):
+            headers.append(f"Дополнительное изображение {i}")
+
+        ws.append(headers)
+
+        # Стили для заголовков
+        header_font = Font(bold=True)
+        for cell in ws[1]:
+            cell.font = header_font
+            cell.alignment = Alignment(horizontal='center', vertical='center')
+
+        # Группируем изображения по артикулам
+        articles = {}
+        for item in image_data:
+            article = item['article']
+            if article not in articles:
+                articles[article] = []
+            articles[article].append(item['url'])
+
+        # Создаем строки для каждого артикула
+        for article, urls in articles.items():
+            row_data = [article]  # Артикул
+
+            # Добавляем ссылки на изображения
+            if urls:
+                row_data.append(urls[0])  # Основное изображение
+                # Дополнительные изображения
+                for i in range(1, 11):
+                    if i < len(urls):
+                        row_data.append(urls[i])
+                    else:
+                        row_data.append("")
+            else:
+                row_data.append("")
+                for i in range(1, 11):
+                    row_data.append("")
+
+            ws.append(row_data)
+
+        # Настраиваем ширину столбцов
+        for col in range(1, 13):
+            column_letter = get_column_letter(col)
+            ws.column_dimensions[column_letter].width = 35
+
+        buffer = io.BytesIO()
+        wb.save(buffer)
+        buffer.seek(0)
+        return buffer
+
+    except Exception as e:
+        app.logger.error(f"Error generating YandexMarket XLSX: {str(e)}")
+        raise
+
+
+def generate_magnitcosmetic_xlsx(image_data, client_name):
+    """
+    Генерирует XLSX документ для МагнитКосметик (базовый шаблон)
+    """
+    try:
+        wb = Workbook()
+        ws = wb.active
+        ws.title = "MagnitCosmetic Images"
+
+        # Заголовки для МагнитКосметик
+        headers = ["Код товара", "Артикул", "Основное фото"]
+        for i in range(1, 16):
+            headers.append(f"Фото {i}")
+
+        ws.append(headers)
+
+        # Стили для заголовков
+        header_font = Font(bold=True)
+        for cell in ws[1]:
+            cell.font = header_font
+            cell.alignment = Alignment(horizontal='center', vertical='center')
+
+        # Группируем изображения по артикулам
+        articles = {}
+        for item in image_data:
+            article = item['article']
+            if article not in articles:
+                articles[article] = []
+            articles[article].append(item['url'])
+
+        # Создаем строки для каждого артикула
+        for article, urls in articles.items():
+            row_data = [article, article]  # Код товара и Артикул
+
+            # Добавляем ссылки на изображения
+            for i in range(16):  # Основное + 15 дополнительных
+                if i < len(urls):
+                    row_data.append(urls[i])
+                else:
+                    row_data.append("")
+
+            ws.append(row_data)
+
+        # Настраиваем ширину столбцов
+        for col in range(1, 19):
+            column_letter = get_column_letter(col)
+            ws.column_dimensions[column_letter].width = 30
+
+        buffer = io.BytesIO()
+        wb.save(buffer)
+        buffer.seek(0)
+        return buffer
+
+    except Exception as e:
+        app.logger.error(f"Error generating MagnitCosmetic XLSX: {str(e)}")
+        raise
+
 def generate_xlsx_document(image_data, client_name):
     """
-    Генерирует XLSX документ с заданной структурой
-    image_data - список словарей с ключами: url, article, filename
+    Основная функция генерации XLSX документа в зависимости от клиента
     """
-    wb = Workbook()
-    ws = wb.active
-    ws.title = "Product Images"
-
-    # Заголовки столбцов
-    headers = [
-        "Бренд", "Номенклатура", "Артикул", "Базовый Штрихкод",
-        "Измерение", "ЗначениеИзмерения",
-        "Заголовок (Без бренда)", "КраткоеОписание", "СпособПрименения",
-        "ЛинейкаБренда", "Каждый цвет"
-    ]
-
-    # Добавляем столбцы для изображений
-    max_images = 30  # Максимальное количество столбцов для изображений
-    for i in range(1, max_images + 1):
-        headers.append(f"ИмяФайлаКартинки{i}")
-
-    # Записываем заголовки
-    ws.append(headers)
-
-    # Стили для заголовков
-    header_font = Font(bold=True)
-    for cell in ws[1]:
-        cell.font = header_font
-        cell.alignment = Alignment(horizontal='center', vertical='center')
-
-    # Группируем изображения по артикулам
-    articles = {}
-    for item in image_data:
-        article = item['article']
-        if article not in articles:
-            articles[article] = []
-        articles[article].append(item['url'])
-
-    print(f"Найдено артикулов: {len(articles)}")
-    for article, urls in articles.items():
-        print(f"Артикул {article}: {len(urls)} изображений")
-
-    # Создаем строки для каждого артикула
-    for article, urls in articles.items():
-        # Данные для строки
-        row_data = [
-            "ARTDECO",  # Бренд
-            f"ARTDECO Товар артикул {article}",  # Номенклатура
-            article,  # Артикул
-            "",  # Базовый Штрихкод
-            "",  # Измерение
-            "",  # ЗначениеИзмерения
-            f"Товар артикул {article}",  # Заголовок (Без бренда)
-            f"Изображения товара артикул {article} для клиента {client_name}",  # КраткоеОписание
-            "Нанести",  # СпособПрименения
-            "АРТДЕКО",  # Линейка Бренда
-            "Каждый цвет"  # Каждый цвет
-        ]
-
-        # Добавляем ссылки на изображения
-        for i, url in enumerate(urls):
-            if i >= max_images:
-                break
-            row_data.append(url)
-
-        # Заполняем оставшиеся ячейки для изображений пустыми значениями
-        remaining_images = max_images - min(len(urls), max_images)
-        for _ in range(remaining_images):
-            row_data.append("")
-
-        # Записываем данные
-        ws.append(row_data)
-
-    # Настраиваем ширину столбцов
-    column_widths = {
-        'A': 15, 'B': 30, 'C': 15, 'D': 20, 'E': 15,
-        'F': 25, 'G': 25, 'H': 40, 'I': 20, 'J': 20,
-        'K': 25
+    client_templates = {
+        'Мегамаркет': generate_megamarket_xlsx,
+        'ЭЛИЗЕ': generate_elise_xlsx,
+        'ЯндексМаркет': generate_yandexmarket_xlsx,
+        'МагнитКосметик': generate_magnitcosmetic_xlsx
     }
 
-    # Устанавливаем ширину для столбцов с изображениями
-    for i in range(12, 12 + max_images):
-        column_letter = get_column_letter(i)
-        column_widths[column_letter] = 30
-
-    for col, width in column_widths.items():
-        ws.column_dimensions[col].width = width
-
-    # Сохраняем в буфер
-    buffer = io.BytesIO()
-    wb.save(buffer)
-    buffer.seek(0)
-
-    return buffer
+    generator_func = client_templates.get(client_name)
+    if generator_func:
+        return generator_func(image_data, client_name)
+    else:
+        # Стандартный шаблон для неизвестных клиентов
+        return generate_elise_xlsx(image_data, client_name)
 
 
 @app.route('/', methods=['GET', 'POST'])
@@ -443,6 +703,15 @@ class Config:
         'МагнитКосметик'
     ]
 
+    # Пути к шаблонам XLSX
+    TEMPLATE_PATHS = {
+        'ЭЛИЗЕ': 'templates/elise.xlsx',
+        'Мегамаркет': 'templates/megamarket.xlsx',
+        'ЯндексМаркет': 'templates/yandexmarket.xlsx',
+        'МагнитКосметик': 'templates/magnitcosmetic.xlsx'
+    }
+
+
 def allowed_file(filename):
     return '.' in filename and \
         filename.rsplit('.', 1)[1].lower() in Config.ALLOWED_EXTENSIONS
@@ -468,7 +737,7 @@ services:
 ##################################### nginx.conf #####################################
 server {
     listen 80;
-    server_name tecnobook;  # Замените на ваш домен
+    server_name vladimir-hp.gradient.ru;  # Замените на ваш домен
     client_max_body_size 5000m;
 
     # Статические файлы приложения
@@ -1220,6 +1489,9 @@ input[type="text"]:focus {
 }
 
 
+##################################### templates/elise.xlsx #####################################
+Ошибка при чтении файла: 'utf-8' codec can't decode byte 0x86 in position 10: invalid start byte
+
 ##################################### templates/index.html #####################################
 <!DOCTYPE html>
 <html lang="ru">
@@ -1341,9 +1613,9 @@ input[type="text"]:focus {
                     </div>
 
                     <div class="bulk-actions">
-                        <button class="btn btn-secondary" id="downloadAllBtn">
-                            📥 Скачать все ссылки (TXT)
-                        </button>
+<!--                        <button class="btn btn-secondary" id="downloadAllBtn">-->
+<!--                            📥 Скачать все ссылки (TXT)-->
+<!--                        </button>-->
                         <button class="btn btn-secondary" id="copyAllBtn">
                             📋 Копировать все ссылки
                         </button>
@@ -1507,7 +1779,7 @@ input[type="text"]:focus {
                     showNotification('Нет ссылок для копирования', 'error');
                     return;
                 }
-                const allUrls = Array.from(urlItems).map(item => item.getAttribute('data-url')).join('\n');
+                const allUrls = Array.from(urlItems).map(item => item.getAttribute('data-url')).join(', ');
 
                 if (navigator.clipboard && window.isSecureContext) {
                     navigator.clipboard.writeText(allUrls).then(function() {
@@ -1583,19 +1855,17 @@ input[type="text"]:focus {
 
                 // Собираем данные об изображениях с артикулами
                 const imageData = [];
-                let currentArticle = '';
 
-                // Проходим по всем элементам в списке
-                document.querySelectorAll('#urlList > *').forEach(element => {
-                    if (element.classList.contains('article-info')) {
-                        // Это заголовок артикула
-                        currentArticle = element.textContent.replace('Артикул: ', '').trim();
-                    } else if (element.classList.contains('url-item')) {
-                        // Это элемент с изображением
-                        const urlElement = element.querySelector('.url-text');
+                // Проходим по всем элементам с изображениями
+                document.querySelectorAll('.url-item').forEach(itemElement => {
+                    const articleElement = itemElement.querySelector('.article-info');
+                    const urlElement = itemElement.querySelector('.url-text');
+
+                    if (articleElement && urlElement) {
+                        const article = articleElement.textContent.replace('Артикул: ', '').trim();
                         imageData.push({
                             url: urlElement.getAttribute('data-url'),
-                            article: currentArticle,
+                            article: article,
                             filename: urlElement.getAttribute('data-url').split('/').pop()
                         });
                     }
@@ -1647,7 +1917,6 @@ input[type="text"]:focus {
                     showNotification('Ошибка при генерации XLSX: ' + error.message, 'error');
                 });
             }
-
             // --- Привязка событий для копирования при клике на ссылку ---
             document.querySelectorAll('.url-text').forEach(urlElement => {
                 urlElement.addEventListener('click', function(e) {
