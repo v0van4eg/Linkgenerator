@@ -17,6 +17,7 @@ from generators import GeneratorFactory
 app = Flask(__name__)
 app.config.from_object(Config)
 
+RESULTS_FOLDER = 'results'
 
 def safe_folder_name(name: str) -> str:
     """Преобразует строку в безопасное имя папки"""
