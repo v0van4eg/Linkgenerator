@@ -6,7 +6,6 @@ from .magnitcosmetic_generator import MagnitcosmeticGenerator
 
 class GeneratorFactory:
     """Фабрика для создания генераторов документов"""
-
     @staticmethod
     def create_generator(client_name):
         generators = {

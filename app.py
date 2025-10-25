@@ -19,6 +19,11 @@ app.config.from_object(Config)
 
 RESULTS_FOLDER = 'results'
 
+# Инициализируем папку для результатов
+if not os.path.exists(RESULTS_FOLDER):
+    os.makedirs(RESULTS_FOLDER)
+    print(f"Папка для результатов создана: {RESULTS_FOLDER}")
+
 def safe_folder_name(name: str) -> str:
     """Преобразует строку в безопасное имя папки"""
     if not name:
