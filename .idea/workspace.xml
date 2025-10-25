@@ -5,313 +5,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="833d8bc1-62c9-4d5d-a67a-39b96751b185" name="Changes" comment="Шаблоны мегамаркет и Элизе">
-      <change afterPath="$PROJECT_DIR$/temp_xlsx_7c2e4e2693194a0d8889b76a6ff8cbd2.xlsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/temp_xlsx_bb7b78da6f6b406685c0487c934d4199.xlsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/temp_xlsx_faa8355d82f34b819ed053722a45eb73.xlsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/yandexmarket.xlsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЭЛИЗЕ/4296278785/4296278785_10.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЭЛИЗЕ/4296278785/4296278785_11.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЭЛИЗЕ/4296278785/4296278785_12.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЭЛИЗЕ/4296278785/4296278785_13.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЭЛИЗЕ/4296278785/4296278785_2.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЭЛИЗЕ/4296278785/4296278785_3.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЭЛИЗЕ/4296278785/4296278785_4.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЭЛИЗЕ/4296278785/4296278785_5.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЭЛИЗЕ/4296278785/4296278785_6.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЭЛИЗЕ/4296278785/4296278785_7.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЭЛИЗЕ/4296278785/4296278785_8.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЭЛИЗЕ/4296278785/4296278785_9.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЭЛИЗЕ/4308902256/4308902256_10.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЭЛИЗЕ/4308902256/4308902256_11.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЭЛИЗЕ/4308902256/4308902256_12.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЭЛИЗЕ/4308902256/4308902256_13.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЭЛИЗЕ/4308902256/4308902256_14.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЭЛИЗЕ/4308902256/4308902256_15.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЭЛИЗЕ/4308902256/4308902256_2.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЭЛИЗЕ/4308902256/4308902256_3.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЭЛИЗЕ/4308902256/4308902256_4.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЭЛИЗЕ/4308902256/4308902256_5.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЭЛИЗЕ/4308902256/4308902256_6.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЭЛИЗЕ/4308902256/4308902256_7.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЭЛИЗЕ/4308902256/4308902256_8.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЭЛИЗЕ/4308902256/4308902256_9.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЭЛИЗЕ/4308902266/4308902266_10.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЭЛИЗЕ/4308902266/4308902266_11.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЭЛИЗЕ/4308902266/4308902266_12.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЭЛИЗЕ/4308902266/4308902266_13.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЭЛИЗЕ/4308902266/4308902266_2.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЭЛИЗЕ/4308902266/4308902266_3.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЭЛИЗЕ/4308902266/4308902266_4.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЭЛИЗЕ/4308902266/4308902266_5.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЭЛИЗЕ/4308902266/4308902266_6.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЭЛИЗЕ/4308902266/4308902266_7.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЭЛИЗЕ/4308902266/4308902266_8.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЭЛИЗЕ/4308902266/4308902266_9.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЭЛИЗЕ/4309257393/4309257393_10.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЭЛИЗЕ/4309257393/4309257393_11.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЭЛИЗЕ/4309257393/4309257393_12.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЭЛИЗЕ/4309257393/4309257393_13.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЭЛИЗЕ/4309257393/4309257393_14.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЭЛИЗЕ/4309257393/4309257393_2.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЭЛИЗЕ/4309257393/4309257393_3.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЭЛИЗЕ/4309257393/4309257393_4.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЭЛИЗЕ/4309257393/4309257393_5.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЭЛИЗЕ/4309257393/4309257393_6.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЭЛИЗЕ/4309257393/4309257393_7.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЭЛИЗЕ/4309257393/4309257393_8.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЭЛИЗЕ/4309257393/4309257393_9.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЭЛИЗЕ/4309257902/4309257902_10.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЭЛИЗЕ/4309257902/4309257902_11.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЭЛИЗЕ/4309257902/4309257902_12.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЭЛИЗЕ/4309257902/4309257902_13.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЭЛИЗЕ/4309257902/4309257902_14.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЭЛИЗЕ/4309257902/4309257902_2.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЭЛИЗЕ/4309257902/4309257902_3.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЭЛИЗЕ/4309257902/4309257902_4.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЭЛИЗЕ/4309257902/4309257902_5.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЭЛИЗЕ/4309257902/4309257902_6.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЭЛИЗЕ/4309257902/4309257902_7.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЭЛИЗЕ/4309257902/4309257902_8.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЭЛИЗЕ/4309257902/4309257902_9.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЭЛИЗЕ/4309259373/4309259373_10.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЭЛИЗЕ/4309259373/4309259373_11.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЭЛИЗЕ/4309259373/4309259373_12.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЭЛИЗЕ/4309259373/4309259373_13.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЭЛИЗЕ/4309259373/4309259373_14.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЭЛИЗЕ/4309259373/4309259373_2.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЭЛИЗЕ/4309259373/4309259373_3.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЭЛИЗЕ/4309259373/4309259373_4.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЭЛИЗЕ/4309259373/4309259373_5.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЭЛИЗЕ/4309259373/4309259373_6.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЭЛИЗЕ/4309259373/4309259373_7.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЭЛИЗЕ/4309259373/4309259373_8.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЭЛИЗЕ/4309259373/4309259373_9.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЭЛИЗЕ/4309265341/4309265341_10.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЭЛИЗЕ/4309265341/4309265341_11.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЭЛИЗЕ/4309265341/4309265341_12.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЭЛИЗЕ/4309265341/4309265341_13.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЭЛИЗЕ/4309265341/4309265341_2.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЭЛИЗЕ/4309265341/4309265341_3.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЭЛИЗЕ/4309265341/4309265341_4.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЭЛИЗЕ/4309265341/4309265341_5.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЭЛИЗЕ/4309265341/4309265341_6.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЭЛИЗЕ/4309265341/4309265341_7.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЭЛИЗЕ/4309265341/4309265341_8.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЭЛИЗЕ/4309265341/4309265341_9.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЭЛИЗЕ/4309604415/4309604415_10.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЭЛИЗЕ/4309604415/4309604415_11.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЭЛИЗЕ/4309604415/4309604415_12.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЭЛИЗЕ/4309604415/4309604415_13.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЭЛИЗЕ/4309604415/4309604415_14.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЭЛИЗЕ/4309604415/4309604415_2.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЭЛИЗЕ/4309604415/4309604415_3.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЭЛИЗЕ/4309604415/4309604415_4.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЭЛИЗЕ/4309604415/4309604415_5.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЭЛИЗЕ/4309604415/4309604415_6.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЭЛИЗЕ/4309604415/4309604415_7.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЭЛИЗЕ/4309604415/4309604415_8.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЭЛИЗЕ/4309604415/4309604415_9.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЭЛИЗЕ/4428810119/4428810119_10.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЭЛИЗЕ/4428810119/4428810119_11.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЭЛИЗЕ/4428810119/4428810119_12.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЭЛИЗЕ/4428810119/4428810119_13.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЭЛИЗЕ/4428810119/4428810119_14.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЭЛИЗЕ/4428810119/4428810119_2.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЭЛИЗЕ/4428810119/4428810119_3.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЭЛИЗЕ/4428810119/4428810119_4.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЭЛИЗЕ/4428810119/4428810119_5.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЭЛИЗЕ/4428810119/4428810119_6.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЭЛИЗЕ/4428810119/4428810119_7.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЭЛИЗЕ/4428810119/4428810119_8.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЭЛИЗЕ/4428810119/4428810119_9.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЭЛИЗЕ/4428895740/4428895740_10.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЭЛИЗЕ/4428895740/4428895740_11.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЭЛИЗЕ/4428895740/4428895740_12.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЭЛИЗЕ/4428895740/4428895740_13.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЭЛИЗЕ/4428895740/4428895740_14.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЭЛИЗЕ/4428895740/4428895740_15.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЭЛИЗЕ/4428895740/4428895740_16.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЭЛИЗЕ/4428895740/4428895740_2.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЭЛИЗЕ/4428895740/4428895740_3.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЭЛИЗЕ/4428895740/4428895740_4.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЭЛИЗЕ/4428895740/4428895740_5.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЭЛИЗЕ/4428895740/4428895740_6.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЭЛИЗЕ/4428895740/4428895740_7.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЭЛИЗЕ/4428895740/4428895740_8.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЭЛИЗЕ/4428895740/4428895740_9.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЭЛИЗЕ/4428895795/4428895795_10.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЭЛИЗЕ/4428895795/4428895795_11.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЭЛИЗЕ/4428895795/4428895795_12.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЭЛИЗЕ/4428895795/4428895795_13.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЭЛИЗЕ/4428895795/4428895795_14.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЭЛИЗЕ/4428895795/4428895795_15.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЭЛИЗЕ/4428895795/4428895795_2.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЭЛИЗЕ/4428895795/4428895795_3.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЭЛИЗЕ/4428895795/4428895795_4.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЭЛИЗЕ/4428895795/4428895795_5.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЭЛИЗЕ/4428895795/4428895795_6.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЭЛИЗЕ/4428895795/4428895795_7.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЭЛИЗЕ/4428895795/4428895795_8.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЭЛИЗЕ/4428895795/4428895795_9.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЭЛИЗЕ/4428895798/4428895798_10.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЭЛИЗЕ/4428895798/4428895798_11.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЭЛИЗЕ/4428895798/4428895798_12.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЭЛИЗЕ/4428895798/4428895798_13.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЭЛИЗЕ/4428895798/4428895798_14.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЭЛИЗЕ/4428895798/4428895798_15.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЭЛИЗЕ/4428895798/4428895798_2.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЭЛИЗЕ/4428895798/4428895798_3.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЭЛИЗЕ/4428895798/4428895798_4.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЭЛИЗЕ/4428895798/4428895798_5.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЭЛИЗЕ/4428895798/4428895798_6.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЭЛИЗЕ/4428895798/4428895798_7.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЭЛИЗЕ/4428895798/4428895798_8.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЭЛИЗЕ/4428895798/4428895798_9.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЭЛИЗЕ/Пудра-коричневая/4309218557_10-2298de.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЭЛИЗЕ/Пудра-коричневая/4309218557_11-4de0c6.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЭЛИЗЕ/Пудра-коричневая/4309218557_12-c06ae4.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЭЛИЗЕ/Пудра-коричневая/4309218557_13-a0ee02.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЭЛИЗЕ/Пудра-коричневая/4309218557_14-3b3ba3.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЭЛИЗЕ/Пудра-коричневая/4309218557_2-1dbc82.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЭЛИЗЕ/Пудра-коричневая/4309218557_3-b3a330.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЭЛИЗЕ/Пудра-коричневая/4309218557_4-31d369.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЭЛИЗЕ/Пудра-коричневая/4309218557_5-55c91b.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЭЛИЗЕ/Пудра-коричневая/4309218557_6-3c2b70.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЭЛИЗЕ/Пудра-коричневая/4309218557_7-ec6b24.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЭЛИЗЕ/Пудра-коричневая/4309218557_8-dec0e3.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЭЛИЗЕ/Пудра-коричневая/4309218557_9-c2ec60.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЯндексМаркет/4296278785/4296278785_10.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЯндексМаркет/4296278785/4296278785_11.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЯндексМаркет/4296278785/4296278785_12.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЯндексМаркет/4296278785/4296278785_13.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЯндексМаркет/4296278785/4296278785_2.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЯндексМаркет/4296278785/4296278785_3.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЯндексМаркет/4296278785/4296278785_4.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЯндексМаркет/4296278785/4296278785_5.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЯндексМаркет/4296278785/4296278785_6.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЯндексМаркет/4296278785/4296278785_7.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЯндексМаркет/4296278785/4296278785_8.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЯндексМаркет/4296278785/4296278785_9.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЯндексМаркет/4308902256/4308902256_10.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЯндексМаркет/4308902256/4308902256_11.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЯндексМаркет/4308902256/4308902256_12.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЯндексМаркет/4308902256/4308902256_13.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЯндексМаркет/4308902256/4308902256_14.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЯндексМаркет/4308902256/4308902256_15.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЯндексМаркет/4308902256/4308902256_2.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЯндексМаркет/4308902256/4308902256_3.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЯндексМаркет/4308902256/4308902256_4.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЯндексМаркет/4308902256/4308902256_5.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЯндексМаркет/4308902256/4308902256_6.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЯндексМаркет/4308902256/4308902256_7.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЯндексМаркет/4308902256/4308902256_8.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЯндексМаркет/4308902256/4308902256_9.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЯндексМаркет/4308902266/4308902266_10.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЯндексМаркет/4308902266/4308902266_11.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЯндексМаркет/4308902266/4308902266_12.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЯндексМаркет/4308902266/4308902266_13.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЯндексМаркет/4308902266/4308902266_2.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЯндексМаркет/4308902266/4308902266_3.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЯндексМаркет/4308902266/4308902266_4.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЯндексМаркет/4308902266/4308902266_5.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЯндексМаркет/4308902266/4308902266_6.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЯндексМаркет/4308902266/4308902266_7.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЯндексМаркет/4308902266/4308902266_8.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЯндексМаркет/4308902266/4308902266_9.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЯндексМаркет/4309257393/4309257393_10.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЯндексМаркет/4309257393/4309257393_11.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЯндексМаркет/4309257393/4309257393_12.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЯндексМаркет/4309257393/4309257393_13.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЯндексМаркет/4309257393/4309257393_14.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЯндексМаркет/4309257393/4309257393_2.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЯндексМаркет/4309257393/4309257393_3.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЯндексМаркет/4309257393/4309257393_4.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЯндексМаркет/4309257393/4309257393_5.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЯндексМаркет/4309257393/4309257393_6.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЯндексМаркет/4309257393/4309257393_7.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЯндексМаркет/4309257393/4309257393_8.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЯндексМаркет/4309257393/4309257393_9.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЯндексМаркет/4309257902/4309257902_10.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЯндексМаркет/4309257902/4309257902_11.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЯндексМаркет/4309257902/4309257902_12.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЯндексМаркет/4309257902/4309257902_13.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЯндексМаркет/4309257902/4309257902_14.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЯндексМаркет/4309257902/4309257902_2.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЯндексМаркет/4309257902/4309257902_3.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЯндексМаркет/4309257902/4309257902_4.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЯндексМаркет/4309257902/4309257902_5.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЯндексМаркет/4309257902/4309257902_6.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЯндексМаркет/4309257902/4309257902_7.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЯндексМаркет/4309257902/4309257902_8.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЯндексМаркет/4309257902/4309257902_9.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЯндексМаркет/4309259373/4309259373_10.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЯндексМаркет/4309259373/4309259373_11.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЯндексМаркет/4309259373/4309259373_12.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЯндексМаркет/4309259373/4309259373_13.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЯндексМаркет/4309259373/4309259373_14.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЯндексМаркет/4309259373/4309259373_2.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЯндексМаркет/4309259373/4309259373_3.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЯндексМаркет/4309259373/4309259373_4.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЯндексМаркет/4309259373/4309259373_5.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЯндексМаркет/4309259373/4309259373_6.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЯндексМаркет/4309259373/4309259373_7.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЯндексМаркет/4309259373/4309259373_8.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЯндексМаркет/4309259373/4309259373_9.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЯндексМаркет/4309265341/4309265341_10.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЯндексМаркет/4309265341/4309265341_11.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЯндексМаркет/4309265341/4309265341_12.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЯндексМаркет/4309265341/4309265341_13.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЯндексМаркет/4309265341/4309265341_2.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЯндексМаркет/4309265341/4309265341_3.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЯндексМаркет/4309265341/4309265341_4.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЯндексМаркет/4309265341/4309265341_5.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЯндексМаркет/4309265341/4309265341_6.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЯндексМаркет/4309265341/4309265341_7.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЯндексМаркет/4309265341/4309265341_8.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЯндексМаркет/4309265341/4309265341_9.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЯндексМаркет/4309604415/4309604415_10.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЯндексМаркет/4309604415/4309604415_11.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЯндексМаркет/4309604415/4309604415_12.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЯндексМаркет/4309604415/4309604415_13.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЯндексМаркет/4309604415/4309604415_14.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЯндексМаркет/4309604415/4309604415_2.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЯндексМаркет/4309604415/4309604415_3.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЯндексМаркет/4309604415/4309604415_4.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЯндексМаркет/4309604415/4309604415_5.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЯндексМаркет/4309604415/4309604415_6.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЯндексМаркет/4309604415/4309604415_7.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЯндексМаркет/4309604415/4309604415_8.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЯндексМаркет/4309604415/4309604415_9.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЯндексМаркет/4428810119/4428810119_10.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЯндексМаркет/4428810119/4428810119_11.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЯндексМаркет/4428810119/4428810119_12.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЯндексМаркет/4428810119/4428810119_13.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЯндексМаркет/4428810119/4428810119_14.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЯндексМаркет/4428810119/4428810119_2.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЯндексМаркет/4428810119/4428810119_3.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЯндексМаркет/4428810119/4428810119_4.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЯндексМаркет/4428810119/4428810119_5.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЯндексМаркет/4428810119/4428810119_6.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЯндексМаркет/4428810119/4428810119_7.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЯндексМаркет/4428810119/4428810119_8.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЯндексМаркет/4428810119/4428810119_9.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЯндексМаркет/4432756296/4432756296_10.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЯндексМаркет/4432756296/4432756296_11.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЯндексМаркет/4432756296/4432756296_12.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЯндексМаркет/4432756296/4432756296_13.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЯндексМаркет/4432756296/4432756296_14.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЯндексМаркет/4432756296/4432756296_15.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЯндексМаркет/4432756296/4432756296_16.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЯндексМаркет/4432756296/4432756296_2.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЯндексМаркет/4432756296/4432756296_3.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЯндексМаркет/4432756296/4432756296_4.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЯндексМаркет/4432756296/4432756296_5.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЯндексМаркет/4432756296/4432756296_6.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЯндексМаркет/4432756296/4432756296_7.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЯндексМаркет/4432756296/4432756296_8.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/ЯндексМаркет/4432756296/4432756296_9.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/generators/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/generators/base_generator.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/generators/elise_generator.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/generators/magnitcosmetic_generator.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/generators/megamarket_generator.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/generators/yandexmarket_generator.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Исходники.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Исходники.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/app.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -342,33 +43,57 @@
   &quot;associatedIndex&quot;: 0
 }</component>
   <component name="ProjectId" id="34QiXq7QcF3VzlKqR6b1QKoI76R" />
-  <component name="ProjectLevelVcsManager">
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <ConfirmationsSetting value="2" id="Add" />
   </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
-    &quot;Docker.docker-compose-nginx.yml: Compose Deployment.executor&quot;: &quot;Run&quot;,
-    &quot;Docker.uploads/docker-compose-nginx.yml: Compose Deployment.executor&quot;: &quot;Run&quot;,
-    &quot;Python.app.executor&quot;: &quot;Run&quot;,
-    &quot;Python.create_src.executor&quot;: &quot;Run&quot;,
-    &quot;Python.main.executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;master&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ASKED_ADD_EXTERNAL_FILES": "true",
+    "Docker.docker-compose-nginx.yml: Compose Deployment.executor": "Run",
+    "Docker.uploads/docker-compose-nginx.yml: Compose Deployment.executor": "Run",
+    "Python.app.executor": "Run",
+    "Python.create_src.executor": "Run",
+    "Python.main.executor": "Run",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "git-widget-placeholder": "master",
+    "settings.editor.selected.configurable": "com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$" />
     </key>
   </component>
   <component name="RunManager">
+    <configuration name="app" type="PythonConfigurationType" factoryName="Python" nameIsGenerated="true">
+      <module name="linkgenerator" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="SDK_NAME" value="Python 3.10 (linkgenerator)" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/app.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <configuration name="main" type="PythonConfigurationType" factoryName="Python" nameIsGenerated="true">
       <module name="linkgenerator" />
       <option name="ENV_FILES" value="" />
