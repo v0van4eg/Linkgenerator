@@ -4,15 +4,126 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="833d8bc1-62c9-4d5d-a67a-39b96751b185" name="Changes" comment="Шаблоны мегамаркет и Элизе">
-      <change afterPath="$PROJECT_DIR$/generators/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/generators/base_generator.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/generators/elise_generator.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/generators/magnitcosmetic_generator.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/generators/megamarket_generator.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/generators/yandexmarket_generator.py" afterDir="false" />
+    <list default="true" id="833d8bc1-62c9-4d5d-a67a-39b96751b185" name="Changes" comment="Разделение на модули. Генераторы отдельно">
+      <change afterPath="$PROJECT_DIR$/results/results_c4c0f2add33b42bfb13f30d26700e510.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/uploads/ЯндексМаркет/4296278785/4296278785_10_ef9d79.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/uploads/ЯндексМаркет/4296278785/4296278785_11_ee223b.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/uploads/ЯндексМаркет/4296278785/4296278785_12_8412d8.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/uploads/ЯндексМаркет/4296278785/4296278785_13_843348.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/uploads/ЯндексМаркет/4296278785/4296278785_2_1f2324.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/uploads/ЯндексМаркет/4296278785/4296278785_3_1e6ef7.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/uploads/ЯндексМаркет/4296278785/4296278785_4_daf52b.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/uploads/ЯндексМаркет/4296278785/4296278785_5_c6458e.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/uploads/ЯндексМаркет/4296278785/4296278785_6_f224c1.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/uploads/ЯндексМаркет/4296278785/4296278785_7_b4b457.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/uploads/ЯндексМаркет/4296278785/4296278785_8_6aeee1.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/uploads/ЯндексМаркет/4296278785/4296278785_9_f71bc1.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/uploads/ЯндексМаркет/4308902256/4308902256_10_474f6f.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/uploads/ЯндексМаркет/4308902256/4308902256_11_881a71.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/uploads/ЯндексМаркет/4308902256/4308902256_12_82c2a5.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/uploads/ЯндексМаркет/4308902256/4308902256_13_c81a29.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/uploads/ЯндексМаркет/4308902256/4308902256_14_2076c7.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/uploads/ЯндексМаркет/4308902256/4308902256_15_bef90a.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/uploads/ЯндексМаркет/4308902256/4308902256_2_a3cc40.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/uploads/ЯндексМаркет/4308902256/4308902256_3_ff1565.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/uploads/ЯндексМаркет/4308902256/4308902256_4_7df0a7.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/uploads/ЯндексМаркет/4308902256/4308902256_5_9054d0.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/uploads/ЯндексМаркет/4308902256/4308902256_6_43a15a.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/uploads/ЯндексМаркет/4308902256/4308902256_7_a54793.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/uploads/ЯндексМаркет/4308902256/4308902256_8_d2c5eb.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/uploads/ЯндексМаркет/4308902256/4308902256_9_25302d.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/uploads/ЯндексМаркет/4308902266/4308902266_10_13462f.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/uploads/ЯндексМаркет/4308902266/4308902266_11_de27fe.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/uploads/ЯндексМаркет/4308902266/4308902266_12_7ee886.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/uploads/ЯндексМаркет/4308902266/4308902266_13_4c4f10.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/uploads/ЯндексМаркет/4308902266/4308902266_2_9b1e84.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/uploads/ЯндексМаркет/4308902266/4308902266_3_d6199e.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/uploads/ЯндексМаркет/4308902266/4308902266_4_5b545c.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/uploads/ЯндексМаркет/4308902266/4308902266_5_f7295f.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/uploads/ЯндексМаркет/4308902266/4308902266_6_11a4e5.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/uploads/ЯндексМаркет/4308902266/4308902266_7_d9667a.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/uploads/ЯндексМаркет/4308902266/4308902266_8_a08d21.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/uploads/ЯндексМаркет/4308902266/4308902266_9_90eb2e.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/uploads/ЯндексМаркет/4309257393/4309257393_10_552a80.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/uploads/ЯндексМаркет/4309257393/4309257393_11_b78aa1.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/uploads/ЯндексМаркет/4309257393/4309257393_12_c8ba4e.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/uploads/ЯндексМаркет/4309257393/4309257393_13_970db4.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/uploads/ЯндексМаркет/4309257393/4309257393_14_82e816.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/uploads/ЯндексМаркет/4309257393/4309257393_2_4133ac.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/uploads/ЯндексМаркет/4309257393/4309257393_3_efaaf6.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/uploads/ЯндексМаркет/4309257393/4309257393_4_e9baf7.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/uploads/ЯндексМаркет/4309257393/4309257393_5_ac1cb9.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/uploads/ЯндексМаркет/4309257393/4309257393_6_e394b2.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/uploads/ЯндексМаркет/4309257393/4309257393_7_b4d475.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/uploads/ЯндексМаркет/4309257393/4309257393_8_a9cc1b.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/uploads/ЯндексМаркет/4309257393/4309257393_9_c903f8.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/uploads/ЯндексМаркет/4309257902/4309257902_10_fbbecb.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/uploads/ЯндексМаркет/4309257902/4309257902_11_1d78a9.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/uploads/ЯндексМаркет/4309257902/4309257902_12_80e94c.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/uploads/ЯндексМаркет/4309257902/4309257902_13_ff44bc.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/uploads/ЯндексМаркет/4309257902/4309257902_14_48a605.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/uploads/ЯндексМаркет/4309257902/4309257902_2_5da423.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/uploads/ЯндексМаркет/4309257902/4309257902_3_f8bbb1.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/uploads/ЯндексМаркет/4309257902/4309257902_4_81571c.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/uploads/ЯндексМаркет/4309257902/4309257902_5_806954.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/uploads/ЯндексМаркет/4309257902/4309257902_6_48f9af.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/uploads/ЯндексМаркет/4309257902/4309257902_7_5859ff.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/uploads/ЯндексМаркет/4309257902/4309257902_8_78cdc8.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/uploads/ЯндексМаркет/4309257902/4309257902_9_716aae.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/uploads/ЯндексМаркет/4309259373/4309259373_10_bd3c77.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/uploads/ЯндексМаркет/4309259373/4309259373_11_1aa850.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/uploads/ЯндексМаркет/4309259373/4309259373_12_10a235.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/uploads/ЯндексМаркет/4309259373/4309259373_13_3b58e3.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/uploads/ЯндексМаркет/4309259373/4309259373_14_b755b5.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/uploads/ЯндексМаркет/4309259373/4309259373_2_195c5f.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/uploads/ЯндексМаркет/4309259373/4309259373_3_11992b.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/uploads/ЯндексМаркет/4309259373/4309259373_4_f3b41d.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/uploads/ЯндексМаркет/4309259373/4309259373_5_8ee4d4.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/uploads/ЯндексМаркет/4309259373/4309259373_6_af41dd.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/uploads/ЯндексМаркет/4309259373/4309259373_7_c37b15.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/uploads/ЯндексМаркет/4309259373/4309259373_8_a46f38.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/uploads/ЯндексМаркет/4309259373/4309259373_9_4259ee.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/uploads/ЯндексМаркет/4309265341/4309265341_10_6c1e8d.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/uploads/ЯндексМаркет/4309265341/4309265341_11_b60817.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/uploads/ЯндексМаркет/4309265341/4309265341_12_e8bbb6.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/uploads/ЯндексМаркет/4309265341/4309265341_13_abf066.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/uploads/ЯндексМаркет/4309265341/4309265341_2_bc97d9.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/uploads/ЯндексМаркет/4309265341/4309265341_3_21078d.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/uploads/ЯндексМаркет/4309265341/4309265341_4_93e49d.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/uploads/ЯндексМаркет/4309265341/4309265341_5_14e248.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/uploads/ЯндексМаркет/4309265341/4309265341_6_bf238a.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/uploads/ЯндексМаркет/4309265341/4309265341_7_ad6578.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/uploads/ЯндексМаркет/4309265341/4309265341_8_a9ad4f.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/uploads/ЯндексМаркет/4309265341/4309265341_9_3a0be2.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/uploads/ЯндексМаркет/4309604415/4309604415_10_4c5b14.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/uploads/ЯндексМаркет/4309604415/4309604415_11_a138ee.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/uploads/ЯндексМаркет/4309604415/4309604415_12_6a049a.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/uploads/ЯндексМаркет/4309604415/4309604415_13_f447be.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/uploads/ЯндексМаркет/4309604415/4309604415_14_85e1e2.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/uploads/ЯндексМаркет/4309604415/4309604415_2_32222f.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/uploads/ЯндексМаркет/4309604415/4309604415_3_cded9f.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/uploads/ЯндексМаркет/4309604415/4309604415_4_57a40c.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/uploads/ЯндексМаркет/4309604415/4309604415_5_709c4f.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/uploads/ЯндексМаркет/4309604415/4309604415_6_efa8ab.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/uploads/ЯндексМаркет/4309604415/4309604415_7_8e4285.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/uploads/ЯндексМаркет/4309604415/4309604415_8_6ffc49.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/uploads/ЯндексМаркет/4309604415/4309604415_9_6ed606.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/uploads/ЯндексМаркет/4428810119/4428810119_10_c57c6b.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/uploads/ЯндексМаркет/4428810119/4428810119_11_4aa690.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/uploads/ЯндексМаркет/4428810119/4428810119_12_7ffa7d.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/uploads/ЯндексМаркет/4428810119/4428810119_13_a37127.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/uploads/ЯндексМаркет/4428810119/4428810119_14_fbfb1c.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/uploads/ЯндексМаркет/4428810119/4428810119_2_535a3e.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/uploads/ЯндексМаркет/4428810119/4428810119_3_4444e5.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/uploads/ЯндексМаркет/4428810119/4428810119_4_aeb262.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/uploads/ЯндексМаркет/4428810119/4428810119_5_85c2b7.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/uploads/ЯндексМаркет/4428810119/4428810119_6_409522.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/uploads/ЯндексМаркет/4428810119/4428810119_7_084c4e.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/uploads/ЯндексМаркет/4428810119/4428810119_8_0e302c.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/uploads/ЯндексМаркет/4428810119/4428810119_9_f5989d.jpg" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/app.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/generators/yandexmarket_generator.py" beforeDir="false" afterPath="$PROJECT_DIR$/generators/yandexmarket_generator.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -221,7 +332,15 @@
       <option name="project" value="LOCAL" />
       <updated>1761296842183</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL-00012" summary="Разделение на модули. Генераторы отдельно">
+      <option name="closed" value="true" />
+      <created>1761395006566</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1761395006566</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -245,6 +364,7 @@
     <MESSAGE value="XLSX генератор документа" />
     <MESSAGE value="Для hp" />
     <MESSAGE value="Шаблоны мегамаркет и Элизе" />
-    <option name="LAST_COMMIT_MESSAGE" value="Шаблоны мегамаркет и Элизе" />
+    <MESSAGE value="Разделение на модули. Генераторы отдельно" />
+    <option name="LAST_COMMIT_MESSAGE" value="Разделение на модули. Генераторы отдельно" />
   </component>
 </project>

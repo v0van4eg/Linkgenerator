@@ -6,7 +6,6 @@ from config import Config, allowed_file
 import re
 import unicodedata
 from urllib.parse import quote
-import io
 import tempfile
 import shutil
 import json
