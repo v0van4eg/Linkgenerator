@@ -22,15 +22,6 @@ class YandexmarketGenerator(BaseGenerator):
         ws = wb.active
         ws.title = self.get_worksheet_title()
 
-        # # Базовые заголовки (упрощенная версия)
-        # headers = [
-        #     "Ваш SKU *", "Название товара *", "Ссылка на изображение *",
-        #     "Описание товара *", "Категория на Маркете *", "Бренд *",
-        #     "Штрихкод *", "Страна производства", "Ссылка на страницу товара на вашем сайте",
-        #     "Артикул производителя *"
-        # ]
-        # ws.append(headers)
-
         # Стили для заголовков
         header_font = Font(bold=True)
         for cell in ws[1]:

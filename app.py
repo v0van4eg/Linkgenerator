@@ -125,7 +125,7 @@ def load_results_from_file(result_id):
 
 
 # Маршруты Flask остаются без изменений
-@app.route('/', methods=['GET'])
+@app.route('/admin', methods=['GET'])
 def index():
     return render_template('index.html',
                            clients=Config.CLIENTS,
@@ -135,7 +135,25 @@ def index():
                            error='')
 
 
-@app.route('/results/<result_id>', methods=['GET'])
+@app.route('/admin', methods=['POST'])
+def handle_upload():
+    if 'archive' in request.files and request.files['archive'].filename != '':
+        result_id, error = handle_archive_upload_logic(request)
+    else:
+        result_id, error = handle_single_upload_logic(request)
+
+    if error:
+        session['error'] = error
+        return redirect(url_for('index'))
+
+    if result_id:
+        return redirect(url_for('view_results', result_id=result_id))
+
+    return redirect(url_for('index'))
+
+
+
+@app.route('/admin/results/<result_id>', methods=['GET'])
 def view_results(result_id):
     results_data = load_results_from_file(result_id)
     if results_data:
@@ -158,21 +176,10 @@ def view_results(result_id):
                                error=error)
 
 
-@app.route('/', methods=['POST'])
-def handle_upload():
-    if 'archive' in request.files and request.files['archive'].filename != '':
-        result_id, error = handle_archive_upload_logic(request)
-    else:
-        result_id, error = handle_single_upload_logic(request)
-
-    if error:
-        session['error'] = error
-        return redirect(url_for('index'))
-
-    if result_id:
-        return redirect(url_for('view_results', result_id=result_id))
-
-    return redirect(url_for('index'))
+# Новый маршрут для корня - отображает hello.html
+@app.route('/')
+def hello():
+    return render_template('hello.html') # Убедитесь, что файл hello.html находится в папке templates
 
 
 def handle_single_upload_logic(request):
@@ -247,7 +254,7 @@ def handle_archive_upload_logic(request):
         return None, f'Ошибка при обработке архива: {str(e)}'
 
 
-@app.route('/download-links')
+@app.route('/admin/download-links')
 def download_links():
     urls = request.args.getlist('urls')
     if not urls:
@@ -261,7 +268,7 @@ def download_links():
                      mimetype='text/plain')
 
 
-@app.route('/download-xlsx', methods=['POST'])
+@app.route('/admin/download-xlsx', methods=['POST'])
 def download_xlsx():
     try:
         data = request.get_json()

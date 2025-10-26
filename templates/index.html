@@ -407,7 +407,7 @@
                 // Показываем уведомление о начале генерации
                 showNotification('Генерация XLSX документа...', 'success');
                 // Отправляем POST запрос с данными
-                fetch('/download-xlsx', {
+                fetch('/admin/download-xlsx', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
