@@ -4,7 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="833d8bc1-62c9-4d5d-a67a-39b96751b185" name="Changes" comment="base_url в .env">
+    <list default="true" id="833d8bc1-62c9-4d5d-a67a-39b96751b185" name="Changes" comment="Архив по артикулам">
       <change beforePath="$PROJECT_DIR$/.htpaswd" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/docker-compose.yml" beforeDir="false" afterPath="$PROJECT_DIR$/docker-compose.yml" afterDir="false" />
@@ -350,7 +350,15 @@
       <option name="project" value="LOCAL" />
       <updated>1761504436051</updated>
     </task>
-    <option name="localTasksCounter" value="20" />
+    <task id="LOCAL-00020" summary="Архив по артикулам">
+      <option name="closed" value="true" />
+      <created>1761512082314</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1761512082314</updated>
+    </task>
+    <option name="localTasksCounter" value="21" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -381,6 +389,7 @@
     <MESSAGE value="Docker-compose" />
     <MESSAGE value="Поправлены маршруты в NGINX &#10;Картинки http://shashlink.vldm.ru&#10;Админка http://stashlink.gradient.ru/admin" />
     <MESSAGE value="base_url в .env" />
-    <option name="LAST_COMMIT_MESSAGE" value="base_url в .env" />
+    <MESSAGE value="Архив по артикулам" />
+    <option name="LAST_COMMIT_MESSAGE" value="Архив по артикулам" />
   </component>
 </project>
