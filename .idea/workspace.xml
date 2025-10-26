@@ -4,12 +4,16 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="833d8bc1-62c9-4d5d-a67a-39b96751b185" name="Changes" comment="Поправлены маршруты в NGINX &#10;Картинки http://shashlink.vldm.ru&#10;Админка http://stashlink.gradient.ru/admin">
-      <change afterPath="$PROJECT_DIR$/.env" afterDir="false" />
+    <list default="true" id="833d8bc1-62c9-4d5d-a67a-39b96751b185" name="Changes" comment="base_url в .env">
+      <change afterPath="$PROJECT_DIR$/.htpaswd" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/results/results_76c970b377104430a1ee7fdcc30b8a55.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/uploads/Мегамаркет/Пудра-коричневая/4309263328_2-2ab6cb.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/uploads/Мегамаркет/Пудра-коричневая/4309263328_3-3af3d8.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/uploads/Мегамаркет/Пудра-коричневая/4309263328_4-843960.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/uploads/Мегамаркет/Пудра-коричневая/4309263328_5-aee32a.jpg" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config.py" beforeDir="false" afterPath="$PROJECT_DIR$/config.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/docker-compose.yml" beforeDir="false" afterPath="$PROJECT_DIR$/docker-compose.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Исходники.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/nginx.conf" beforeDir="false" afterPath="$PROJECT_DIR$/nginx.conf" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -267,7 +271,15 @@
       <option name="project" value="LOCAL" />
       <updated>1761487730939</updated>
     </task>
-    <option name="localTasksCounter" value="18" />
+    <task id="LOCAL-00018" summary="base_url в .env">
+      <option name="closed" value="true" />
+      <created>1761501584568</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1761501584568</updated>
+    </task>
+    <option name="localTasksCounter" value="19" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -297,6 +309,7 @@
     <MESSAGE value="Docker" />
     <MESSAGE value="Docker-compose" />
     <MESSAGE value="Поправлены маршруты в NGINX &#10;Картинки http://shashlink.vldm.ru&#10;Админка http://stashlink.gradient.ru/admin" />
-    <option name="LAST_COMMIT_MESSAGE" value="Поправлены маршруты в NGINX &#10;Картинки http://shashlink.vldm.ru&#10;Админка http://stashlink.gradient.ru/admin" />
+    <MESSAGE value="base_url в .env" />
+    <option name="LAST_COMMIT_MESSAGE" value="base_url в .env" />
   </component>
 </project>
