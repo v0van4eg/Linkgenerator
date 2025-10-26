@@ -11,7 +11,7 @@ services:
       - ./templates:/app/templates:ro
       - ./uploads:/app/uploads
       - ./results:/app/results
-      - ./.htpasswd:/etc/nginx/.htpasswd
+      - ./htpasswd:/etc/nginx/htpasswd
     restart: unless-stopped
 
   app:

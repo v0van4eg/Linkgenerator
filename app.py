@@ -309,5 +309,46 @@ def download_xlsx():
         return jsonify({'error': f'Ошибка при генерации XLSX-файла: {str(e)}'}), 500
 
 
+
+@app.route('/admin/archive')
+def archive():
+    """
+    Отображает архив всех загруженных изображений из папки uploads.
+    """
+    image_data = []
+    # Путь к папке uploads
+    uploads_path = Config.UPLOAD_FOLDER
+
+    # Проверяем, существует ли папка uploads
+    if not os.path.exists(uploads_path):
+        print(f"Папка uploads не найдена: {uploads_path}")
+        return render_template('archive.html', image_data=image_data, error="Папка uploads пуста или не существует.")
+
+    # Проходим по структуре папок: client_name -> article_name -> файлы
+    for client_folder in os.listdir(uploads_path):
+        client_path = os.path.join(uploads_path, client_folder)
+        if os.path.isdir(client_path):
+            for article_folder in os.listdir(client_path):
+                article_path = os.path.join(client_path, article_folder)
+                if os.path.isdir(article_path):
+                    for filename in os.listdir(article_path):
+                        file_path = os.path.join(article_path, filename)
+                        if os.path.isfile(file_path) and allowed_file(filename): # Используем существующую функцию проверки
+                            # Генерируем URL для изображения, соответствующий Nginx
+                            image_url = f"{Config.BASE_URL}/images/{quote(client_folder, safe='')}/{quote(article_folder, safe='')}/{quote(filename, safe='')}"
+                            image_data.append({
+                                'url': image_url,
+                                'article': article_folder, # Артикул - это имя папки статьи
+                                'filename': filename,
+                                'client': client_folder # Опционально: можно передать имя клиента
+                            })
+
+    # Сортировка (опционально) для лучшего отображения, например, по клиенту, артикулу, имени файла
+    image_data.sort(key=lambda x: (x['client'], x['article'], x['filename']))
+
+    # Рендерим новый шаблон archive.html
+    return render_template('archive.html', image_data=image_data, error='')
+
+
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=True)
