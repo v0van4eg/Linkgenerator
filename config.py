@@ -6,7 +6,7 @@ class Config:
     RESULTS_FOLDER = 'results'  # <-- Добавляем папку для результатов
     MAX_CONTENT_LENGTH = 5 * 1024 * 1024 * 1024  # 1GB max file size
     ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif', 'webp'}
-    BASE_URL = 'http://tecnobook'  # Замените на ваш домен
+    BASE_URL = os.getenv('BASE_URL', 'http://tecnobook')
     # Список клиентов
     CLIENTS = [
         'ЭЛИЗЕ',

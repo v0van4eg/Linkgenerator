@@ -24,3 +24,5 @@ services:
       - ./templates:/app/templates
       - ./uploads:/app/uploads
       - ./:/app
+    environment:
+      - BASE_URL
