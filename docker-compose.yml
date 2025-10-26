@@ -5,10 +5,21 @@ services:
     container_name: nginx
     ports:
       - "80:80"  # Откройте порт 80 на хост-машине, если ваш сервер слушает 80
-      # - "443:443" # Добавьте, если планируете использовать HTTPS
     volumes:
       - ./nginx.conf:/etc/nginx/conf.d/default.conf:ro
       - ./static:/app/static:ro
       - ./templates:/app/templates:ro
       - ./uploads:/app/uploads:ro
     restart: unless-stopped
+
+  app:
+    build: .
+    image: pva1:5000/stashlink
+    restart: unless-stopped
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./static:/app/static
+      - ./templates:/app/templates
+      - ./uploads:/app/uploads
+      - ./:/app
