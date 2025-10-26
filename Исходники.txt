@@ -1,8 +1,9 @@
 Дерево каталога: /home/poly/PythonProjects/linkgenerator
 
+├── Dockerfile
 ├── app.py
 ├── config.py
-├── docker-compose-nginx.yml
+├── docker-compose.yml
 ├── generators
 │   ├── base_generator.py
 │   ├── elise_generator.py
@@ -16,6 +17,7 @@
 │   └── style.css
 ├── templates
 │   ├── elise.xlsx
+│   ├── hello.html
 │   ├── index.html
 │   ├── megamarket.xlsx
 │   └── yandexmarket.xlsx
@@ -23,6 +25,20 @@
 
 
 СОДЕРЖИМОЕ ФАЙЛОВ:
+
+##################################### Dockerfile #####################################
+FROM python:3.11-slim
+
+WORKDIR /app
+
+COPY requirements.txt /app
+
+RUN pip install --upgrade pip && pip install --no-cache-dir -r requirements.txt
+
+COPY . /app
+
+CMD ["python", "app.py"]
+
 
 ##################################### app.py #####################################
 from flask import Flask, render_template, request, jsonify, send_file, redirect, url_for, session
@@ -152,7 +168,7 @@ def load_results_from_file(result_id):
 
 
 # Маршруты Flask остаются без изменений
-@app.route('/', methods=['GET'])
+@app.route('/admin', methods=['GET'])
 def index():
     return render_template('index.html',
                            clients=Config.CLIENTS,
@@ -162,7 +178,25 @@ def index():
                            error='')
 
 
-@app.route('/results/<result_id>', methods=['GET'])
+@app.route('/admin', methods=['POST'])
+def handle_upload():
+    if 'archive' in request.files and request.files['archive'].filename != '':
+        result_id, error = handle_archive_upload_logic(request)
+    else:
+        result_id, error = handle_single_upload_logic(request)
+
+    if error:
+        session['error'] = error
+        return redirect(url_for('index'))
+
+    if result_id:
+        return redirect(url_for('view_results', result_id=result_id))
+
+    return redirect(url_for('index'))
+
+
+
+@app.route('/admin/results/<result_id>', methods=['GET'])
 def view_results(result_id):
     results_data = load_results_from_file(result_id)
     if results_data:
@@ -185,21 +219,10 @@ def view_results(result_id):
                                error=error)
 
 
-@app.route('/', methods=['POST'])
-def handle_upload():
-    if 'archive' in request.files and request.files['archive'].filename != '':
-        result_id, error = handle_archive_upload_logic(request)
-    else:
-        result_id, error = handle_single_upload_logic(request)
-
-    if error:
-        session['error'] = error
-        return redirect(url_for('index'))
-
-    if result_id:
-        return redirect(url_for('view_results', result_id=result_id))
-
-    return redirect(url_for('index'))
+# Новый маршрут для корня - отображает hello.html
+@app.route('/')
+def hello():
+    return render_template('hello.html') # Убедитесь, что файл hello.html находится в папке templates
 
 
 def handle_single_upload_logic(request):
@@ -274,7 +297,7 @@ def handle_archive_upload_logic(request):
         return None, f'Ошибка при обработке архива: {str(e)}'
 
 
-@app.route('/download-links')
+@app.route('/admin/download-links')
 def download_links():
     urls = request.args.getlist('urls')
     if not urls:
@@ -288,7 +311,7 @@ def download_links():
                      mimetype='text/plain')
 
 
-@app.route('/download-xlsx', methods=['POST'])
+@app.route('/admin/download-xlsx', methods=['POST'])
 def download_xlsx():
     try:
         data = request.get_json()
@@ -367,7 +390,7 @@ def allowed_file(filename):
         filename.rsplit('.', 1)[1].lower() in Config.ALLOWED_EXTENSIONS
 
 
-##################################### docker-compose-nginx.yml #####################################
+##################################### docker-compose.yml #####################################
 ---
 services:
   nginx:
@@ -375,13 +398,25 @@ services:
     container_name: nginx
     ports:
       - "80:80"  # Откройте порт 80 на хост-машине, если ваш сервер слушает 80
-      # - "443:443" # Добавьте, если планируете использовать HTTPS
     volumes:
       - ./nginx.conf:/etc/nginx/conf.d/default.conf:ro
       - ./static:/app/static:ro
       - ./templates:/app/templates:ro
-      - ./uploads:/app/uploads:ro
+      - ./uploads:/app/uploads
+      - ./results:/app/results
     restart: unless-stopped
+
+  app:
+    build: .
+    image: pva1:5000/stashlink
+    restart: unless-stopped
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./static:/app/static
+      - ./templates:/app/templates
+      - ./uploads:/app/uploads
+      - ./:/app
 
 
 ##################################### nginx.conf #####################################
@@ -406,9 +441,17 @@ server {
         add_header Access-Control-Allow-Origin "*";
     }
 
+
+    # Обслуживание корневого пути - отдача hello.html
+    location = / {
+        root /app/templates; # Указываем папку, где лежит hello.html
+        try_files /hello.html =404; # Пытаемся отдать hello.html, если путь /
+    }
+
+
     # Проксирование запросов к Flask приложению
-    location / {
-        proxy_pass http://tecnobook:5000;
+    location /admin {
+        proxy_pass http://app:5000;
         proxy_set_header Host $host;
         proxy_set_header X-Real-IP $remote_addr;
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
@@ -705,15 +748,6 @@ class YandexmarketGenerator(BaseGenerator):
         wb = Workbook()
         ws = wb.active
         ws.title = self.get_worksheet_title()
-
-        # # Базовые заголовки (упрощенная версия)
-        # headers = [
-        #     "Ваш SKU *", "Название товара *", "Ссылка на изображение *",
-        #     "Описание товара *", "Категория на Маркете *", "Бренд *",
-        #     "Штрихкод *", "Страна производства", "Ссылка на страницу товара на вашем сайте",
-        #     "Артикул производителя *"
-        # ]
-        # ws.append(headers)
 
         # Стили для заголовков
         header_font = Font(bold=True)
@@ -1455,6 +1489,43 @@ input[type="text"]:focus {
 }
 
 
+##################################### templates/hello.html #####################################
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hello</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+        }
+        .hello-container {
+            text-align: center;
+            padding: 2rem;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <div class="hello-container">
+        <h1>Добро пожаловать!</h1>
+        <p>Это главная страница.</p>
+    </div>
+</body>
+</html>
+
 
 ##################################### templates/index.html #####################################
 <!DOCTYPE html>
@@ -1866,7 +1937,7 @@ input[type="text"]:focus {
                 // Показываем уведомление о начале генерации
                 showNotification('Генерация XLSX документа...', 'success');
                 // Отправляем POST запрос с данными
-                fetch('/download-xlsx', {
+                fetch('/admin/download-xlsx', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -1975,5 +2046,4 @@ input[type="text"]:focus {
     </script>
 </body>
 </html>
-
 

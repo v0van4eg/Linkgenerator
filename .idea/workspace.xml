@@ -4,14 +4,14 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="833d8bc1-62c9-4d5d-a67a-39b96751b185" name="Changes" comment="Docker">
-      <change afterPath="$PROJECT_DIR$/templates/hello.html" afterDir="false" />
+    <list default="true" id="833d8bc1-62c9-4d5d-a67a-39b96751b185" name="Changes" comment="Docker-compose">
+      <change afterPath="$PROJECT_DIR$/results/results_62e7e336443b4896a9d99c91d678968a.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/uploads/ЭЛИЗЕ/a1/4309263328_2-386177.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/uploads/ЭЛИЗЕ/a1/4309263328_3-447860.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/uploads/ЭЛИЗЕ/a1/4309263328_4-97d153.jpg" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/app.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docker-compose.yml" beforeDir="false" afterPath="$PROJECT_DIR$/docker-compose.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/generators/yandexmarket_generator.py" beforeDir="false" afterPath="$PROJECT_DIR$/generators/yandexmarket_generator.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/nginx.conf" beforeDir="false" afterPath="$PROJECT_DIR$/nginx.conf" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/hello.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/hello.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Исходники.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Исходники.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -254,7 +254,15 @@
       <option name="project" value="LOCAL" />
       <updated>1761467726012</updated>
     </task>
-    <option name="localTasksCounter" value="16" />
+    <task id="LOCAL-00016" summary="Docker-compose">
+      <option name="closed" value="true" />
+      <created>1761480512456</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1761480512456</updated>
+    </task>
+    <option name="localTasksCounter" value="17" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -282,6 +290,7 @@
     <MESSAGE value="Добавлен Шаблон ЯндексМаркет растянут контейнер" />
     <MESSAGE value="Генераторы документов в отдельных модулях" />
     <MESSAGE value="Docker" />
-    <option name="LAST_COMMIT_MESSAGE" value="Docker" />
+    <MESSAGE value="Docker-compose" />
+    <option name="LAST_COMMIT_MESSAGE" value="Docker-compose" />
   </component>
 </project>
