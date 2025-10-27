@@ -10,7 +10,6 @@ import tempfile
 import shutil
 import json
 from datetime import datetime
-
 # Импортируем фабрику генераторов
 from generators import GeneratorFactory
 
@@ -24,7 +23,6 @@ if not os.path.exists(RESULTS_FOLDER):
     os.makedirs(RESULTS_FOLDER)
     print(f"Папка для результатов создана: {RESULTS_FOLDER}")
 
-
 def safe_folder_name(name: str) -> str:
     """Преобразует строку в безопасное имя папки"""
     if not name:
@@ -33,7 +31,6 @@ def safe_folder_name(name: str) -> str:
     name = re.sub(r'[^\w\s-]', '', name, flags=re.UNICODE)
     name = re.sub(r'[-\s]+', '-', name, flags=re.UNICODE).strip('-_')
     return name[:255] if name else "unnamed"
-
 
 def process_zip_archive(zip_file, client_name):
     """Обрабатывает ZIP-архив и извлекает изображения"""
@@ -60,14 +57,15 @@ def process_zip_archive(zip_file, client_name):
 
                 client_folder = safe_folder_name(client_name)
                 article_folder = safe_folder_name(article)
+
                 full_path = os.path.join(Config.UPLOAD_FOLDER, client_folder, article_folder)
                 os.makedirs(full_path, exist_ok=True)
 
                 file_extension = os.path.splitext(file)[1]
                 file_name_base = os.path.splitext(file)[0]
                 unique_filename = f"{file_name_base}_{uuid.uuid4().hex[:6]}{file_extension}"
-                target_file_unique = os.path.join(full_path, unique_filename)
 
+                target_file_unique = os.path.join(full_path, unique_filename)
                 source_file = os.path.join(root, file)
                 shutil.copy2(source_file, target_file_unique)
 
@@ -84,15 +82,10 @@ def process_zip_archive(zip_file, client_name):
                 })
     return image_urls
 
-
 def generate_xlsx_document(image_data, client_name):
     """Генерирует XLSX документ используя фабрику генераторов"""
     generator = GeneratorFactory.create_generator(client_name)
     return generator.generate(image_data, client_name)
-
-
-# Остальные функции (save_results_to_file, load_results_from_file, маршруты)
-# остаются без изменений, как в вашем исходном коде
 
 def save_results_to_file(image_data, client_name, product_name=None):
     """Сохраняет результаты обработки в JSON-файл"""
@@ -109,7 +102,6 @@ def save_results_to_file(image_data, client_name, product_name=None):
         json.dump(results_data, f, ensure_ascii=False, indent=4)
     return result_id
 
-
 def load_results_from_file(result_id):
     """Загружает результаты из JSON-файла"""
     filename = f"results_{result_id}.json"
@@ -124,34 +116,37 @@ def load_results_from_file(result_id):
             print(f"Ошибка чтения файла {filepath}: {e}")
     return None
 
-
 def handle_single_upload_logic(request):
     """Логика обработки отдельных изображений"""
     client_name = request.form.get('client_name', '').strip()
+    # product_name теперь извлекается из имени файла в JavaScript, но на всякий случай оставим проверку
+    # Однако, теперь мы ожидаем, что это будет передано как 'product_name' или 'article'
     product_name = request.form.get('product_name', '').strip()
-
     if not client_name or not product_name:
-        return None, 'Заполните все поля'
+        return None, 'Заполните все поля (client_name и product_name должны быть переданы)'
 
     if client_name not in Config.CLIENTS:
         return None, 'Выберите клиента из списка'
 
     client_folder = safe_folder_name(client_name)
     product_folder = safe_folder_name(product_name)
+
     full_path = os.path.join(Config.UPLOAD_FOLDER, client_folder, product_folder)
     os.makedirs(full_path, exist_ok=True)
 
     uploaded_files = request.files.getlist('images')
-    image_urls = []
 
+    image_urls = []
     for file in uploaded_files:
         if file and allowed_file(file.filename):
             random_hex = uuid.uuid4().hex[:6]
             file_extension = os.path.splitext(file.filename)[1]
             file_name = os.path.splitext(file.filename)[0]
             unique_filename = f"{file_name}-{random_hex}{file_extension}"
+
             file_path = os.path.join(full_path, unique_filename)
             file.save(file_path)
+
             image_url = "{}/images/{}/{}/{}".format(
                 Config.BASE_URL,
                 quote(client_folder, safe=''),
@@ -160,7 +155,7 @@ def handle_single_upload_logic(request):
             )
             image_urls.append({
                 'url': image_url,
-                'article': product_name,
+                'article': product_name, # Используем product_name как article
                 'filename': unique_filename
             })
 
@@ -169,7 +164,6 @@ def handle_single_upload_logic(request):
 
     result_id = save_results_to_file(image_urls, client_name, product_name)
     return result_id, None
-
 
 def handle_archive_upload_logic(request):
     """Логика обработки ZIP архива"""
@@ -192,10 +186,8 @@ def handle_archive_upload_logic(request):
 
         result_id = save_results_to_file(image_data, client_name)
         return result_id, None
-
     except Exception as e:
         return None, f'Ошибка при обработке архива: {str(e)}'
-
 
 # Маршруты Flask остаются без изменений
 @app.route('/admin', methods=['GET'])
@@ -206,7 +198,6 @@ def index():
                            product_name='',
                            image_urls=[],
                            error='')
-
 
 @app.route('/admin', methods=['POST'])
 def handle_upload():
@@ -223,7 +214,6 @@ def handle_upload():
         return redirect(url_for('view_results', result_id=result_id))
 
     return redirect(url_for('index'))
-
 
 @app.route('/admin/results/<result_id>', methods=['GET'])
 def view_results(result_id):
@@ -247,26 +237,25 @@ def view_results(result_id):
                                product_name='',
                                error=error)
 
-
 # Новый маршрут для корня - отображает hello.html
 @app.route('/')
 def hello():
     return render_template('hello.html')  # Убедитесь, что файл hello.html находится в папке templates
-
 
 @app.route('/admin/download-links')
 def download_links():
     urls = request.args.getlist('urls')
     if not urls:
         return "No URLs provided", 400
+
     temp_file = f"temp_links_{uuid.uuid4().hex}.txt"
     with open(temp_file, 'w', encoding='utf-8') as f:
         f.write('\n'.join(urls))
+
     return send_file(temp_file,
                      as_attachment=True,
                      download_name='image_links.txt',
                      mimetype='text/plain')
-
 
 @app.route('/admin/download-xlsx', methods=['POST'])
 def download_xlsx():
@@ -277,11 +266,11 @@ def download_xlsx():
 
         image_data = data.get('image_data', [])
         client_name = data.get('client_name', '')
+
         if not image_data:
             return jsonify({'error': 'No image data provided'}), 400
 
         print(f"Генерация XLSX для клиента: {client_name}, элементов: {len(image_data)}")
-
         xlsx_buffer = generate_xlsx_document(image_data, client_name)
         filename = f"{safe_folder_name(client_name)}_images.xlsx"
 
@@ -308,7 +297,6 @@ def download_xlsx():
         app.logger.error(f"Error generating XLSX: {str(e)}")
         return jsonify({'error': f'Ошибка при генерации XLSX-файла: {str(e)}'}), 500
 
-
 @app.route('/admin/archive')
 def archive():
     """
@@ -332,8 +320,7 @@ def archive():
                 if os.path.isdir(article_path):
                     for filename in os.listdir(article_path):
                         file_path = os.path.join(article_path, filename)
-                        if os.path.isfile(file_path) and allowed_file(
-                                filename):  # Используем существующую функцию проверки
+                        if os.path.isfile(file_path) and allowed_file(filename):  # Используем существующую функцию проверки
                             # Генерируем URL для изображения, соответствующий Nginx
                             image_url = f"{Config.BASE_URL}/images/{quote(client_folder, safe='')}/{quote(article_folder, safe='')}/{quote(filename, safe='')}"
                             image_data.append({
@@ -348,7 +335,6 @@ def archive():
 
     # Рендерим новый шаблон archive.html
     return render_template('archive.html', image_data=image_data, error='')
-
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=True)

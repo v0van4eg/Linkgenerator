@@ -33,7 +33,7 @@ def load_gitignore_rules(startpath):
     ignore_rules.append("Задача.txt")
     ignore_rules.append("Исходники.txt")
     ignore_rules.append("*.xlsx")
-
+    ignore_rules.append("Readme.md")
     return ignore_rules
 
 

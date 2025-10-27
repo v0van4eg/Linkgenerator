@@ -1,7 +1,5 @@
 from .megamarket_generator import MegamarketGenerator
-from .elise_generator import EliseGenerator
 from .yandexmarket_generator import YandexmarketGenerator
-from .magnitcosmetic_generator import MagnitcosmeticGenerator
 
 
 class GeneratorFactory:
@@ -10,9 +8,7 @@ class GeneratorFactory:
     def create_generator(client_name):
         generators = {
             'Мегамаркет': MegamarketGenerator,
-            'ЭЛИЗЕ': EliseGenerator,
             'ЯндексМаркет': YandexmarketGenerator,
-            'МагнитКосметик': MagnitcosmeticGenerator
         }
 
         generator_class = generators.get(client_name)
@@ -20,4 +16,5 @@ class GeneratorFactory:
             return generator_class()
         else:
             # Возвращаем генератор по умолчанию
-            return EliseGenerator()
+            return MegamarketGenerator()
+

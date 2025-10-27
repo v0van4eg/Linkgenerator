@@ -9,17 +9,13 @@ class Config:
     BASE_URL = os.getenv('BASE_URL', 'http://tecnobook')
     # Список клиентов
     CLIENTS = [
-        'ЭЛИЗЕ',
         'Мегамаркет',
         'ЯндексМаркет',
-        'МагнитКосметик'
     ]
     # Пути к шаблонам XLSX
     TEMPLATE_PATHS = {
-        'ЭЛИЗЕ': 'templates/elise.xlsx',
         'Мегамаркет': 'templates/megamarket.xlsx',
         'ЯндексМаркет': 'templates/yandexmarket.xlsx',
-        'МагнитКосметик': 'templates/magnitcosmetic.xlsx'
     }
 
     # Убедимся, что папки существуют
