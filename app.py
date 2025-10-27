@@ -310,7 +310,7 @@ def download_xlsx():
 
 
 
-@app.route('/admin/archive')
+@app.route('/admin/archive/')
 def archive():
     """
     Отображает архив всех загруженных изображений из папки uploads.
