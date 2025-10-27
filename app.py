@@ -13,6 +13,11 @@ import json
 from datetime import datetime
 # Импортируем фабрику генераторов
 from generators import GeneratorFactory
+# --- НОВОЕ: Импорт Pillow ---
+from PIL import Image
+# --- /НОВОЕ ---
+# Импортируем фабрику генераторов
+from generators import GeneratorFactory
 
 app = Flask(__name__)
 app.config.from_object(Config)
@@ -23,6 +28,31 @@ RESULTS_FOLDER = 'results'
 if not os.path.exists(RESULTS_FOLDER):
     os.makedirs(RESULTS_FOLDER)
     print(f"Папка для результатов создана: {RESULTS_FOLDER}")
+
+# --- НОВОЕ: Функция для создания миниатюры ---
+def create_thumbnail(source_path, target_path, size=(90, 90)):
+    """
+    Создает миниатюру изображения.
+
+    Args:
+        source_path (str): Путь к исходному изображению.
+        target_path (str): Путь для сохранения миниатюры.
+        size (tuple): Размер миниатюры (ширина, высота).
+    """
+    try:
+        with Image.open(source_path) as img:
+            # Используем LANCZOS для хорошего качества уменьшения
+            img.thumbnail(size, Image.Resampling.LANCZOS)
+            # Сохраняем миниатюру, возможно, с другим качеством для меньшего размера
+            # Для WebP: img.save(target_path, "WEBP", quality=80, optimize=True)
+            # Для JPEG: img.save(target_path, "JPEG", quality=80, optimize=True)
+            # Пока сохраняем в том же формате, что и оригинал
+            img.save(target_path, optimize=True)
+            print(f"Миниатюра создана: {target_path}")
+    except Exception as e:
+        print(f"Ошибка при создании миниатюры {target_path}: {e}")
+# --- /НОВОЕ ---
+
 
 def safe_folder_name(name: str) -> str:
     """Преобразует строку в безопасное имя папки"""
@@ -56,7 +86,6 @@ def process_zip_archive(zip_file, template_name):
 
                 article = os.path.basename(root) if relative_path.count(os.sep) == 0 else relative_path.split(os.sep)[0]
 
-                # Используем template_name вместо client_name для создания папки
                 template_folder = safe_folder_name(template_name)
                 article_folder = safe_folder_name(article)
                 full_path = os.path.join(Config.UPLOAD_FOLDER, template_folder, article_folder)
@@ -67,20 +96,43 @@ def process_zip_archive(zip_file, template_name):
                 unique_filename = f"{file_name_base}_{uuid.uuid4().hex[:6]}{file_extension}"
                 target_file_unique = os.path.join(full_path, unique_filename)
                 source_file = os.path.join(root, file)
-
                 shutil.copy2(source_file, target_file_unique)
 
-                # Генерируем URL, включающий template_name
+                # --- НОВОЕ: Создание миниатюры ---
+                # Определяем имя файла для миниатюры
+                # Можно использовать шаблон вроде original_filename_thumb.jpg
+                # или original_filename_s.jpg (где s - small)
+                # или поместить в подпапку thumbnails
+                # Пока используем вариант с _thumb
+                thumb_file_name = f"{file_name_base}_{uuid.uuid4().hex[:6]}_thumb{file_extension}"
+                thumb_target_path = os.path.join(full_path, thumb_file_name)
+                create_thumbnail(target_file_unique, thumb_target_path)
+                # --- /НОВОЕ ---
+
+                # Генерируем URL для ОРИГИНАЛЬНОГО изображения
                 image_url = "{}/images/{}/{}/{}".format(
                     Config.BASE_URL,
                     quote(template_folder, safe=''),
                     quote(article_folder, safe=''),
                     quote(unique_filename, safe='')
                 )
+                # --- НОВОЕ: Генерируем URL для МИНИАТЮРЫ ---
+                # Этот URL будет использоваться в шаблоне для src тега img
+                thumbnail_url = "{}/images/{}/{}/{}".format(
+                    Config.BASE_URL,
+                    quote(template_folder, safe=''),
+                    quote(article_folder, safe=''),
+                    quote(thumb_file_name, safe='') # Используем имя миниатюры
+                )
+                # --- /НОВОЕ ---
+
                 image_urls.append({
-                    'url': image_url,
+                    'url': image_url,          # URL оригинала
                     'article': article,
-                    'filename': unique_filename
+                    'filename': unique_filename,
+                    # --- НОВОЕ: Добавляем URL миниатюры ---
+                    'thumbnail_url': thumbnail_url
+                    # --- /НОВОЕ ---
                 })
     return image_urls
 
@@ -128,7 +180,6 @@ def handle_single_upload_logic(request):
         return None, 'Заполните поле product_name' # УБРАНО: (template_name и product_name должны быть переданы)'
 
     # УБРАНО: Проверка if template_name not in Config.TEMPLATES:
-
     # УБРАНО: template_folder = safe_folder_name(template_name)
     template_folder = "generic" # Используем generic, так как шаблон неизвестен на этапе загрузки
     product_folder = safe_folder_name(product_name)
@@ -147,16 +198,34 @@ def handle_single_upload_logic(request):
             file_path = os.path.join(full_path, unique_filename)
             file.save(file_path)
 
+            # --- НОВОЕ: Создание миниатюры ---
+            thumb_file_name = f"{file_name}-{random_hex}_thumb{file_extension}"
+            thumb_target_path = os.path.join(full_path, thumb_file_name)
+            create_thumbnail(file_path, thumb_target_path)
+            # --- /НОВОЕ ---
+
             image_url = "{}/images/{}/{}/{}".format(
                 Config.BASE_URL,
                 quote(template_folder, safe=''), # Изменено: client_folder -> template_folder
                 quote(product_folder, safe=''),
                 quote(unique_filename, safe='')
             )
+            # --- НОВОЕ: Генерируем URL для МИНИАТЮРЫ ---
+            thumbnail_url = "{}/images/{}/{}/{}".format(
+                Config.BASE_URL,
+                quote(template_folder, safe=''),
+                quote(product_folder, safe=''),
+                quote(thumb_file_name, safe='') # Используем имя миниатюры
+            )
+            # --- /НОВОЕ ---
+
             image_urls.append({
-                'url': image_url,
+                'url': image_url,          # URL оригинала
                 'article': product_name,
-                'filename': unique_filename
+                'filename': unique_filename,
+                # --- НОВОЕ: Добавляем URL миниатюры ---
+                'thumbnail_url': thumbnail_url
+                # --- /НОВОЕ ---
             })
 
     if not image_urls:
@@ -313,6 +382,7 @@ def download_xlsx():
         app.logger.error(f"Error generating XLSX: {str(e)}")
         return jsonify({'error': f'Ошибка при генерации XLSX-файла: {str(e)}'}), 500
 
+
 @app.route('/admin/archive')
 def archive():
     """
@@ -333,7 +403,9 @@ def archive():
                 if os.path.isdir(article_path):
                     for filename in os.listdir(article_path):
                         file_path = os.path.join(article_path, filename)
-                        if os.path.isfile(file_path) and allowed_file(filename):
+                        # Пропускаем файлы миниатюр при добавлении в image_data
+                        # Предполагаем, что миниатюры имеют суффикс _thumb
+                        if os.path.isfile(file_path) and allowed_file(filename) and not filename.endswith('_thumb.jpg') and not filename.endswith('_thumb.jpeg') and not filename.endswith('_thumb.png') and not filename.endswith('_thumb.gif') and not filename.endswith('_thumb.webp'):
                             # Генерируем URL для изображения, соответствующий Nginx
                             # Изменено: используем template_folder вместо client_folder
                             image_url = f"{Config.BASE_URL}/images/{quote(template_folder, safe='')}/{quote(article_folder, safe='')}/{quote(filename, safe='')}" # Изменено: client_folder -> template_folder
@@ -346,9 +418,10 @@ def archive():
 
     # Сортировка (опционально) для лучшего отображения
     image_data.sort(key=lambda x: (x['template'], x['article'], x['filename'])) # Изменено: x['client'] -> x['template']
-
+    print(f"Собрано image_data для архива: {len(image_data)} элементов") # Для отладки
     # Рендерим шаблон archive.html
     return render_template('archive.html', image_data=image_data, error='')
+
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=True)

@@ -10,7 +10,6 @@
 <body>
     <!-- Кнопка переключения темы (та же, что и на index.html) -->
     <button class="theme-toggle" id="themeToggle">🌙</button>
-
     <!-- Модальное окно для выбора шаблона -->
     <div id="xlsxModal" class="modal" style="display: none; position: fixed; z-index: 1002; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.5);">
         <div class="modal-content" style="background-color: var(--container-bg); margin: 15% auto; padding: 20px; border: 1px solid var(--input-border); border-radius: 8px; width: 300px; text-align: center;">
@@ -24,7 +23,6 @@
             <button id="cancelXLSXBtn" class="btn btn-secondary" style="width: auto; padding: 10px 20px; margin-left: 10px;">Отмена</button>
         </div>
     </div>
-
     <div class="page-container">
         <div class="content-wrap">
             <div class="container">
@@ -84,7 +82,6 @@
         document.addEventListener('DOMContentLoaded', function() {
             const themeToggle = document.getElementById('themeToggle');
             const body = document.body;
-
             // --- НОВОЕ: Элементы модального окна ---
             const triggerXLSXModalBtn = document.getElementById('triggerXLSXModalBtn');
             const xlsxModal = document.getElementById('xlsxModal');
@@ -92,7 +89,6 @@
             const cancelXLSXBtn = document.getElementById('cancelXLSXBtn');
             const templateSelectForXLSX = document.getElementById('templateSelectForXLSX');
             // --- /НОВОЕ ---
-
             // Изменено: clientSelect -> templateSelect
             const templateSelect = document.getElementById('templateSelect');
             const articleSelect = document.getElementById('articleSelect');
@@ -102,7 +98,6 @@
             const copyAllBtn = document.getElementById('copyAllBtn');
             const copyAllListBtn = document.getElementById('copyAllListBtn');
             const showAllBtn = document.getElementById('showAllBtn');
-
             // --- Инициализация темы ---
             const savedTheme = localStorage.getItem('theme');
             if (savedTheme === 'dark') {
@@ -121,13 +116,11 @@
                     localStorage.setItem('theme', 'light');
                 }
             });
-
             // --- Данные из Flask ---
             // Flask передаёт image_data как JSON в тег script
             // Изменено: теперь image_data содержит 'template' вместо 'client'
             const imageData = {{ image_data | tojson }};
             console.log("Полученные image_data (архив):", imageData); // Для отладки
-
             // --- Группировка image_data по шаблонам и артикулам на стороне клиента ---
             const articleData = {};
             if (imageData && Array.isArray(imageData)) {
@@ -143,7 +136,10 @@
                     }
                     articleData[template][article].push({ // Изменено: client -> template
                         url: item.url,
-                        filename: item.filename
+                        filename: item.filename,
+                        // --- НОВОЕ: Добавляем thumbnail_url ---
+                        thumbnail_url: item.thumbnail_url
+                        // --- /НОВОЕ ---
                     });
                 });
                 // Сортировка для лучшего отображения
@@ -156,7 +152,6 @@
                 });
             }
             console.log("Сформированный articleData (архив):", articleData); // Для отладки
-
             // --- Функция заполнения списка шаблонов ---
             function populateTemplateList() { // Изменено: populateClientList -> populateTemplateList
                 // Очищаем список
@@ -169,7 +164,6 @@
                     templateSelect.appendChild(option); // Изменено: clientSelect -> templateSelect
                 });
             }
-
             // --- Функция заполнения списка артикулов ---
             function populateArticleList(templateName) { // Изменено: clientName -> templateName
                 if (!templateName || !articleData[templateName]) { // Изменено: clientName -> templateName
@@ -186,7 +180,6 @@
                 });
                 articleSelect.disabled = false;
             }
-
             // --- Функция отображения ссылок для выбранного артикула ---
             function displayArticleUrls(templateName, articleName) { // Изменено: clientName -> templateName
                 if (!templateName || !articleName || !articleData[templateName] || !articleData[templateName][articleName]) { // Изменено: clientName -> templateName
@@ -201,9 +194,10 @@
                 urls.forEach(item => {
                     const urlItem = document.createElement('div');
                     urlItem.className = 'url-item';
+                    // --- ИЗМЕНЕНО: используем item.thumbnail_url и добавляем loading="lazy" ---
                     urlItem.innerHTML = `
                         <div class="preview-container">
-                            <img src="${item.url}" alt="Preview ${item.filename}" class="image-preview"
+                            <img src="${item.thumbnail_url || item.url}" alt="Preview ${item.filename}" class="image-preview" loading="lazy"
                                  onerror="this.onerror=null; this.src='image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjQiIGhlaWdodD0iNjQiIHZpZXdCb3g9IjAgMCA2NCA2NCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iNjQiIGhlaWdodD0iNjQiIGZpbGw9IiNmMGYwZjAiLz48dGV4dCB4PSIzMCIgeT0iMzIiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIxMiIgZmlsbD0iI2FhYSIgdGV4dC1hbmNvcm89Im1pZGRsZSIgZHk9Ii4zZW0iPmltZzwvdGV4dD48L3N2Zz4='; this.style.display='flex';">
                         </div>
                         <div class="url-content">
@@ -214,11 +208,11 @@
                             <small style="color: var(--label-color); margin-top: 5px; display: block;">${item.filename}</small>
                         </div>
                     `;
+                    // --- /ИЗМЕНЕНО ---
                     urlList.appendChild(urlItem);
                 });
                 bulkActions.style.display = 'flex';
             }
-
             // --- Функция отображения всех ссылок ---
             function displayAllUrls() {
                 urlList.innerHTML = '';
@@ -242,9 +236,10 @@
                     items.forEach(item => {
                         const urlItem = document.createElement('div');
                         urlItem.className = 'url-item';
+                        // --- ИЗМЕНЕНО: используем item.thumbnail_url и добавляем loading="lazy" ---
                         urlItem.innerHTML = `
                             <div class="preview-container">
-                                <img src="${item.url}" alt="Preview ${item.filename}" class="image-preview"
+                                <img src="${item.thumbnail_url || item.url}" alt="Preview ${item.filename}" class="image-preview" loading="lazy"
                                      onerror="this.onerror=null; this.src='image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjQiIGhlaWdodD0iNjQiIHZpZXdCb3g9IjAgMCA2NCA2NCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iNjQiIGhlaWdodD0iNjQiIGZpbGw9IiNmMGYwZjAiLz48dGV4dCB4PSIzMCIgeT0iMzIiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIxMiIgZmlsbD0iI2FhYSIgdGV4dC1hbmNvcm89Im1pZGRsZSIgZHk9Ii4zZW0iPmltZzwvdGV4dD48L3N2Zz4='; this.style.display='flex';">
                             </div>
                             <div class="url-content">
@@ -255,16 +250,15 @@
                                 <small style="color: var(--label-color); margin-top: 5px; display: block;">${item.filename}</small>
                             </div>
                         `;
+                        // --- /ИЗМЕНЕНО ---
                         urlList.appendChild(urlItem);
                     });
                 });
                 bulkActions.style.display = 'flex';
             }
-
             // --- Обработчики событий ---
             // Заполняем список шаблонов при загрузке страницы
             populateTemplateList(); // Изменено: populateClientList -> populateTemplateList
-
             // Изменено: clientSelect -> templateSelect
             templateSelect.addEventListener('change', function() {
                 const selectedTemplate = this.value; // Изменено: selectedClient -> selectedTemplate
@@ -275,7 +269,6 @@
                     bulkActions.style.display = 'none';
                 }
             });
-
             articleSelect.addEventListener('change', function() {
                 // Изменено: получаем selectedTemplate вместо selectedClient
                 const selectedTemplate = templateSelect.value; // Изменено: clientSelect -> templateSelect
@@ -288,7 +281,6 @@
                     bulkActions.style.display = 'none';
                 }
             });
-
             showAllBtn.addEventListener('click', function() {
                 // Изменено: сбрасываем selectedTemplate
                 templateSelect.value = ''; // Изменено: clientSelect -> templateSelect
@@ -296,7 +288,6 @@
                 articleSelect.disabled = true;
                 displayAllUrls();
             });
-
             // --- Функция для показа уведомлений ---
             function showNotification(message, type = 'success') {
                 const existingNotifications = document.querySelectorAll('.notification');
@@ -320,7 +311,6 @@
                     notification.remove();
                 }, 3000);
             }
-
             // --- Функция копирования текста ---
             function copyToClipboard(text) {
                 if (navigator.clipboard && window.isSecureContext) {
@@ -366,7 +356,6 @@
                 }
                 document.body.removeChild(textArea);
             }
-
             // --- Функция копирования всех ссылок списком (разделённых переносом строки) ---
             function copyAllListToClipboard() {
                 const urlItems = document.querySelectorAll('#urlList .url-text');
@@ -420,7 +409,6 @@
                 }
                 document.body.removeChild(textArea);
             }
-
             // --- Функция копирования всех ссылок (запятая) ---
             function copyAllToClipboard() {
                 const urlItems = document.querySelectorAll('#urlList .url-text');
@@ -472,7 +460,6 @@
                 }
                 document.body.removeChild(textArea);
             }
-
             // --- Функция для скачивания XLSX документа ---
             // Теперь принимает шаблон как аргумент
             function downloadXLSXDocument(selectedTemplateName) {
@@ -481,7 +468,6 @@
                     showNotification('Нет ссылок для генерации документа', 'error');
                     return;
                 }
-
                 // Собираем данные об изображениях с артикулами
                 const imageDataToSend = [];
                 urlItems.forEach(itemElement => {
@@ -508,24 +494,19 @@
                         });
                     }
                 });
-
                 // Проверяем, что шаблон передан и не пуст
                 if (!selectedTemplateName) {
                      showNotification('Шаблон не выбран. Невозможно сгенерировать XLSX.', 'error');
                      console.error("Шаблон не передан в downloadXLSXDocument (архив).");
                      return;
                 }
-
                 if (!selectedTemplateName.trim()) {
                      showNotification('Имя шаблона пустое. Невозможно выбрать шаблон.', 'error');
                      return;
                 }
-
                 console.log('Отправляемые данные для XLSX (архив):', {image_data: imageDataToSend, template_name: selectedTemplateName}); // Изменено: client_name -> template_name
-
                 // Показываем уведомление о начале генерации
                 showNotification('Генерация XLSX документа для шаблона: ' + selectedTemplateName, 'success'); // Изменено: клиента -> шаблона
-
                 // Отправляем POST запрос с данными
                 fetch('/admin/download-xlsx', {
                     method: 'POST',
@@ -564,7 +545,6 @@
                     showNotification('Ошибка при генерации XLSX: ' + error.message, 'error');
                 });
             }
-
             // --- Привязка событий для копирования при клике на ссылку ---
             document.addEventListener('click', function(e) {
                 if (e.target.classList.contains('url-text')) {
@@ -579,7 +559,6 @@
                     }
                 }
             });
-
             // --- Привязка к кнопкам ---
             if (copyAllBtn) {
                 copyAllBtn.addEventListener('click', copyAllToClipboard);
@@ -587,14 +566,12 @@
             if (copyAllListBtn) {
                 copyAllListBtn.addEventListener('click', copyAllListToClipboard);
             }
-
             // --- Привязка к НОВОЙ кнопке XLSX (модальное окно) ---
             if (triggerXLSXModalBtn) {
                 triggerXLSXModalBtn.addEventListener('click', function() {
                     xlsxModal.style.display = 'block';
                 });
             }
-
             // Обработчик подтверждения выбора шаблона
             if (confirmXLSXBtn) {
                 confirmXLSXBtn.addEventListener('click', function() {
@@ -608,7 +585,6 @@
                     }
                 });
             }
-
             // Обработчик отмены выбора шаблона
             if (cancelXLSXBtn) {
                 cancelXLSXBtn.addEventListener('click', function() {
@@ -616,7 +592,6 @@
                     templateSelectForXLSX.value = ''; // Сбрасываем выбор
                 });
             }
-
             // Закрытие модального окна при клике вне его
             window.addEventListener('click', function(event) {
                 if (event.target === xlsxModal) {
@@ -629,4 +604,3 @@
     </script>
 </body>
 </html>
-
