@@ -16,7 +16,8 @@ services:
 
   app:
     build: .
-    image: pva1:5000/stashlink
+    image: stashlink
+    container_name: stashlink
     restart: unless-stopped
     # ports:
     #   - "5000:5000"
