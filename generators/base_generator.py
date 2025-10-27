@@ -1,15 +1,14 @@
+# generators/base_generator.py
 import io
 from openpyxl import Workbook, load_workbook
 from openpyxl.styles import Font, Alignment
 from openpyxl.utils import get_column_letter
 import os
-
 class BaseGenerator:
     """Базовый класс для генерации XLSX документов"""
-
     def __init__(self, template_name=None):
         self.template_name = template_name
-        self.template_path = os.path.join('templates', template_name) if template_name else None
+        self.template_path = os.path.join('templates', self.template_name) if self.template_name else None # Используем self.template_name
 
     def load_template(self):
         """Загружает шаблон или создает новый документ"""
@@ -25,17 +24,15 @@ class BaseGenerator:
         """Создает новый документ с заголовками"""
         wb = Workbook()
         ws = wb.active
+        # Изменено: используем метод для заголовка листа
         ws.title = self.get_worksheet_title()
-
         headers = self.get_headers()
         ws.append(headers)
-
         # Стили для заголовков
         header_font = Font(bold=True)
         for cell in ws[1]:
             cell.font = header_font
             cell.alignment = Alignment(horizontal='center', vertical='center')
-
         return wb, ws, 2  # Начинаем с 2 строки
 
     def get_start_row(self):
@@ -43,7 +40,8 @@ class BaseGenerator:
         return 2
 
     def get_worksheet_title(self):
-        """Возвращает название листа"""
+        """Возвращает название листа - может зависеть от шаблона"""
+        # Изменено: базовый класс не знает конкретного имени
         return "Images"
 
     def get_headers(self):
@@ -60,15 +58,15 @@ class BaseGenerator:
             articles[article].append(item['url'])
         return articles
 
-    def generate(self, image_data, client_name):
+    def generate(self, image_data, template_name): # Изменено: client_name -> template_name
         """Основной метод генерации документа"""
         try:
             wb, ws, start_row = self.load_template()
             articles = self.process_image_data(image_data)
-
             current_row = start_row
             for article, urls in articles.items():
-                row_data = self.generate_row_data(article, urls, client_name)
+                # Изменено: передаем template_name вместо client_name
+                row_data = self.generate_row_data(article, urls, template_name) # Изменено: client_name -> template_name
                 self.write_row_data(ws, current_row, row_data)
                 current_row += 1
 
@@ -78,11 +76,10 @@ class BaseGenerator:
             wb.save(buffer)
             buffer.seek(0)
             return buffer
-
         except Exception as e:
             raise Exception(f"Error generating XLSX: {str(e)}")
 
-    def generate_row_data(self, article, urls, client_name):
+    def generate_row_data(self, article, urls, template_name): # Изменено: client_name -> template_name
         """Генерирует данные для строки (должен быть реализован в дочерних классах)"""
         raise NotImplementedError("Метод generate_row_data должен быть реализован в дочернем классе")
 

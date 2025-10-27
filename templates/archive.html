@@ -10,7 +10,6 @@
 <body>
     <!-- Кнопка переключения темы (та же, что и на index.html) -->
     <button class="theme-toggle" id="themeToggle">🌙</button>
-
     <div class="page-container">
         <div class="content-wrap">
             <div class="container">
@@ -21,9 +20,9 @@
                         <div class="error">{{ error }}</div>
                     {% else %}
                         <div class="form-group">
-                            <label for="clientSelect">Клиент:</label>
-                            <select id="clientSelect" name="client_name" required>
-                                <option value="">-- Выберите клиента --</option>
+                            <label for="templateSelect">Шаблон:</label> <!-- Изменено: Клиент -> Шаблон -->
+                            <select id="templateSelect" name="template_name" required> <!-- Изменено: clientSelect -> templateSelect, client_name -> template_name -->
+                                <option value="">-- Выберите шаблон --</option> <!-- Изменено: клиента -> шаблон -->
                                 <!-- Опции будут заполнены JavaScript из image_data -->
                             </select>
                         </div>
@@ -38,7 +37,6 @@
                         <button id="showAllBtn" class="btn btn-secondary">Показать все ссылки</button>
                     {% endif %}
                 </div>
-
                 <!-- Правая колонка - список ссылок -->
                 <div class="links-section">
                     <h1 id="archiveTitle">Выберите артикул</h1>
@@ -66,13 +64,13 @@
             <p>Сделано в ГРАДИЕНТ</p>
         </footer>
     </div>
-
     <script>
         // --- Код JavaScript для archive.html ---
         document.addEventListener('DOMContentLoaded', function() {
             const themeToggle = document.getElementById('themeToggle');
             const body = document.body;
-            const clientSelect = document.getElementById('clientSelect');
+            // Изменено: clientSelect -> templateSelect
+            const templateSelect = document.getElementById('templateSelect');
             const articleSelect = document.getElementById('articleSelect');
             const urlList = document.getElementById('urlList');
             const archiveTitle = document.getElementById('archiveTitle');
@@ -82,7 +80,6 @@
             const showAllBtn = document.getElementById('showAllBtn');
             // --- Добавляем элементы для XLSX ---
             const downloadXLSXBtn = document.getElementById('downloadXLSXBtn');
-
             // --- Инициализация темы ---
             const savedTheme = localStorage.getItem('theme');
             if (savedTheme === 'dark') {
@@ -101,63 +98,60 @@
                     localStorage.setItem('theme', 'light');
                 }
             });
-
             // --- Данные из Flask ---
             // Flask передаёт image_data как JSON в тег script
-            const imageData = {{ image_data | tojson }}; // Используем image_data
-            console.log("Полученные image_data:", imageData); // Для отладки
-
-            // --- Группировка image_data по клиентам и артикулам на стороне клиента ---
+            // Изменено: теперь image_data содержит 'template' вместо 'client'
+            const imageData = {{ image_data | tojson }};
+            console.log("Полученные image_data (архив):", imageData); // Для отладки
+            // --- Группировка image_data по шаблонам и артикулам на стороне клиента ---
             const articleData = {};
             if (imageData && Array.isArray(imageData)) {
                 imageData.forEach(item => {
-                    const client = item.client;
+                    // Изменено: используем item.template вместо item.client
+                    const template = item.template; // Изменено: client -> template
                     const article = item.article;
-                    if (!articleData[client]) {
-                        articleData[client] = {};
+                    if (!articleData[template]) { // Изменено: client -> template
+                        articleData[template] = {}; // Изменено: client -> template
                     }
-                    if (!articleData[client][article]) {
-                        articleData[client][article] = [];
+                    if (!articleData[template][article]) { // Изменено: client -> template
+                        articleData[template][article] = []; // Изменено: client -> template
                     }
-                    articleData[client][article].push({
+                    articleData[template][article].push({ // Изменено: client -> template
                         url: item.url,
                         filename: item.filename
                     });
                 });
                 // Сортировка для лучшего отображения
-                Object.keys(articleData).forEach(client => {
+                Object.keys(articleData).forEach(template => { // Изменено: client -> template
                     const sortedArticles = {};
-                    Object.keys(articleData[client]).sort().forEach(article => {
-                        sortedArticles[article] = articleData[client][article].sort((a, b) => a.filename.localeCompare(b.filename));
+                    Object.keys(articleData[template]).sort().forEach(article => { // Изменено: client -> template
+                        sortedArticles[article] = articleData[template][article].sort((a, b) => a.filename.localeCompare(b.filename)); // Изменено: client -> template
                     });
-                    articleData[client] = sortedArticles;
+                    articleData[template] = sortedArticles; // Изменено: client -> template
                 });
             }
-            console.log("Сформированный articleData:", articleData); // Для отладки
-
-            // --- Функция заполнения списка клиентов ---
-            function populateClientList() {
+            console.log("Сформированный articleData (архив):", articleData); // Для отладки
+            // --- Функция заполнения списка шаблонов ---
+            function populateTemplateList() { // Изменено: populateClientList -> populateTemplateList
                 // Очищаем список
-                clientSelect.innerHTML = '<option value="">-- Выберите клиента --</option>';
+                templateSelect.innerHTML = '<option value="">-- Выберите шаблон --</option>'; // Изменено: clientSelect -> templateSelect
                 // Заполняем из articleData
-                Object.keys(articleData).forEach(clientName => {
+                Object.keys(articleData).forEach(templateName => { // Изменено: clientName -> templateName
                     const option = document.createElement('option');
-                    option.value = clientName;
-                    option.textContent = clientName;
-                    clientSelect.appendChild(option);
+                    option.value = templateName;
+                    option.textContent = templateName;
+                    templateSelect.appendChild(option); // Изменено: clientSelect -> templateSelect
                 });
             }
-
             // --- Функция заполнения списка артикулов ---
-            function populateArticleList(clientName) {
-                if (!clientName || !articleData[clientName]) {
+            function populateArticleList(templateName) { // Изменено: clientName -> templateName
+                if (!templateName || !articleData[templateName]) { // Изменено: clientName -> templateName
                     articleSelect.innerHTML = '<option value="">-- Выберите артикул --</option>';
                     articleSelect.disabled = true;
                     return;
                 }
-
                 articleSelect.innerHTML = '<option value="">-- Выберите артикул --</option>';
-                Object.keys(articleData[clientName]).forEach(articleName => {
+                Object.keys(articleData[templateName]).forEach(articleName => { // Изменено: clientName -> templateName
                     const option = document.createElement('option');
                     option.value = articleName;
                     option.textContent = articleName;
@@ -165,20 +159,17 @@
                 });
                 articleSelect.disabled = false;
             }
-
             // --- Функция отображения ссылок для выбранного артикула ---
-            function displayArticleUrls(clientName, articleName) {
-                if (!clientName || !articleName || !articleData[clientName] || !articleData[clientName][articleName]) {
+            function displayArticleUrls(templateName, articleName) { // Изменено: clientName -> templateName
+                if (!templateName || !articleName || !articleData[templateName] || !articleData[templateName][articleName]) { // Изменено: clientName -> templateName
                     urlList.innerHTML = '';
                     archiveTitle.textContent = 'Артикул не найден';
                     bulkActions.style.display = 'none';
                     return;
                 }
-
-                const urls = articleData[clientName][articleName];
+                const urls = articleData[templateName][articleName]; // Изменено: clientName -> templateName
                 archiveTitle.textContent = `Артикул: ${articleName}`;
                 urlList.innerHTML = '';
-
                 urls.forEach(item => {
                     const urlItem = document.createElement('div');
                     urlItem.className = 'url-item';
@@ -197,10 +188,8 @@
                     `;
                     urlList.appendChild(urlItem);
                 });
-
                 bulkActions.style.display = 'flex';
             }
-
             // --- Функция отображения всех ссылок ---
             function displayAllUrls() {
                 urlList.innerHTML = '';
@@ -215,13 +204,12 @@
                         groupedUrls[item.article].push(item);
                     });
                 }
-
                 Object.entries(groupedUrls).forEach(([articleName, items]) => {
                     const articleHeader = document.createElement('div');
                     articleHeader.className = 'article-info';
-                    articleHeader.textContent = `Клиент: ${items[0].client}, Артикул: ${articleName}`;
+                    // Изменено: отображаем шаблон вместо клиента
+                    articleHeader.textContent = `Шаблон: ${items[0].template}, Артикул: ${articleName}`; // Изменено: Клиент -> Шаблон, item.client -> item.template
                     urlList.appendChild(articleHeader);
-
                     items.forEach(item => {
                         const urlItem = document.createElement('div');
                         urlItem.className = 'url-item';
@@ -241,43 +229,40 @@
                         urlList.appendChild(urlItem);
                     });
                 });
-
                 bulkActions.style.display = 'flex';
             }
-
             // --- Обработчики событий ---
-            // Заполняем список клиентов при загрузке страницы
-            populateClientList();
-
-            clientSelect.addEventListener('change', function() {
-                const selectedClient = this.value;
-                populateArticleList(selectedClient);
-                if (!selectedClient) {
+            // Заполняем список шаблонов при загрузке страницы
+            populateTemplateList(); // Изменено: populateClientList -> populateTemplateList
+            // Изменено: clientSelect -> templateSelect
+            templateSelect.addEventListener('change', function() {
+                const selectedTemplate = this.value; // Изменено: selectedClient -> selectedTemplate
+                populateArticleList(selectedTemplate); // Изменено: selectedClient -> selectedTemplate
+                if (!selectedTemplate) { // Изменено: selectedClient -> selectedTemplate
                     urlList.innerHTML = '';
                     archiveTitle.textContent = 'Выберите артикул';
                     bulkActions.style.display = 'none';
                 }
             });
-
             articleSelect.addEventListener('change', function() {
-                const selectedClient = clientSelect.value;
+                // Изменено: получаем selectedTemplate вместо selectedClient
+                const selectedTemplate = templateSelect.value; // Изменено: clientSelect -> templateSelect
                 const selectedArticle = this.value;
-                if (selectedClient && selectedArticle) {
-                    displayArticleUrls(selectedClient, selectedArticle);
+                if (selectedTemplate && selectedArticle) { // Изменено: selectedClient -> selectedTemplate
+                    displayArticleUrls(selectedTemplate, selectedArticle); // Изменено: selectedClient -> selectedTemplate
                 } else {
                     urlList.innerHTML = '';
                     archiveTitle.textContent = 'Выберите артикул';
                     bulkActions.style.display = 'none';
                 }
             });
-
             showAllBtn.addEventListener('click', function() {
-                clientSelect.value = '';
+                // Изменено: сбрасываем selectedTemplate
+                templateSelect.value = ''; // Изменено: clientSelect -> templateSelect
                 articleSelect.value = '';
                 articleSelect.disabled = true;
                 displayAllUrls();
             });
-
             // --- Функция для показа уведомлений ---
             function showNotification(message, type = 'success') {
                 const existingNotifications = document.querySelectorAll('.notification');
@@ -301,7 +286,6 @@
                     notification.remove();
                 }, 3000);
             }
-
             // --- Функция копирования текста ---
             function copyToClipboard(text) {
                 if (navigator.clipboard && window.isSecureContext) {
@@ -315,7 +299,6 @@
                     fallbackCopyTextToClipboard(text);
                 }
             }
-
             function fallbackCopyTextToClipboard(text) {
                 const textArea = document.createElement('textarea');
                 textArea.value = text;
@@ -348,7 +331,6 @@
                 }
                 document.body.removeChild(textArea);
             }
-
             // --- Функция копирования всех ссылок списком (разделённых переносом строки) ---
             function copyAllListToClipboard() {
                 const urlItems = document.querySelectorAll('#urlList .url-text');
@@ -370,7 +352,6 @@
                     fallbackCopyAllListToClipboard(allUrls);
                 }
             }
-
             function fallbackCopyAllListToClipboard(text) {
                 const textArea = document.createElement('textarea');
                 textArea.value = text;
@@ -403,7 +384,6 @@
                 }
                 document.body.removeChild(textArea);
             }
-
             // --- Функция копирования всех ссылок (запятая) ---
             function copyAllToClipboard() {
                 const urlItems = document.querySelectorAll('#urlList .url-text');
@@ -423,7 +403,6 @@
                     fallbackCopyAllToClipboard(allUrls);
                 }
             }
-
             function fallbackCopyAllToClipboard(text) {
                 const textArea = document.createElement('textarea');
                 textArea.value = text;
@@ -456,7 +435,6 @@
                 }
                 document.body.removeChild(textArea);
             }
-
             // --- Функция для скачивания XLSX документа ---
             function downloadXLSXDocument() {
                 const urlItems = document.querySelectorAll('#urlList .url-item');
@@ -464,7 +442,6 @@
                     showNotification('Нет ссылок для генерации документа', 'error');
                     return;
                 }
-
                 // Собираем данные об изображениях с артикулами
                 const imageDataToSend = [];
                 urlItems.forEach(itemElement => {
@@ -491,40 +468,36 @@
                         });
                     }
                 });
-
-                // Извлекаем имя клиента из заголовка или из данных
-                let clientName = '';
+                // Извлекаем имя шаблона из заголовка или из данных
+                let templateName = ''; // Изменено: clientName -> templateName
                 if (archiveTitle.textContent !== 'Все ссылки') {
                     // Если отображается конкретный артикул
                     const currentArticle = articleSelect.value;
-                    const currentClient = clientSelect.value;
-                    if (currentClient && currentArticle) {
-                        clientName = currentClient;
+                    // Изменено: получаем selectedTemplate вместо selectedClient
+                    const currentTemplate = templateSelect.value; // Изменено: clientSelect -> templateSelect
+                    if (currentTemplate && currentArticle) { // Изменено: currentClient -> currentTemplate
+                        templateName = currentTemplate; // Изменено: clientName -> templateName
                     }
                 } else {
-                    // Если отображаются все ссылки, нужно определить клиента.
-                    // Используем первый найденный клиент из imageDataToSend.
+                    // Если отображаются все ссылки, нужно определить шаблон.
+                    // Используем первый найденный шаблон из imageDataToSend.
                     if (imageDataToSend.length > 0 && imageDataToSend[0].url) {
                         const url = imageDataToSend[0].url;
                         const pathParts = url.split('/');
                         const imagesIndex = pathParts.indexOf('images');
                         if (imagesIndex !== -1 && imagesIndex + 1 < pathParts.length) {
-                            clientName = pathParts[imagesIndex + 1]; // client_name
+                            templateName = pathParts[imagesIndex + 1]; // template_name (было client_name) // Изменено: clientName -> templateName
                         }
                     }
                 }
-
-                console.log('Отправляемые данные для XLSX:', {image_data: imageDataToSend, client_name: clientName});
-
-                // Проверяем, что есть данные и клиент
-                if (!clientName || imageDataToSend.length === 0) {
-                     showNotification('Не удалось определить клиента или артикулы для генерации документа.', 'error');
+                console.log('Отправляемые данные для XLSX (архив):', {image_data: imageDataToSend, template_name: templateName}); // Изменено: client_name -> template_name
+                // Проверяем, что есть данные и шаблон
+                if (!templateName || imageDataToSend.length === 0) { // Изменено: clientName -> templateName
+                     showNotification('Не удалось определить шаблон или артикулы для генерации документа.', 'error'); // Изменено: клиента -> шаблона
                      return;
                 }
-
                 // Показываем уведомление о начале генерации
-                showNotification('Генерация XLSX документа...', 'success');
-
+                showNotification('Генерация XLSX документа для шаблона: ' + templateName, 'success'); // Изменено: клиента -> шаблона
                 // Отправляем POST запрос с данными
                 fetch('/admin/download-xlsx', {
                     method: 'POST',
@@ -533,7 +506,7 @@
                     },
                     body: JSON.stringify({
                         image_data: imageDataToSend, // Используем правильное имя переменной
-                        client_name: clientName
+                        template_name: templateName // Изменено: client_name -> template_name
                     })
                 })
                 .then(response => {
@@ -550,20 +523,19 @@
                     a.href = url;
                     // Генерируем имя файла
                     const timestamp = new Date().toISOString().slice(0, 19).replace(/:/g, '-');
-                    a.download = `${clientName}_catalog_${timestamp}.xlsx`;
+                    // Изменено: используем templateName вместо clientName
+                    a.download = `${templateName}_catalog_${timestamp}.xlsx`; // Изменено: clientName -> templateName
                     document.body.appendChild(a);
                     a.click();
                     window.URL.revokeObjectURL(url);
                     document.body.removeChild(a);
-                    showNotification('XLSX документ успешно сгенерирован и скачан!', 'success');
+                    showNotification('XLSX документ для шаблона ' + templateName + ' успешно сгенерирован и скачан!', 'success'); // Изменено: клиента -> шаблона
                 })
                 .catch(error => {
-                    console.error('Ошибка при генерации XLSX:', error);
+                    console.error('Ошибка при генерации XLSX (архив):', error); // Изменено: архиве
                     showNotification('Ошибка при генерации XLSX: ' + error.message, 'error');
                 });
             }
-
-
             // --- Привязка событий для копирования при клике на ссылку ---
             document.addEventListener('click', function(e) {
                 if (e.target.classList.contains('url-text')) {
@@ -578,7 +550,6 @@
                     }
                 }
             });
-
             // --- Привязка к кнопкам ---
             if (copyAllBtn) {
                 copyAllBtn.addEventListener('click', copyAllToClipboard);

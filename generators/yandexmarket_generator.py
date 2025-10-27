@@ -1,15 +1,14 @@
+# generators/yandexmarket_generator.py
 from .base_generator import BaseGenerator
-
-
 class YandexmarketGenerator(BaseGenerator):
-
     def __init__(self):
+        # Имя шаблона может совпадать с именем в списке TEMPLATES
         super().__init__('yandexmarket.xlsx')
 
     def get_start_row(self):
         return 4  # ЯндексМаркет начинает данные с 4 строки
 
-    def get_worksheet_title(self):
+    def get_worksheet_title(self): # Переопределяем для конкретного шаблона
         return "YandexMarket Catalog"
 
     def get_headers(self):
@@ -20,17 +19,16 @@ class YandexmarketGenerator(BaseGenerator):
         """Создает базовый шаблон для ЯндексМаркета"""
         wb = Workbook()
         ws = wb.active
-        ws.title = self.get_worksheet_title()
-
-        # Стили для заголовков
+        ws.title = self.get_worksheet_title() # Используем переопределенный метод
+        # Стили для заголовков (если нужно добавить в новые строки)
         header_font = Font(bold=True)
-        for cell in ws[1]:
-            cell.font = header_font
-            cell.alignment = Alignment(horizontal='center', vertical='center')
+        # Предполагаем, что заголовки в шаблоне есть, иначе добавим их
+        # ws.cell(row=1, column=1, value="Название").font = header_font
+        # ws.cell(row=1, column=2, value="Описание").font = header_font
+        # и т.д.
+        return wb, ws, 2 # или get_start_row()
 
-        return wb, ws, 2
-
-    def generate_row_data(self, article, urls, client_name):
+    def generate_row_data(self, article, urls, template_name): # template_name теперь доступен, но не используется в этом генераторе
         # строка из 30 ссылок, разделённых запятыми
         if urls:
             urls = ','.join(urls)

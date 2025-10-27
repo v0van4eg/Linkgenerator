@@ -1,3 +1,4 @@
+# config.py
 import os
 
 class Config:
@@ -7,15 +8,19 @@ class Config:
     MAX_CONTENT_LENGTH = 5 * 1024 * 1024 * 1024  # 1GB max file size
     ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif', 'webp'}
     BASE_URL = os.getenv('BASE_URL', 'http://tecnobook')
-    # Список клиентов
-    CLIENTS = [
+
+    # Список шаблонов (вместо клиентов)
+    TEMPLATES = [
         'Мегамаркет',
         'ЯндексМаркет',
+        # Добавьте другие шаблоны по мере необходимости
     ]
-    # Пути к шаблонам XLSX
+
+    # Пути к шаблонам XLSX (обновлены, если имя шаблона отличается от имени файла)
     TEMPLATE_PATHS = {
         'Мегамаркет': 'templates/megamarket.xlsx',
         'ЯндексМаркет': 'templates/yandexmarket.xlsx',
+        # Убедитесь, что имена ключей соответствуют именам в TEMPLATES
     }
 
     # Убедимся, что папки существуют

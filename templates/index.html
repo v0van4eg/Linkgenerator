@@ -1,3 +1,4 @@
+<!-- templates/index.html -->
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -23,13 +24,13 @@
                     <!-- Форма для архива (теперь единственная) -->
                     <form method="POST" action="{{ url_for('handle_upload') }}" enctype="multipart/form-data" id="archive-form">
                         <div class="form-group">
-                            <label for="client_name_archive">Имя клиента:</label>
-                            <select id="client_name_archive" name="client_name" required>
-                                <option value="">-- Выберите клиента --</option>
-                                {% for client in clients %}
-                                <option value="{{ client }}"
-                                        {% if selected_client == client %}selected{% endif %}>
-                                    {{ client }}
+                            <label for="template_name_archive">Имя шаблона:</label> <!-- Изменено: Имя клиента -> Имя шаблона -->
+                            <select id="template_name_archive" name="template_name" required> <!-- Изменено: client_name -> template_name -->
+                                <option value="">-- Выберите шаблон --</option> <!-- Изменено: клиента -> шаблон -->
+                                {% for template in templates %} <!-- Изменено: clients -> templates -->
+                                <option value="{{ template }}"
+                                        {% if selected_template == template %}selected{% endif %}> <!-- Изменено: selected_client -> selected_template -->
+                                    {{ template }}
                                 </option>
                                 {% endfor %}
                             </select>
@@ -119,7 +120,6 @@
                     localStorage.setItem('theme', 'light');
                 }
             });
-
             // --- Функция для показа уведомлений ---
             function showNotification(message, type = 'success') {
                 const existingNotifications = document.querySelectorAll('.notification');
@@ -318,29 +318,24 @@
                         });
                     }
                 });
-
-                let clientName = "{{ selected_client or '' }}";
-                console.log("Клиент из Flask (index):", clientName);
-
-                if (!clientName) {
-                     showNotification('Не удалось определить клиента для генерации XLSX. Убедитесь, что вы находитесь на странице результатов.', 'error');
-                     console.error("Имя клиента не определено для генерации XLSX на странице /admin.");
+                // Изменено: получаем selected_template вместо selected_client
+                let templateName = "{{ selected_template or '' }}"; // Изменено: selected_client -> selected_template
+                console.log("Шаблон из Flask (index):", templateName); // Изменено: Клиент -> Шаблон
+                if (!templateName) {
+                     showNotification('Не удалось определить шаблон для генерации XLSX. Убедитесь, что вы находитесь на странице результатов.', 'error'); // Изменено: клиента -> шаблона
+                     console.error("Имя шаблона не определено для генерации XLSX на странице /admin."); // Изменено: клиента -> шаблона
                      return;
                 }
-
-                if (!clientName.trim()) {
-                     showNotification('Имя клиента пустое. Невозможно выбрать шаблон.', 'error');
+                if (!templateName.trim()) {
+                     showNotification('Имя шаблона пустое. Невозможно выбрать шаблон.', 'error'); // Изменено: клиента -> шаблона
                      return;
                 }
-
                 console.log('Отправляемые данные для XLSX (index):', {
-                    image_data: imageData, // <-- Исправлено имя переменной
-                    client_name: clientName
+                    image_data: imageData,
+                    template_name: templateName // Изменено: client_name -> template_name
                 });
-
                 // Показываем уведомление о начале генерации
-                showNotification('Генерация XLSX документа для клиента: ' + clientName, 'success');
-
+                showNotification('Генерация XLSX документа для шаблона: ' + templateName, 'success'); // Изменено: клиента -> шаблона
                 // Отправляем POST запрос с данными
                 fetch('/admin/download-xlsx', {
                     method: 'POST',
@@ -348,8 +343,8 @@
                         'Content-Type': 'application/json',
                     },
                     body: JSON.stringify({
-                        image_data: imageData, // <-- Исправлено имя переменной
-                        client_name: clientName
+                        image_data: imageData,
+                        template_name: templateName // Изменено: client_name -> template_name
                     })
                 })
                 .then(response => {
@@ -364,21 +359,20 @@
                     const a = document.createElement('a');
                     a.style.display = 'none';
                     a.href = url;
-                    // Используем имя клиента и временную метку для имени файла
+                    // Используем имя шаблона и временную метку для имени файла
                     const timestamp = new Date().toISOString().slice(0, 19).replace(/:/g, '-');
-                    a.download = `${clientName}_catalog_${timestamp}.xlsx`;
+                    a.download = `${templateName}_catalog_${timestamp}.xlsx`; // Изменено: client_name -> template_name
                     document.body.appendChild(a);
                     a.click();
                     window.URL.revokeObjectURL(url);
                     document.body.removeChild(a);
-                    showNotification('XLSX документ для клиента ' + clientName + ' успешно сгенерирован и скачан!', 'success');
+                    showNotification('XLSX документ для шаблона ' + templateName + ' успешно сгенерирован и скачан!', 'success'); // Изменено: клиента -> шаблона
                 })
                 .catch(error => {
                     console.error('Ошибка при генерации XLSX (index):', error);
                     showNotification('Ошибка при генерации XLSX: ' + error.message, 'error');
                 });
             }
-
             // --- Привязка событий для копирования при клике на ссылку ---
             document.querySelectorAll('.url-text').forEach(urlElement => {
                 urlElement.addEventListener('click', function(e) {
