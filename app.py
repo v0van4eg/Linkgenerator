@@ -33,7 +33,7 @@ def safe_folder_name(name: str) -> str:
     name = re.sub(r'[-\s]+', '-', name, flags=re.UNICODE).strip('-_')
     return name[:255] if name else "unnamed"
 
-def process_zip_archive(zip_file, template_name): # Изменено: client_name -> template_name
+def process_zip_archive(zip_file, template_name):
     """Обрабатывает ZIP-архив и извлекает изображения"""
     image_urls = []
     with tempfile.TemporaryDirectory() as temp_dir:
@@ -57,9 +57,9 @@ def process_zip_archive(zip_file, template_name): # Изменено: client_nam
                 article = os.path.basename(root) if relative_path.count(os.sep) == 0 else relative_path.split(os.sep)[0]
 
                 # Используем template_name вместо client_name для создания папки
-                template_folder = safe_folder_name(template_name) # Изменено: client_name -> template_name
+                template_folder = safe_folder_name(template_name)
                 article_folder = safe_folder_name(article)
-                full_path = os.path.join(Config.UPLOAD_FOLDER, template_folder, article_folder) # Изменено: client_folder -> template_folder
+                full_path = os.path.join(Config.UPLOAD_FOLDER, template_folder, article_folder)
                 os.makedirs(full_path, exist_ok=True)
 
                 file_extension = os.path.splitext(file)[1]
@@ -73,7 +73,7 @@ def process_zip_archive(zip_file, template_name): # Изменено: client_nam
                 # Генерируем URL, включающий template_name
                 image_url = "{}/images/{}/{}/{}".format(
                     Config.BASE_URL,
-                    quote(template_folder, safe=''), # Изменено: client_folder -> template_folder
+                    quote(template_folder, safe=''),
                     quote(article_folder, safe=''),
                     quote(unique_filename, safe='')
                 )
@@ -84,17 +84,18 @@ def process_zip_archive(zip_file, template_name): # Изменено: client_nam
                 })
     return image_urls
 
+
 def generate_xlsx_document(image_data, template_name): # Изменено: client_name -> template_name
     """Генерирует XLSX документ используя фабрику генераторов"""
     generator = GeneratorFactory.create_generator(template_name) # Изменено: client_name -> template_name
     return generator.generate(image_data, template_name) # Изменено: client_name -> template_name
 
-def save_results_to_file(image_data, product_name=None): # УБРАНО: template_name
+def save_results_to_file(image_data, product_name=None):
     """Сохраняет результаты обработки в JSON-файл"""
     result_id = uuid.uuid4().hex
     results_data = {
         'image_data': image_data,
-        'product_name': product_name or '', # УБРАНО: 'template_name': template_name,
+        'product_name': product_name or '',
         'timestamp': datetime.now().isoformat()
     }
     filename = f"results_{result_id}.json"
@@ -165,32 +166,34 @@ def handle_single_upload_logic(request):
     result_id = save_results_to_file(image_urls, product_name) # УБРАНО: template_name,
     return result_id, None
 
+
 def handle_archive_upload_logic(request):
     """Логика обработки ZIP архива"""
-    # УБРАНО: template_name = request.form.get('template_name', '').strip()
+    catalog_name = request.form.get('catalog', '').strip()
     archive_file = request.files['archive']
 
-    # УБРАНО: if not template_name or not archive_file or archive_file.filename == '':
     if not archive_file or archive_file.filename == '':
-        return None, 'Выберите архив' # УБРАНО: и шаблон'
-
-    # УБРАНО: if template_name not in Config.TEMPLATES:
-    #     return None, 'Выберите шаблон из списка' # Изменено: клиента -> шаблон
+        return None, 'Выберите архив'
 
     if not archive_file.filename.lower().endswith('.zip'):
         return None, 'Файл должен быть ZIP архивом'
 
+    # Если имя каталога не указано, используем имя ZIP-архива (без расширения)
+    if not catalog_name:
+        catalog_name = os.path.splitext(archive_file.filename)[0]
+        catalog_name = safe_folder_name(catalog_name)
+
     try:
-        # УБРАНО: Передача template_name, используем generic
-        image_data = process_zip_archive(archive_file, "generic") # УБРАНО: template_name
+        # Используем catalog_name как template_name
+        image_data = process_zip_archive(archive_file, catalog_name)
         if not image_data:
             return None, 'В архиве не найдено подходящих изображений'
-        # УБРАНО: Передача template_name
-        result_id = save_results_to_file(image_data) # УБРАНО: template_name
+
+        # Сохраняем результаты с catalog_name как product_name
+        result_id = save_results_to_file(image_data, catalog_name)
         return result_id, None
     except Exception as e:
         return None, f'Ошибка при обработке архива: {str(e)}'
-
 # Маршруты Flask
 @app.route('/admin', methods=['GET'])
 def index():

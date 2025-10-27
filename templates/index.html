@@ -17,8 +17,8 @@
             <h3>Выберите шаблон</h3>
             <select id="templateSelectForXLSX" style="width: 100%; padding: 10px; margin-bottom: 15px; border: 2px solid var(--input-border); border-radius: 8px; background-color: var(--container-bg); color: var(--text-color);">
                 <option value="">-- Выберите шаблон --</option>
-                <option value="Мегамаркет">Мегамаркет</option>
-                <option value="ЯндексМаркет">ЯндексМаркет</option>
+                <option value="В строку">В строку</option>
+                <option value="В ячейку">В ячейку</option>
             </select>
             <button id="confirmXLSXBtn" class="btn" style="width: auto; padding: 10px 20px;">Сгенерировать</button>
             <button id="cancelXLSXBtn" class="btn btn-secondary" style="width: auto; padding: 10px 20px; margin-left: 10px;">Отмена</button>
@@ -32,15 +32,19 @@
             <!-- Основной контейнер для колонок -->
             <div class="container">
                 <div class="upload-section">
-                    <h1>Загрузка архива</h1>
+                    <h1>Загрузка ZIP-архива</h1>
                     {% if error %}
                     <div class="error">{{ error }}</div>
                     {% endif %}
                     <!-- Форма для архива (теперь без выбора шаблона) -->
                     <form method="POST" action="{{ url_for('handle_upload') }}" enctype="multipart/form-data" id="archive-form">
                         <div class="form-group">
-                            <label for="product_name">Имя продукта/артикула:</label>
-                            <input type="text" id="product_name" name="product_name" required>
+                            <label for="catalog">Имя каталога:</label>
+                            <input type="text" id="catalog" name="catalog">
+                            <div class="help-text">
+                                📁 Если не указано, будет использовано имя ZIP-архива<br>
+                                Пример: archive.zip → папка "archive"
+                            </div>
                         </div>
                         <div class="form-group">
                             <label for="archive">ZIP-архив:</label>
@@ -52,6 +56,7 @@
                         </div>
                         <button type="submit" class="btn">📦 Загрузить архив</button>
                     </form>
+                    <h2>
                     <h1>Загрузка отдельных файлов</h1>
                     <form method="POST" action="{{ url_for('handle_upload') }}" enctype="multipart/form-data" id="single-form">
                         <div class="form-group">
