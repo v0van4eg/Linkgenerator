@@ -24,6 +24,7 @@ if not os.path.exists(RESULTS_FOLDER):
     os.makedirs(RESULTS_FOLDER)
     print(f"Папка для результатов создана: {RESULTS_FOLDER}")
 
+
 def safe_folder_name(name: str) -> str:
     """Преобразует строку в безопасное имя папки"""
     if not name:
@@ -124,64 +125,6 @@ def load_results_from_file(result_id):
     return None
 
 
-# Маршруты Flask остаются без изменений
-@app.route('/admin', methods=['GET'])
-def index():
-    return render_template('index.html',
-                           clients=Config.CLIENTS,
-                           selected_client='',
-                           product_name='',
-                           image_urls=[],
-                           error='')
-
-
-@app.route('/admin', methods=['POST'])
-def handle_upload():
-    if 'archive' in request.files and request.files['archive'].filename != '':
-        result_id, error = handle_archive_upload_logic(request)
-    else:
-        result_id, error = handle_single_upload_logic(request)
-
-    if error:
-        session['error'] = error
-        return redirect(url_for('index'))
-
-    if result_id:
-        return redirect(url_for('view_results', result_id=result_id))
-
-    return redirect(url_for('index'))
-
-
-
-@app.route('/admin/results/<result_id>', methods=['GET'])
-def view_results(result_id):
-    results_data = load_results_from_file(result_id)
-    if results_data:
-        image_urls = results_data.get('image_data', [])
-        client_name = results_data.get('client_name', '')
-        product_name = results_data.get('product_name', '')
-        return render_template('index.html',
-                               image_urls=image_urls,
-                               clients=Config.CLIENTS,
-                               selected_client=client_name,
-                               product_name=product_name,
-                               error='')
-    else:
-        error = 'Результаты не найдены или срок их действия истек.'
-        return render_template('index.html',
-                               image_urls=[],
-                               clients=Config.CLIENTS,
-                               selected_client='',
-                               product_name='',
-                               error=error)
-
-
-# Новый маршрут для корня - отображает hello.html
-@app.route('/')
-def hello():
-    return render_template('hello.html') # Убедитесь, что файл hello.html находится в папке templates
-
-
 def handle_single_upload_logic(request):
     """Логика обработки отдельных изображений"""
     client_name = request.form.get('client_name', '').strip()
@@ -254,6 +197,63 @@ def handle_archive_upload_logic(request):
         return None, f'Ошибка при обработке архива: {str(e)}'
 
 
+# Маршруты Flask остаются без изменений
+@app.route('/admin', methods=['GET'])
+def index():
+    return render_template('index.html',
+                           clients=Config.CLIENTS,
+                           selected_client='',
+                           product_name='',
+                           image_urls=[],
+                           error='')
+
+
+@app.route('/admin', methods=['POST'])
+def handle_upload():
+    if 'archive' in request.files and request.files['archive'].filename != '':
+        result_id, error = handle_archive_upload_logic(request)
+    else:
+        result_id, error = handle_single_upload_logic(request)
+
+    if error:
+        session['error'] = error
+        return redirect(url_for('index'))
+
+    if result_id:
+        return redirect(url_for('view_results', result_id=result_id))
+
+    return redirect(url_for('index'))
+
+
+@app.route('/admin/results/<result_id>', methods=['GET'])
+def view_results(result_id):
+    results_data = load_results_from_file(result_id)
+    if results_data:
+        image_urls = results_data.get('image_data', [])
+        client_name = results_data.get('client_name', '')
+        product_name = results_data.get('product_name', '')
+        return render_template('index.html',
+                               image_urls=image_urls,
+                               clients=Config.CLIENTS,
+                               selected_client=client_name,
+                               product_name=product_name,
+                               error='')
+    else:
+        error = 'Результаты не найдены или срок их действия истек.'
+        return render_template('index.html',
+                               image_urls=[],
+                               clients=Config.CLIENTS,
+                               selected_client='',
+                               product_name='',
+                               error=error)
+
+
+# Новый маршрут для корня - отображает hello.html
+@app.route('/')
+def hello():
+    return render_template('hello.html')  # Убедитесь, что файл hello.html находится в папке templates
+
+
 @app.route('/admin/download-links')
 def download_links():
     urls = request.args.getlist('urls')
@@ -309,8 +309,7 @@ def download_xlsx():
         return jsonify({'error': f'Ошибка при генерации XLSX-файла: {str(e)}'}), 500
 
 
-
-@app.route('/admin/archive/')
+@app.route('/admin/archive')
 def archive():
     """
     Отображает архив всех загруженных изображений из папки uploads.
@@ -333,14 +332,15 @@ def archive():
                 if os.path.isdir(article_path):
                     for filename in os.listdir(article_path):
                         file_path = os.path.join(article_path, filename)
-                        if os.path.isfile(file_path) and allowed_file(filename): # Используем существующую функцию проверки
+                        if os.path.isfile(file_path) and allowed_file(
+                                filename):  # Используем существующую функцию проверки
                             # Генерируем URL для изображения, соответствующий Nginx
                             image_url = f"{Config.BASE_URL}/images/{quote(client_folder, safe='')}/{quote(article_folder, safe='')}/{quote(filename, safe='')}"
                             image_data.append({
                                 'url': image_url,
-                                'article': article_folder, # Артикул - это имя папки статьи
+                                'article': article_folder,  # Артикул - это имя папки статьи
                                 'filename': filename,
-                                'client': client_folder # Опционально: можно передать имя клиента
+                                'client': client_folder  # Опционально: можно передать имя клиента
                             })
 
     # Сортировка (опционально) для лучшего отображения, например, по клиенту, артикулу, имени файла
