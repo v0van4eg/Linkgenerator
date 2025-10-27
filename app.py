@@ -59,16 +59,15 @@ def process_zip_archive(zip_file, template_name): # Изменено: client_nam
                 # Используем template_name вместо client_name для создания папки
                 template_folder = safe_folder_name(template_name) # Изменено: client_name -> template_name
                 article_folder = safe_folder_name(article)
-
                 full_path = os.path.join(Config.UPLOAD_FOLDER, template_folder, article_folder) # Изменено: client_folder -> template_folder
                 os.makedirs(full_path, exist_ok=True)
 
                 file_extension = os.path.splitext(file)[1]
                 file_name_base = os.path.splitext(file)[0]
                 unique_filename = f"{file_name_base}_{uuid.uuid4().hex[:6]}{file_extension}"
-
                 target_file_unique = os.path.join(full_path, unique_filename)
                 source_file = os.path.join(root, file)
+
                 shutil.copy2(source_file, target_file_unique)
 
                 # Генерируем URL, включающий template_name
@@ -90,13 +89,12 @@ def generate_xlsx_document(image_data, template_name): # Изменено: clien
     generator = GeneratorFactory.create_generator(template_name) # Изменено: client_name -> template_name
     return generator.generate(image_data, template_name) # Изменено: client_name -> template_name
 
-def save_results_to_file(image_data, template_name, product_name=None): # Изменено: client_name -> template_name
+def save_results_to_file(image_data, product_name=None): # УБРАНО: template_name
     """Сохраняет результаты обработки в JSON-файл"""
     result_id = uuid.uuid4().hex
     results_data = {
         'image_data': image_data,
-        'template_name': template_name, # Изменено: client_name -> template_name
-        'product_name': product_name or '',
+        'product_name': product_name or '', # УБРАНО: 'template_name': template_name,
         'timestamp': datetime.now().isoformat()
     }
     filename = f"results_{result_id}.json"
@@ -113,8 +111,8 @@ def load_results_from_file(result_id):
         try:
             with open(filepath, 'r', encoding='utf-8') as f:
                 data = json.load(f)
-            # Проверяем на наличие template_name вместо client_name
-            if 'image_data' in data and 'template_name' in data: # Изменено: client_name -> template_name
+            # Проверяем на наличие image_data
+            if 'image_data' in data: # УБРАНО: and 'template_name' in data
                 return data
         except (json.JSONDecodeError, IOError) as e:
             print(f"Ошибка чтения файла {filepath}: {e}")
@@ -122,23 +120,22 @@ def load_results_from_file(result_id):
 
 def handle_single_upload_logic(request):
     """Логика обработки отдельных изображений"""
-    template_name = request.form.get('template_name', '').strip() # Изменено: client_name -> template_name
+    # УБРАНО: template_name = request.form.get('template_name', '').strip()
     product_name = request.form.get('product_name', '').strip()
 
-    if not template_name or not product_name: # Изменено: client_name -> template_name
-        return None, 'Заполните все поля (template_name и product_name должны быть переданы)' # Изменено: client_name -> template_name
+    if not product_name: # УБРАНО: or not template_name
+        return None, 'Заполните поле product_name' # УБРАНО: (template_name и product_name должны быть переданы)'
 
-    # Изменено: Config.CLIENTS -> Config.TEMPLATES
-    if template_name not in Config.TEMPLATES:
-        return None, 'Выберите шаблон из списка'
+    # УБРАНО: Проверка if template_name not in Config.TEMPLATES:
 
-    template_folder = safe_folder_name(template_name) # Изменено: client_name -> template_name
+    # УБРАНО: template_folder = safe_folder_name(template_name)
+    template_folder = "generic" # Используем generic, так как шаблон неизвестен на этапе загрузки
     product_folder = safe_folder_name(product_name)
-
     full_path = os.path.join(Config.UPLOAD_FOLDER, template_folder, product_folder) # Изменено: client_folder -> template_folder
     os.makedirs(full_path, exist_ok=True)
 
     uploaded_files = request.files.getlist('images')
+
     image_urls = []
     for file in uploaded_files:
         if file and allowed_file(file.filename):
@@ -146,7 +143,6 @@ def handle_single_upload_logic(request):
             file_extension = os.path.splitext(file.filename)[1]
             file_name = os.path.splitext(file.filename)[0]
             unique_filename = f"{file_name}-{random_hex}{file_extension}"
-
             file_path = os.path.join(full_path, unique_filename)
             file.save(file_path)
 
@@ -165,33 +161,32 @@ def handle_single_upload_logic(request):
     if not image_urls:
         return None, 'Не загружено ни одного подходящего изображения'
 
-    # Изменено: передаем template_name вместо client_name
-    result_id = save_results_to_file(image_urls, template_name, product_name) # Изменено: client_name -> template_name
+    # УБРАНО: Передача template_name
+    result_id = save_results_to_file(image_urls, product_name) # УБРАНО: template_name,
     return result_id, None
 
 def handle_archive_upload_logic(request):
     """Логика обработки ZIP архива"""
-    template_name = request.form.get('template_name', '').strip() # Изменено: client_name -> template_name
+    # УБРАНО: template_name = request.form.get('template_name', '').strip()
     archive_file = request.files['archive']
 
-    if not template_name or not archive_file or archive_file.filename == '': # Изменено: client_name -> template_name
-        return None, 'Выберите шаблон и архив' # Изменено: клиента -> шаблон
+    # УБРАНО: if not template_name or not archive_file or archive_file.filename == '':
+    if not archive_file or archive_file.filename == '':
+        return None, 'Выберите архив' # УБРАНО: и шаблон'
 
-    # Изменено: Config.CLIENTS -> Config.TEMPLATES
-    if template_name not in Config.TEMPLATES:
-        return None, 'Выберите шаблон из списка' # Изменено: клиента -> шаблон
+    # УБРАНО: if template_name not in Config.TEMPLATES:
+    #     return None, 'Выберите шаблон из списка' # Изменено: клиента -> шаблон
 
     if not archive_file.filename.lower().endswith('.zip'):
         return None, 'Файл должен быть ZIP архивом'
 
     try:
-        # Изменено: передаем template_name вместо client_name
-        image_data = process_zip_archive(archive_file, template_name) # Изменено: client_name -> template_name
+        # УБРАНО: Передача template_name, используем generic
+        image_data = process_zip_archive(archive_file, "generic") # УБРАНО: template_name
         if not image_data:
             return None, 'В архиве не найдено подходящих изображений'
-
-        # Изменено: передаем template_name вместо client_name
-        result_id = save_results_to_file(image_data, template_name) # Изменено: client_name -> template_name
+        # УБРАНО: Передача template_name
+        result_id = save_results_to_file(image_data) # УБРАНО: template_name
         return result_id, None
     except Exception as e:
         return None, f'Ошибка при обработке архива: {str(e)}'
@@ -199,10 +194,8 @@ def handle_archive_upload_logic(request):
 # Маршруты Flask
 @app.route('/admin', methods=['GET'])
 def index():
-    # Изменено: передаем templates вместо clients
+    # УБРАНО: передача templates и selected_template
     return render_template('index.html',
-                           templates=Config.TEMPLATES, # Изменено: clients -> templates
-                           selected_template='', # Изменено: selected_client -> selected_template
                            product_name='',
                            image_urls=[],
                            error='')
@@ -228,23 +221,19 @@ def view_results(result_id):
     results_data = load_results_from_file(result_id)
     if results_data:
         image_urls = results_data.get('image_data', [])
-        # Изменено: получаем template_name вместо client_name
-        template_name = results_data.get('template_name', '') # Изменено: client_name -> template_name
+        # УБРАНО: получение template_name
+        # template_name = results_data.get('template_name', '') # Изменено: client_name -> template_name
         product_name = results_data.get('product_name', '')
-        # Изменено: передаем templates и selected_template
+        # УБРАНО: передача templates и selected_template
         return render_template('index.html',
                                image_urls=image_urls,
-                               templates=Config.TEMPLATES, # Изменено: clients -> templates
-                               selected_template=template_name, # Изменено: selected_client -> selected_template
                                product_name=product_name,
                                error='')
     else:
         error = 'Результаты не найдены или срок их действия истек.'
-        # Изменено: передаем templates и selected_template
+        # УБРАНО: передача templates и selected_template
         return render_template('index.html',
                                image_urls=[],
-                               templates=Config.TEMPLATES, # Изменено: clients -> templates
-                               selected_template='', # Изменено: selected_client -> selected_template
                                product_name='',
                                error=error)
 
@@ -276,18 +265,26 @@ def download_xlsx():
             return jsonify({'error': 'No data provided'}), 400
 
         image_data = data.get('image_data', [])
-        # Изменено: получаем template_name вместо client_name
+        # Получаем template_name из JSON данных запроса
         template_name = data.get('template_name', '') # Изменено: client_name -> template_name
 
         if not image_data:
             return jsonify({'error': 'No image data provided'}), 400
 
+        # Проверяем, что шаблон указан
+        if not template_name:
+            return jsonify({'error': 'Template name is required for XLSX generation'}), 400
+
+        # Проверяем, что шаблон допустим
+        if template_name not in Config.TEMPLATES:
+            return jsonify({'error': f'Invalid template: {template_name}'}), 400
+
         print(f"Генерация XLSX для шаблона: {template_name}, элементов: {len(image_data)}") # Изменено: клиента -> шаблона
 
-        # Изменено: передаем template_name вместо client_name
+        # Передаем template_name вместо client_name
         xlsx_buffer = generate_xlsx_document(image_data, template_name) # Изменено: client_name -> template_name
 
-        # Изменено: используем template_name для имени файла
+        # Используем template_name для имени файла
         filename = f"{safe_folder_name(template_name)}_images.xlsx" # Изменено: client_name -> template_name
 
         with tempfile.NamedTemporaryFile(delete=False, suffix='.xlsx', mode='w+b') as temp_file:
@@ -320,7 +317,6 @@ def archive():
     """
     image_data = []
     uploads_path = Config.UPLOAD_FOLDER
-
     if not os.path.exists(uploads_path):
         print(f"Папка uploads не найдена: {uploads_path}")
         return render_template('archive.html', image_data=image_data, error="Папка uploads пуста или не существует.")

@@ -10,6 +10,21 @@
 <body>
     <!-- Кнопка переключения темы -->
     <button class="theme-toggle" id="themeToggle">🌙</button>
+
+    <!-- Модальное окно для выбора шаблона -->
+    <div id="xlsxModal" class="modal" style="display: none; position: fixed; z-index: 1002; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.5);">
+        <div class="modal-content" style="background-color: var(--container-bg); margin: 15% auto; padding: 20px; border: 1px solid var(--input-border); border-radius: 8px; width: 300px; text-align: center;">
+            <h3>Выберите шаблон</h3>
+            <select id="templateSelectForXLSX" style="width: 100%; padding: 10px; margin-bottom: 15px; border: 2px solid var(--input-border); border-radius: 8px; background-color: var(--container-bg); color: var(--text-color);">
+                <option value="">-- Выберите шаблон --</option>
+                <option value="Мегамаркет">Мегамаркет</option>
+                <option value="ЯндексМаркет">ЯндексМаркет</option>
+            </select>
+            <button id="confirmXLSXBtn" class="btn" style="width: auto; padding: 10px 20px;">Сгенерировать</button>
+            <button id="cancelXLSXBtn" class="btn btn-secondary" style="width: auto; padding: 10px 20px; margin-left: 10px;">Отмена</button>
+        </div>
+    </div>
+
     <!-- Основной контейнер для всей страницы -->
     <div class="page-container">
         <!-- Контейнер для основного контента (до футера) -->
@@ -21,29 +36,33 @@
                     {% if error %}
                     <div class="error">{{ error }}</div>
                     {% endif %}
-                    <!-- Форма для архива (теперь единственная) -->
+                    <!-- Форма для архива (теперь без выбора шаблона) -->
                     <form method="POST" action="{{ url_for('handle_upload') }}" enctype="multipart/form-data" id="archive-form">
                         <div class="form-group">
-                            <label for="template_name_archive">Имя шаблона:</label> <!-- Изменено: Имя клиента -> Имя шаблона -->
-                            <select id="template_name_archive" name="template_name" required> <!-- Изменено: client_name -> template_name -->
-                                <option value="">-- Выберите шаблон --</option> <!-- Изменено: клиента -> шаблон -->
-                                {% for template in templates %} <!-- Изменено: clients -> templates -->
-                                <option value="{{ template }}"
-                                        {% if selected_template == template %}selected{% endif %}> <!-- Изменено: selected_client -> selected_template -->
-                                    {{ template }}
-                                </option>
-                                {% endfor %}
-                            </select>
+                            <label for="product_name">Имя продукта/артикула:</label>
+                            <input type="text" id="product_name" name="product_name" required>
                         </div>
                         <div class="form-group">
                             <label for="archive">ZIP-архив:</label>
-                            <input type="file" id="archive" name="archive" accept=".zip" required>
+                            <input type="file" id="archive" name="archive" accept=".zip">
                             <div class="help-text">
                                 📁 Архив должен содержать папки с артикулами, а в них - изображения<br>
                                 Пример: archive.zip → 100256601929 → 100256601929_1.jpg
                             </div>
                         </div>
                         <button type="submit" class="btn">📦 Загрузить архив</button>
+                    </form>
+                    <h1>Загрузка отдельных файлов</h1>
+                    <form method="POST" action="{{ url_for('handle_upload') }}" enctype="multipart/form-data" id="single-form">
+                        <div class="form-group">
+                            <label for="product_name_single">Имя продукта/артикула:</label>
+                            <input type="text" id="product_name_single" name="product_name" required>
+                        </div>
+                         <div class="form-group">
+                            <label for="images">Изображения:</label>
+                            <input type="file" id="images" name="images" multiple accept=".png,.jpg,.jpeg,.gif,.webp">
+                        </div>
+                        <button type="submit" class="btn">📤 Загрузить файлы</button>
                     </form>
                 </div>
                 <div class="links-section">
@@ -80,13 +99,14 @@
                         <button class="btn btn-secondary" id="copyAllListBtn">
                             📝 Скопировать списком (перенос строки)
                         </button>
-                        <button class="btn btn-secondary" id="downloadXLSXBtn">
+                        <!-- Изменена кнопка: теперь она вызывает модальное окно -->
+                        <button class="btn btn-secondary" id="triggerXLSXModalBtn">
                             📋 Сгенерировать документ XLSX
                         </button>
                     </div>
                     {% else %}
                     <div class="empty-state">
-                        <p>Загрузите архив, чтобы увидеть ссылки и превью</p>
+                        <p>Загрузите архив или файлы, чтобы увидеть ссылки и превью</p>
                     </div>
                     {% endif %}
                 </div>
@@ -99,9 +119,18 @@
     </div>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // --- Код JavaScript остается без изменений ---
+            // --- Код JavaScript ---
             const themeToggle = document.getElementById('themeToggle');
             const body = document.body;
+
+            // --- НОВОЕ: Элементы модального окна ---
+            const triggerXLSXModalBtn = document.getElementById('triggerXLSXModalBtn');
+            const xlsxModal = document.getElementById('xlsxModal');
+            const confirmXLSXBtn = document.getElementById('confirmXLSXBtn');
+            const cancelXLSXBtn = document.getElementById('cancelXLSXBtn');
+            const templateSelectForXLSX = document.getElementById('templateSelectForXLSX');
+            // --- /НОВОЕ ---
+
             // Проверяем сохранённую тему в localStorage
             const savedTheme = localStorage.getItem('theme');
             if (savedTheme === 'dark') {
@@ -120,6 +149,7 @@
                     localStorage.setItem('theme', 'light');
                 }
             });
+
             // --- Функция для показа уведомлений ---
             function showNotification(message, type = 'success') {
                 const existingNotifications = document.querySelectorAll('.notification');
@@ -143,6 +173,7 @@
                     notification.remove();
                 }, 3000);
             }
+
             // --- Функция копирования текста ---
             function copyToClipboard(text) {
                 if (navigator.clipboard && window.isSecureContext) {
@@ -189,6 +220,7 @@
                 }
                 document.body.removeChild(textArea);
             }
+
             // --- Функция копирования всех ссылок списком (разделённых переносом строки) ---
             function copyAllListToClipboard() {
                 const urlItems = document.querySelectorAll('.url-text');
@@ -245,6 +277,7 @@
                 }
                 document.body.removeChild(textArea);
             }
+
             // --- Функция копирования всех ссылок (запятая) ---
             function copyAllToClipboard() {
                 const urlItems = document.querySelectorAll('.url-text');
@@ -296,13 +329,16 @@
                 }
                 document.body.removeChild(textArea);
             }
+
             // --- Функция для скачивания XLSX документа ---
-                        function downloadXLSXDocument() {
+            // Теперь принимает шаблон как аргумент
+            function downloadXLSXDocument(selectedTemplateName) {
                 const urlItems = document.querySelectorAll('.url-item');
                 if (!urlItems.length) {
                     showNotification('Нет ссылок для генерации документа', 'error');
                     return;
                 }
+
                 // Собираем данные об изображениях с артикулами
                 const imageData = [];
                 // Проходим по всем элементам с изображениями
@@ -318,24 +354,27 @@
                         });
                     }
                 });
-                // Изменено: получаем selected_template вместо selected_client
-                let templateName = "{{ selected_template or '' }}"; // Изменено: selected_client -> selected_template
-                console.log("Шаблон из Flask (index):", templateName); // Изменено: Клиент -> Шаблон
-                if (!templateName) {
-                     showNotification('Не удалось определить шаблон для генерации XLSX. Убедитесь, что вы находитесь на странице результатов.', 'error'); // Изменено: клиента -> шаблона
-                     console.error("Имя шаблона не определено для генерации XLSX на странице /admin."); // Изменено: клиента -> шаблона
+
+                // Проверяем, что шаблон передан и не пуст
+                if (!selectedTemplateName) {
+                     showNotification('Шаблон не выбран. Невозможно сгенерировать XLSX.', 'error');
+                     console.error("Шаблон не передан в downloadXLSXDocument.");
                      return;
                 }
-                if (!templateName.trim()) {
-                     showNotification('Имя шаблона пустое. Невозможно выбрать шаблон.', 'error'); // Изменено: клиента -> шаблона
+
+                if (!selectedTemplateName.trim()) {
+                     showNotification('Имя шаблона пустое. Невозможно выбрать шаблон.', 'error');
                      return;
                 }
+
                 console.log('Отправляемые данные для XLSX (index):', {
                     image_data: imageData,
-                    template_name: templateName // Изменено: client_name -> template_name
+                    template_name: selectedTemplateName // Используем переданный шаблон
                 });
+
                 // Показываем уведомление о начале генерации
-                showNotification('Генерация XLSX документа для шаблона: ' + templateName, 'success'); // Изменено: клиента -> шаблона
+                showNotification('Генерация XLSX документа для шаблона: ' + selectedTemplateName, 'success');
+
                 // Отправляем POST запрос с данными
                 fetch('/admin/download-xlsx', {
                     method: 'POST',
@@ -344,7 +383,7 @@
                     },
                     body: JSON.stringify({
                         image_data: imageData,
-                        template_name: templateName // Изменено: client_name -> template_name
+                        template_name: selectedTemplateName // Передаём выбранный шаблон
                     })
                 })
                 .then(response => {
@@ -361,18 +400,19 @@
                     a.href = url;
                     // Используем имя шаблона и временную метку для имени файла
                     const timestamp = new Date().toISOString().slice(0, 19).replace(/:/g, '-');
-                    a.download = `${templateName}_catalog_${timestamp}.xlsx`; // Изменено: client_name -> template_name
+                    a.download = `${selectedTemplateName}_catalog_${timestamp}.xlsx`;
                     document.body.appendChild(a);
                     a.click();
                     window.URL.revokeObjectURL(url);
                     document.body.removeChild(a);
-                    showNotification('XLSX документ для шаблона ' + templateName + ' успешно сгенерирован и скачан!', 'success'); // Изменено: клиента -> шаблона
+                    showNotification('XLSX документ для шаблона ' + selectedTemplateName + ' успешно сгенерирован и скачан!', 'success');
                 })
                 .catch(error => {
                     console.error('Ошибка при генерации XLSX (index):', error);
                     showNotification('Ошибка при генерации XLSX: ' + error.message, 'error');
                 });
             }
+
             // --- Привязка событий для копирования при клике на ссылку ---
             document.querySelectorAll('.url-text').forEach(urlElement => {
                 urlElement.addEventListener('click', function(e) {
@@ -389,21 +429,56 @@
                     }
                 });
             });
+
             // --- Привязка к кнопке "Копировать все" (через запятую) ---
             const copyAllBtn = document.getElementById('copyAllBtn');
             if (copyAllBtn) {
                 copyAllBtn.addEventListener('click', copyAllToClipboard);
             }
+
             // --- Привязка к НОВОЙ кнопке "Копировать все ссылки списком" ---
             const copyAllListBtn = document.getElementById('copyAllListBtn');
             if (copyAllListBtn) {
                 copyAllListBtn.addEventListener('click', copyAllListToClipboard);
             }
-            // --- Привязка к кнопке "Сгенерировать документ XLSX" ---
-            const downloadXLSXBtn = document.getElementById('downloadXLSXBtn');
-            if (downloadXLSXBtn) {
-                downloadXLSXBtn.addEventListener('click', downloadXLSXDocument);
+
+            // --- Привязка к НОВОЙ кнопке "Сгенерировать документ XLSX" (модальное окно) ---
+            if (triggerXLSXModalBtn) {
+                triggerXLSXModalBtn.addEventListener('click', function() {
+                    xlsxModal.style.display = 'block';
+                });
             }
+
+            // Обработчик подтверждения выбора шаблона
+            if (confirmXLSXBtn) {
+                confirmXLSXBtn.addEventListener('click', function() {
+                    const selectedTemplate = templateSelectForXLSX.value;
+                    if (selectedTemplate) {
+                        xlsxModal.style.display = 'none';
+                        templateSelectForXLSX.value = ''; // Сбрасываем выбор
+                        downloadXLSXDocument(selectedTemplate); // Вызываем функцию с выбранным шаблоном
+                    } else {
+                        showNotification('Пожалуйста, выберите шаблон.', 'error');
+                    }
+                });
+            }
+
+            // Обработчик отмены выбора шаблона
+            if (cancelXLSXBtn) {
+                cancelXLSXBtn.addEventListener('click', function() {
+                    xlsxModal.style.display = 'none';
+                    templateSelectForXLSX.value = ''; // Сбрасываем выбор
+                });
+            }
+
+            // Закрытие модального окна при клике вне его
+            window.addEventListener('click', function(event) {
+                if (event.target === xlsxModal) {
+                    xlsxModal.style.display = 'none';
+                    templateSelectForXLSX.value = ''; // Сбрасываем выбор
+                }
+            });
+
             // --- Предпросмотр файлов для формы архива (опционально, если нужно) ---
             const archiveInput = document.getElementById('archive');
             if (archiveInput) {
