@@ -8,8 +8,8 @@ class GeneratorFactory:
     def create_generator(template_name): # Изменено: client_name -> template_name
         """Создает экземпляр генератора на основе имени шаблона"""
         generators = {
-            'Мегамаркет': MegamarketGenerator,
-            'ЯндексМаркет': YandexmarketGenerator,
+            'В строку': MegamarketGenerator,
+            'В ячейку': YandexmarketGenerator,
             # Добавьте другие шаблоны и соответствующие классы
         }
 
