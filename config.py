@@ -28,5 +28,8 @@ class Config:
     os.makedirs(RESULTS_FOLDER, exist_ok=True) # <-- Добавляем создание папки результатов
 
 def allowed_file(filename):
+    # Разрешаем файлы миниатюр
+    if '_thumb.' in filename:
+        return True
     return '.' in filename and \
         filename.rsplit('.', 1)[1].lower() in Config.ALLOWED_EXTENSIONS

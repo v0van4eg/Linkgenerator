@@ -29,6 +29,7 @@ if not os.path.exists(RESULTS_FOLDER):
     os.makedirs(RESULTS_FOLDER)
     print(f"Папка для результатов создана: {RESULTS_FOLDER}")
 
+
 # --- НОВОЕ: Функция для создания миниатюры ---
 def create_thumbnail(source_path, target_path, size=(90, 90)):
     """
@@ -41,18 +42,31 @@ def create_thumbnail(source_path, target_path, size=(90, 90)):
     """
     try:
         with Image.open(source_path) as img:
+            # Конвертируем в RGB если нужно (для PNG с прозрачностью)
+            if img.mode in ('RGBA', 'LA', 'P'):
+                background = Image.new('RGB', img.size, (255, 255, 255))
+                if img.mode == 'P':
+                    img = img.convert('RGBA')
+                background.paste(img, mask=img.split()[-1] if img.mode == 'RGBA' else None)
+                img = background
+
             # Используем LANCZOS для хорошего качества уменьшения
             img.thumbnail(size, Image.Resampling.LANCZOS)
-            # Сохраняем миниатюру, возможно, с другим качеством для меньшего размера
-            # Для WebP: img.save(target_path, "WEBP", quality=80, optimize=True)
-            # Для JPEG: img.save(target_path, "JPEG", quality=80, optimize=True)
-            # Пока сохраняем в том же формате, что и оригинал
-            img.save(target_path, optimize=True)
+
+            # Сохраняем миниатюру в формате JPEG для единообразия
+            if not target_path.lower().endswith(('.jpg', '.jpeg')):
+                target_path = os.path.splitext(target_path)[0] + '_thumb.jpg'
+
+            # Сохраняем с оптимизацией
+            img.save(target_path, "JPEG", quality=85, optimize=True)
             print(f"Миниатюра создана: {target_path}")
+            return target_path
     except Exception as e:
         print(f"Ошибка при создании миниатюры {target_path}: {e}")
-# --- /НОВОЕ ---
+        return None
 
+
+# --- /НОВОЕ ---
 
 def safe_folder_name(name: str) -> str:
     """Преобразует строку в безопасное имя папки"""
@@ -62,6 +76,7 @@ def safe_folder_name(name: str) -> str:
     name = re.sub(r'[^\w\s-]', '', name, flags=re.UNICODE)
     name = re.sub(r'[-\s]+', '-', name, flags=re.UNICODE).strip('-_')
     return name[:255] if name else "unnamed"
+
 
 def process_zip_archive(zip_file, template_name):
     """Обрабатывает ZIP-архив и извлекает изображения"""
@@ -93,20 +108,20 @@ def process_zip_archive(zip_file, template_name):
 
                 file_extension = os.path.splitext(file)[1]
                 file_name_base = os.path.splitext(file)[0]
-                unique_filename = f"{file_name_base}_{uuid.uuid4().hex[:6]}{file_extension}"
+                unique_suffix = uuid.uuid4().hex[:6]
+                unique_filename = f"{file_name_base}_{unique_suffix}{file_extension}"
                 target_file_unique = os.path.join(full_path, unique_filename)
                 source_file = os.path.join(root, file)
                 shutil.copy2(source_file, target_file_unique)
 
-                # --- НОВОЕ: Создание миниатюры ---
-                # Определяем имя файла для миниатюры
-                # Можно использовать шаблон вроде original_filename_thumb.jpg
-                # или original_filename_s.jpg (где s - small)
-                # или поместить в подпапку thumbnails
-                # Пока используем вариант с _thumb
-                thumb_file_name = f"{file_name_base}_{uuid.uuid4().hex[:6]}_thumb{file_extension}"
+                # --- НОВОЕ: Создание миниатюры с тем же уникальным суффиксом ---
+                thumb_file_name = f"{file_name_base}_{unique_suffix}_thumb.jpg"
                 thumb_target_path = os.path.join(full_path, thumb_file_name)
-                create_thumbnail(target_file_unique, thumb_target_path)
+                thumbnail_path = create_thumbnail(target_file_unique, thumb_target_path)
+
+                if not thumbnail_path:
+                    # Если не удалось создать миниатюру, используем оригинальное изображение
+                    thumb_file_name = unique_filename
                 # --- /НОВОЕ ---
 
                 # Генерируем URL для ОРИГИНАЛЬНОГО изображения
@@ -117,17 +132,16 @@ def process_zip_archive(zip_file, template_name):
                     quote(unique_filename, safe='')
                 )
                 # --- НОВОЕ: Генерируем URL для МИНИАТЮРЫ ---
-                # Этот URL будет использоваться в шаблоне для src тега img
                 thumbnail_url = "{}/images/{}/{}/{}".format(
                     Config.BASE_URL,
                     quote(template_folder, safe=''),
                     quote(article_folder, safe=''),
-                    quote(thumb_file_name, safe='') # Используем имя миниатюры
+                    quote(thumb_file_name, safe='')
                 )
                 # --- /НОВОЕ ---
 
                 image_urls.append({
-                    'url': image_url,          # URL оригинала
+                    'url': image_url,  # URL оригинала
                     'article': article,
                     'filename': unique_filename,
                     # --- НОВОЕ: Добавляем URL миниатюры ---
@@ -137,10 +151,11 @@ def process_zip_archive(zip_file, template_name):
     return image_urls
 
 
-def generate_xlsx_document(image_data, template_name): # Изменено: client_name -> template_name
+def generate_xlsx_document(image_data, template_name):  # Изменено: client_name -> template_name
     """Генерирует XLSX документ используя фабрику генераторов"""
-    generator = GeneratorFactory.create_generator(template_name) # Изменено: client_name -> template_name
-    return generator.generate(image_data, template_name) # Изменено: client_name -> template_name
+    generator = GeneratorFactory.create_generator(template_name)  # Изменено: client_name -> template_name
+    return generator.generate(image_data, template_name)  # Изменено: client_name -> template_name
+
 
 def save_results_to_file(image_data, product_name=None):
     """Сохраняет результаты обработки в JSON-файл"""
@@ -156,6 +171,7 @@ def save_results_to_file(image_data, product_name=None):
         json.dump(results_data, f, ensure_ascii=False, indent=4)
     return result_id
 
+
 def load_results_from_file(result_id):
     """Загружает результаты из JSON-файла"""
     filename = f"results_{result_id}.json"
@@ -165,25 +181,27 @@ def load_results_from_file(result_id):
             with open(filepath, 'r', encoding='utf-8') as f:
                 data = json.load(f)
             # Проверяем на наличие image_data
-            if 'image_data' in data: # УБРАНО: and 'template_name' in data
+            if 'image_data' in data:  # УБРАНО: and 'template_name' in data
                 return data
         except (json.JSONDecodeError, IOError) as e:
             print(f"Ошибка чтения файла {filepath}: {e}")
     return None
+
 
 def handle_single_upload_logic(request):
     """Логика обработки отдельных изображений"""
     # УБРАНО: template_name = request.form.get('template_name', '').strip()
     product_name = request.form.get('product_name', '').strip()
 
-    if not product_name: # УБРАНО: or not template_name
-        return None, 'Заполните поле product_name' # УБРАНО: (template_name и product_name должны быть переданы)'
+    if not product_name:  # УБРАНО: or not template_name
+        return None, 'Заполните поле product_name'  # УБРАНО: (template_name и product_name должны быть переданы)'
 
     # УБРАНО: Проверка if template_name not in Config.TEMPLATES:
     # УБРАНО: template_folder = safe_folder_name(template_name)
-    template_folder = "generic" # Используем generic, так как шаблон неизвестен на этапе загрузки
+    template_folder = "generic"  # Используем generic, так как шаблон неизвестен на этапе загрузки
     product_folder = safe_folder_name(product_name)
-    full_path = os.path.join(Config.UPLOAD_FOLDER, template_folder, product_folder) # Изменено: client_folder -> template_folder
+    full_path = os.path.join(Config.UPLOAD_FOLDER, template_folder,
+                             product_folder)  # Изменено: client_folder -> template_folder
     os.makedirs(full_path, exist_ok=True)
 
     uploaded_files = request.files.getlist('images')
@@ -198,15 +216,19 @@ def handle_single_upload_logic(request):
             file_path = os.path.join(full_path, unique_filename)
             file.save(file_path)
 
-            # --- НОВОЕ: Создание миниатюры ---
-            thumb_file_name = f"{file_name}-{random_hex}_thumb{file_extension}"
+            # --- НОВОЕ: Создание миниатюры с тем же уникальным суффиксом ---
+            thumb_file_name = f"{file_name}-{random_hex}_thumb.jpg"
             thumb_target_path = os.path.join(full_path, thumb_file_name)
-            create_thumbnail(file_path, thumb_target_path)
+            thumbnail_path = create_thumbnail(file_path, thumb_target_path)
+
+            if not thumbnail_path:
+                # Если не удалось создать миниатюру, используем оригинальное изображение
+                thumb_file_name = unique_filename
             # --- /НОВОЕ ---
 
             image_url = "{}/images/{}/{}/{}".format(
                 Config.BASE_URL,
-                quote(template_folder, safe=''), # Изменено: client_folder -> template_folder
+                quote(template_folder, safe=''),  # Изменено: client_folder -> template_folder
                 quote(product_folder, safe=''),
                 quote(unique_filename, safe='')
             )
@@ -215,12 +237,12 @@ def handle_single_upload_logic(request):
                 Config.BASE_URL,
                 quote(template_folder, safe=''),
                 quote(product_folder, safe=''),
-                quote(thumb_file_name, safe='') # Используем имя миниатюры
+                quote(thumb_file_name, safe='')  # Используем имя миниатюры
             )
             # --- /НОВОЕ ---
 
             image_urls.append({
-                'url': image_url,          # URL оригинала
+                'url': image_url,  # URL оригинала
                 'article': product_name,
                 'filename': unique_filename,
                 # --- НОВОЕ: Добавляем URL миниатюры ---
@@ -232,7 +254,7 @@ def handle_single_upload_logic(request):
         return None, 'Не загружено ни одного подходящего изображения'
 
     # УБРАНО: Передача template_name
-    result_id = save_results_to_file(image_urls, product_name) # УБРАНО: template_name,
+    result_id = save_results_to_file(image_urls, product_name)  # УБРАНО: template_name,
     return result_id, None
 
 
@@ -263,6 +285,8 @@ def handle_archive_upload_logic(request):
         return result_id, None
     except Exception as e:
         return None, f'Ошибка при обработке архива: {str(e)}'
+
+
 # Маршруты Flask
 @app.route('/admin', methods=['GET'])
 def index():
@@ -271,6 +295,7 @@ def index():
                            product_name='',
                            image_urls=[],
                            error='')
+
 
 @app.route('/admin', methods=['POST'])
 def handle_upload():
@@ -287,6 +312,7 @@ def handle_upload():
         return redirect(url_for('view_results', result_id=result_id))
 
     return redirect(url_for('index'))
+
 
 @app.route('/admin/results/<result_id>', methods=['GET'])
 def view_results(result_id):
@@ -309,10 +335,12 @@ def view_results(result_id):
                                product_name='',
                                error=error)
 
+
 # Маршрут для корня - отображает hello.html
 @app.route('/')
 def hello():
     return render_template('hello.html')
+
 
 @app.route('/admin/download-links')
 def download_links():
@@ -329,6 +357,7 @@ def download_links():
                      download_name='image_links.txt',
                      mimetype='text/plain')
 
+
 @app.route('/admin/download-xlsx', methods=['POST'])
 def download_xlsx():
     try:
@@ -338,7 +367,7 @@ def download_xlsx():
 
         image_data = data.get('image_data', [])
         # Получаем template_name из JSON данных запроса
-        template_name = data.get('template_name', '') # Изменено: client_name -> template_name
+        template_name = data.get('template_name', '')  # Изменено: client_name -> template_name
 
         if not image_data:
             return jsonify({'error': 'No image data provided'}), 400
@@ -351,13 +380,14 @@ def download_xlsx():
         if template_name not in Config.TEMPLATES:
             return jsonify({'error': f'Invalid template: {template_name}'}), 400
 
-        print(f"Генерация XLSX для шаблона: {template_name}, элементов: {len(image_data)}") # Изменено: клиента -> шаблона
+        print(
+            f"Генерация XLSX для шаблона: {template_name}, элементов: {len(image_data)}")  # Изменено: клиента -> шаблона
 
         # Передаем template_name вместо client_name
-        xlsx_buffer = generate_xlsx_document(image_data, template_name) # Изменено: client_name -> template_name
+        xlsx_buffer = generate_xlsx_document(image_data, template_name)  # Изменено: client_name -> template_name
 
         # Используем template_name для имени файла
-        filename = f"{safe_folder_name(template_name)}_images.xlsx" # Изменено: client_name -> template_name
+        filename = f"{safe_folder_name(template_name)}_images.xlsx"  # Изменено: client_name -> template_name
 
         with tempfile.NamedTemporaryFile(delete=False, suffix='.xlsx', mode='w+b') as temp_file:
             temp_file.write(xlsx_buffer.getvalue())
@@ -395,30 +425,42 @@ def archive():
         return render_template('archive.html', image_data=image_data, error="Папка uploads пуста или не существует.")
 
     # Проходим по структуре папок: template_name -> article_name -> файлы
-    for template_folder in os.listdir(uploads_path): # Изменено: client_folder -> template_folder
-        template_path = os.path.join(uploads_path, template_folder) # Изменено: client_path -> template_path
-        if os.path.isdir(template_path): # Это папка шаблона
-            for article_folder in os.listdir(template_path): # Это папка артикула
-                article_path = os.path.join(template_path, article_folder) # Изменено: client_path -> template_path
+    for template_folder in os.listdir(uploads_path):  # Изменено: client_folder -> template_folder
+        template_path = os.path.join(uploads_path, template_folder)  # Изменено: client_path -> template_path
+        if os.path.isdir(template_path):  # Это папка шаблона
+            for article_folder in os.listdir(template_path):  # Это папка артикула
+                article_path = os.path.join(template_path, article_folder)  # Изменено: client_path -> template_path
                 if os.path.isdir(article_path):
                     for filename in os.listdir(article_path):
                         file_path = os.path.join(article_path, filename)
                         # Пропускаем файлы миниатюр при добавлении в image_data
-                        # Предполагаем, что миниатюры имеют суффикс _thumb
-                        if os.path.isfile(file_path) and allowed_file(filename) and not filename.endswith('_thumb.jpg') and not filename.endswith('_thumb.jpeg') and not filename.endswith('_thumb.png') and not filename.endswith('_thumb.gif') and not filename.endswith('_thumb.webp'):
+                        if os.path.isfile(file_path) and allowed_file(filename) and '_thumb' not in filename:
                             # Генерируем URL для изображения, соответствующий Nginx
                             # Изменено: используем template_folder вместо client_folder
-                            image_url = f"{Config.BASE_URL}/images/{quote(template_folder, safe='')}/{quote(article_folder, safe='')}/{quote(filename, safe='')}" # Изменено: client_folder -> template_folder
+                            image_url = f"{Config.BASE_URL}/images/{quote(template_folder, safe='')}/{quote(article_folder, safe='')}/{quote(filename, safe='')}"  # Изменено: client_folder -> template_folder
+
+                            # Ищем соответствующую миниатюру
+                            file_name_base = os.path.splitext(filename)[0]
+                            thumb_filename = f"{file_name_base}_thumb.jpg"
+                            thumb_path = os.path.join(article_path, thumb_filename)
+                            thumbnail_url = image_url  # По умолчанию используем оригинал
+
+                            if os.path.exists(thumb_path):
+                                # Если миниатюра существует, используем её URL
+                                thumbnail_url = f"{Config.BASE_URL}/images/{quote(template_folder, safe='')}/{quote(article_folder, safe='')}/{quote(thumb_filename, safe='')}"
+
                             image_data.append({
                                 'url': image_url,
                                 'article': article_folder,
                                 'filename': filename,
-                                'template': template_folder # Изменено: client -> template
+                                'template': template_folder,  # Изменено: client -> template
+                                'thumbnail_url': thumbnail_url
                             })
 
     # Сортировка (опционально) для лучшего отображения
-    image_data.sort(key=lambda x: (x['template'], x['article'], x['filename'])) # Изменено: x['client'] -> x['template']
-    print(f"Собрано image_data для архива: {len(image_data)} элементов") # Для отладки
+    image_data.sort(
+        key=lambda x: (x['template'], x['article'], x['filename']))  # Изменено: x['client'] -> x['template']
+    print(f"Собрано image_data для архива: {len(image_data)} элементов")  # Для отладки
     # Рендерим шаблон archive.html
     return render_template('archive.html', image_data=image_data, error='')
 
