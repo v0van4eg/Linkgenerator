@@ -4,23 +4,28 @@ services:
     image: nginx:alpine
     container_name: nginx
     ports:
-      - "80:80"  # Откройте порт 80 на хост-машине, если ваш сервер слушает 80
+      - "80:80"
+    environment:
+      - MAX_UPLOAD_SIZE=5000M
     volumes:
-      - ./nginx.conf:/etc/nginx/conf.d/default.conf:ro
+      - ./nginx.conf.template:/etc/nginx/conf.d/default.conf.template:ro
       - ./static:/app/static:ro
       - ./templates:/app/templates:ro
       - ./uploads:/app/uploads
       - ./results:/app/results
       - ./htpasswd:/etc/nginx/htpasswd
     restart: unless-stopped
+    command: >
+      sh -c "
+        envsubst '$$MAX_UPLOAD_SIZE' < /etc/nginx/conf.d/default.conf.template > /etc/nginx/conf.d/default.conf &&
+        nginx -g 'daemon off;'
+      "
 
   app:
     build: .
     image: stashlink
     container_name: stashlink
     restart: unless-stopped
-    # ports:
-    #   - "5000:5000"
     volumes:
       - ./static:/app/static
       - ./templates:/app/templates
@@ -28,3 +33,5 @@ services:
       - ./:/app
     environment:
       - BASE_URL
+      - MAX_UPLOAD_SIZE
+

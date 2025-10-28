@@ -1,13 +1,13 @@
+# generators/megamarket_generator.py
 from .base_generator import BaseGenerator
 from openpyxl.utils import get_column_letter
 
-
 class MegamarketGenerator(BaseGenerator):
-
     def __init__(self):
+        # Имя шаблона может совпадать с именем в списке TEMPLATES
         super().__init__('megamarket.xlsx')
 
-    def get_worksheet_title(self):
+    def get_worksheet_title(self): # Переопределяем для конкретного шаблона
         return "Megamarket Images"
 
     def get_headers(self):
@@ -16,9 +16,8 @@ class MegamarketGenerator(BaseGenerator):
             headers.append(f"Ссылка на доп. фото №{i}")
         return headers
 
-    def generate_row_data(self, article, urls, client_name):
+    def generate_row_data(self, article, urls, template_name): # template_name теперь доступен, но не используется в этом генераторе
         row_data = [article]  # Код товара СММ
-
         # Добавляем ссылки на изображения
         if urls:
             row_data.append(urls[0])  # Основное фото
@@ -33,7 +32,6 @@ class MegamarketGenerator(BaseGenerator):
             row_data.append("")  # Основное фото
             for i in range(1, 10):
                 row_data.append("")
-
         return row_data
 
     def adjust_column_widths(self, ws):

@@ -1,3 +1,4 @@
+<!-- templates/index.html -->
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -9,6 +10,21 @@
 <body>
     <!-- Кнопка переключения темы -->
     <button class="theme-toggle" id="themeToggle">🌙</button>
+
+    <!-- Модальное окно для выбора шаблона -->
+    <div id="xlsxModal" class="modal" style="display: none; position: fixed; z-index: 1002; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.5);">
+        <div class="modal-content" style="background-color: var(--container-bg); margin: 15% auto; padding: 20px; border: 1px solid var(--input-border); border-radius: 8px; width: 300px; text-align: center;">
+            <h3>Выберите шаблон</h3>
+            <select id="templateSelectForXLSX" style="width: 100%; padding: 10px; margin-bottom: 15px; border: 2px solid var(--input-border); border-radius: 8px; background-color: var(--container-bg); color: var(--text-color);">
+                <option value="">-- Выберите шаблон --</option>
+                <option value="В строку">В строку</option>
+                <option value="В ячейку">В ячейку</option>
+            </select>
+            <button id="confirmXLSXBtn" class="btn" style="width: auto; padding: 10px 20px;">Сгенерировать</button>
+            <button id="cancelXLSXBtn" class="btn btn-secondary" style="width: auto; padding: 10px 20px; margin-left: 10px;">Отмена</button>
+        </div>
+    </div>
+
     <!-- Основной контейнер для всей страницы -->
     <div class="page-container">
         <!-- Контейнер для основного контента (до футера) -->
@@ -16,64 +32,42 @@
             <!-- Основной контейнер для колонок -->
             <div class="container">
                 <div class="upload-section">
-                    <h1>Загрузка изображений</h1>
+                    <h1>Загрузка ZIP-архива</h1>
                     {% if error %}
                     <div class="error">{{ error }}</div>
                     {% endif %}
-                    <!-- Табы для переключения между типами загрузки -->
-                    <div class="upload-tabs">
-                        <button type="button" class="tab-button active" data-tab="single">Отдельные изображения</button>
-                        <button type="button" class="tab-button" data-tab="archive">Загрузить архив</button>
-                    </div>
-                    <!-- Форма для отдельных изображений -->
-                    <form method="POST" action="{{ url_for('handle_upload') }}" enctype="multipart/form-data" id="single-form" class="tab-content active"> <!-- Изменили action -->
+                    <!-- Форма для архива (теперь без выбора шаблона) -->
+                    <form method="POST" action="{{ url_for('handle_upload') }}" enctype="multipart/form-data" id="archive-form">
                         <div class="form-group">
-                            <label for="client_name">Имя клиента:</label>
-                            <select id="client_name" name="client_name" required>
-                                <option value="">-- Выберите клиента --</option>
-                                {% for client in clients %}
-                                <option value="{{ client }}"
-                                        {% if selected_client == client %}selected{% endif %}>
-                                    {{ client }}
-                                </option>
-                                {% endfor %}
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="product_name">Имя товара:</label>
-                            <input type="text" id="product_name" name="product_name"
-                                   value="{{ product_name or '' }}" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="images">Изображения:</label>
-                            <input type="file" id="images" name="images"
-                                   multiple accept="image/*" required>
-                        </div>
-                        <button type="submit" class="btn">Загрузить изображения</button>
-                    </form>
-                    <!-- Форма для архива -->
-                    <form method="POST" action="{{ url_for('handle_upload') }}" enctype="multipart/form-data" id="archive-form" class="tab-content"> <!-- Изменили action -->
-                        <div class="form-group">
-                            <label for="client_name_archive">Имя клиента:</label>
-                            <select id="client_name_archive" name="client_name" required>
-                                <option value="">-- Выберите клиента --</option>
-                                {% for client in clients %}
-                                <option value="{{ client }}"
-                                        {% if selected_client == client %}selected{% endif %}>
-                                    {{ client }}
-                                </option>
-                                {% endfor %}
-                            </select>
+                            <label for="catalog">Имя каталога:</label>
+                            <input type="text" id="catalog" name="catalog">
+                            <div class="help-text">
+                                📁 Если не указано, будет использовано имя ZIP-архива<br>
+                                Пример: archive.zip → папка "archive"
+                            </div>
                         </div>
                         <div class="form-group">
                             <label for="archive">ZIP-архив:</label>
-                            <input type="file" id="archive" name="archive" accept=".zip" required>
+                            <input type="file" id="archive" name="archive" accept=".zip">
                             <div class="help-text">
                                 📁 Архив должен содержать папки с артикулами, а в них - изображения<br>
                                 Пример: archive.zip → 100256601929 → 100256601929_1.jpg
                             </div>
                         </div>
                         <button type="submit" class="btn">📦 Загрузить архив</button>
+                    </form>
+                    <h2>
+                    <h1>Загрузка отдельных файлов</h1>
+                    <form method="POST" action="{{ url_for('handle_upload') }}" enctype="multipart/form-data" id="single-form">
+                        <div class="form-group">
+                            <label for="product_name_single">Имя продукта/артикула:</label>
+                            <input type="text" id="product_name_single" name="product_name" required>
+                        </div>
+                         <div class="form-group">
+                            <label for="images">Изображения:</label>
+                            <input type="file" id="images" name="images" multiple accept=".png,.jpg,.jpeg,.gif,.webp">
+                        </div>
+                        <button type="submit" class="btn">📤 Загрузить файлы</button>
                     </form>
                 </div>
                 <div class="links-section">
@@ -89,17 +83,23 @@
                                 {% set current_article = item.article %}
                             {% endif %}
                             <div class="url-item">
-                                <div class="preview-container">
-                                    <img src="{{ item.url }}" alt="Preview" class="image-preview"
-                                         onerror="this.onerror=null; this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjQiIGhlaWdodD0iNjQiIHZpZXdCb3g9IjAgMCA2NCA2NCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iNjQiIGhlaWdodD0iNjQiIGZpbGw9IiNmMGYwZjAiLz48dGV4dCB4PSIzMCIgeT0iMzIiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIxMiIgZmlsbD0iI2FhYSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZHk9Ii4zZW0iPmltZzwvdGV4dD48L3N2Zz4='; this.style.display='flex';">
-                                </div>
-                                <div class="url-content">
-                                    <span class="article-info">Артикул: {{ item.article }}</span>
-                                    <div class="url-text" data-url="{{ item.url }}">
-                                        {{ item.url }}
-                                        <span class="copy-hint">🔗 Кликните чтобы скопировать</span>
+                                    <div class="preview-container">
+                                        <!-- Используем thumbnail_url и loading="lazy" -->
+                                        <img
+                                            src="{{ item.thumbnail_url | default(item.url) }}"
+                                            alt="Preview {{ item.filename }}"
+                                            class="image-preview"
+                                            loading="lazy"
+                                            onerror="this.onerror=null; this.src='{{ item.url }}';"
+                                        >
                                     </div>
-                                </div>
+                                    <div class="url-content">
+                                        <span class="article-info">Артикул: {{ item.article }}</span>
+                                        <div class="url-text" data-url="{{ item.url }}">
+                                            {{ item.url }}
+                                            <span class="copy-hint">🔗 Кликните чтобы скопировать</span>
+                                        </div>
+                                    </div>
                             </div>
                         {% endfor %}
                     </div>
@@ -110,13 +110,14 @@
                         <button class="btn btn-secondary" id="copyAllListBtn">
                             📝 Скопировать списком (перенос строки)
                         </button>
-                        <button class="btn btn-secondary" id="downloadXLSXBtn">
+                        <!-- Изменена кнопка: теперь она вызывает модальное окно -->
+                        <button class="btn btn-secondary" id="triggerXLSXModalBtn">
                             📋 Сгенерировать документ XLSX
                         </button>
                     </div>
                     {% else %}
                     <div class="empty-state">
-                        <p>Загрузите изображения или архив, чтобы увидеть ссылки и превью</p>
+                        <p>Загрузите архив или файлы, чтобы увидеть ссылки и превью</p>
                     </div>
                     {% endif %}
                 </div>
@@ -128,16 +129,19 @@
         </footer>
     </div>
     <script>
-        // ... (весь JavaScript из оригинального index.html)
-        // НЕ ИЗМЕНЯЕМ JavaScript, так как он работает с данными, уже находящимися в HTML.
-        // Главное изменение - это то, что image_urls, selected_client, product_name теперь
-        // передаются в шаблон Flask-ом и отображаются в HTML, а не зависят от session.
-        // Кнопки и функции копирования/скачивания продолжают работать как раньше,
-        // потому что они оперируют данными, доступными на странице (DOM).
         document.addEventListener('DOMContentLoaded', function() {
-            // --- Код JavaScript остается без изменений ---
+            // --- Код JavaScript ---
             const themeToggle = document.getElementById('themeToggle');
             const body = document.body;
+
+            // --- НОВОЕ: Элементы модального окна ---
+            const triggerXLSXModalBtn = document.getElementById('triggerXLSXModalBtn');
+            const xlsxModal = document.getElementById('xlsxModal');
+            const confirmXLSXBtn = document.getElementById('confirmXLSXBtn');
+            const cancelXLSXBtn = document.getElementById('cancelXLSXBtn');
+            const templateSelectForXLSX = document.getElementById('templateSelectForXLSX');
+            // --- /НОВОЕ ---
+
             // Проверяем сохранённую тему в localStorage
             const savedTheme = localStorage.getItem('theme');
             if (savedTheme === 'dark') {
@@ -156,32 +160,7 @@
                     localStorage.setItem('theme', 'light');
                 }
             });
-            // --- Переключение между вкладками загрузки ---
-            const tabButtons = document.querySelectorAll('.tab-button');
-            const tabContents = document.querySelectorAll('.tab-content');
-            tabButtons.forEach(button => {
-                button.addEventListener('click', function() {
-                    const tabName = this.getAttribute('data-tab');
-                    // Убираем активный класс у всех кнопок и контента
-                    tabButtons.forEach(btn => btn.classList.remove('active'));
-                    tabContents.forEach(content => content.classList.remove('active'));
-                    // Добавляем активный класс текущей кнопке и соответствующему контенту
-                    this.classList.add('active');
-                    document.getElementById(`${tabName}-form`).classList.add('active');
-                });
-            });
-            // Синхронизация выбора клиента между формами
-            const clientSelects = document.querySelectorAll('select[name="client_name"]');
-            clientSelects.forEach(select => {
-                select.addEventListener('change', function() {
-                    const value = this.value;
-                    clientSelects.forEach(otherSelect => {
-                        if (otherSelect !== this) {
-                            otherSelect.value = value;
-                        }
-                    });
-                });
-            });
+
             // --- Функция для показа уведомлений ---
             function showNotification(message, type = 'success') {
                 const existingNotifications = document.querySelectorAll('.notification');
@@ -205,6 +184,7 @@
                     notification.remove();
                 }, 3000);
             }
+
             // --- Функция копирования текста ---
             function copyToClipboard(text) {
                 if (navigator.clipboard && window.isSecureContext) {
@@ -252,7 +232,6 @@
                 document.body.removeChild(textArea);
             }
 
-
             // --- Функция копирования всех ссылок списком (разделённых переносом строки) ---
             function copyAllListToClipboard() {
                 const urlItems = document.querySelectorAll('.url-text');
@@ -264,7 +243,6 @@
                 const allUrls = Array.from(urlItems)
                     .map(item => item.getAttribute('data-url'))
                     .join('\n'); // Используем \n для разделения строк
-
                 if (navigator.clipboard && window.isSecureContext) {
                     navigator.clipboard.writeText(allUrls).then(function() {
                         showNotification('Список ссылок скопирован в буфер обмена (разделённые строками)!');
@@ -276,7 +254,6 @@
                     fallbackCopyAllListToClipboard(allUrls); // Резервный метод
                 }
             }
-
             // Резервный метод для копирования списка ссылок (аналогично основному fallback)
             function fallbackCopyAllListToClipboard(text) {
                 const textArea = document.createElement('textarea');
@@ -363,27 +340,16 @@
                 }
                 document.body.removeChild(textArea);
             }
-            // --- Функция скачивания всех ссылок ---
-            function downloadAllLinks() {
-                const urlItems = document.querySelectorAll('.url-text');
-                if (!urlItems.length) {
-                    showNotification('Нет ссылок для скачивания', 'error');
-                    return;
-                }
-                const allUrls = Array.from(urlItems).map(item => item.getAttribute('data-url'));
-                // Создаем URL параметры для передачи ссылок
-                const params = new URLSearchParams();
-                allUrls.forEach(url => params.append('urls', url));
-                // Скачиваем файл
-                window.location.href = '/download-links?' + params.toString();
-            }
+
             // --- Функция для скачивания XLSX документа ---
-            function downloadXLSXDocument() {
+            // Теперь принимает шаблон как аргумент
+            function downloadXLSXDocument(selectedTemplateName) {
                 const urlItems = document.querySelectorAll('.url-item');
                 if (!urlItems.length) {
                     showNotification('Нет ссылок для генерации документа', 'error');
                     return;
                 }
+
                 // Собираем данные об изображениях с артикулами
                 const imageData = [];
                 // Проходим по всем элементам с изображениями
@@ -399,13 +365,27 @@
                         });
                     }
                 });
-                const clientName = "{{ selected_client or '' }}";
-                console.log('Отправляемые данные:', {
+
+                // Проверяем, что шаблон передан и не пуст
+                if (!selectedTemplateName) {
+                     showNotification('Шаблон не выбран. Невозможно сгенерировать XLSX.', 'error');
+                     console.error("Шаблон не передан в downloadXLSXDocument.");
+                     return;
+                }
+
+                if (!selectedTemplateName.trim()) {
+                     showNotification('Имя шаблона пустое. Невозможно выбрать шаблон.', 'error');
+                     return;
+                }
+
+                console.log('Отправляемые данные для XLSX (index):', {
                     image_data: imageData,
-                    client_name: clientName
+                    template_name: selectedTemplateName // Используем переданный шаблон
                 });
+
                 // Показываем уведомление о начале генерации
-                showNotification('Генерация XLSX документа...', 'success');
+                showNotification('Генерация XLSX документа для шаблона: ' + selectedTemplateName, 'success');
+
                 // Отправляем POST запрос с данными
                 fetch('/admin/download-xlsx', {
                     method: 'POST',
@@ -414,7 +394,7 @@
                     },
                     body: JSON.stringify({
                         image_data: imageData,
-                        client_name: clientName
+                        template_name: selectedTemplateName // Передаём выбранный шаблон
                     })
                 })
                 .then(response => {
@@ -429,18 +409,21 @@
                     const a = document.createElement('a');
                     a.style.display = 'none';
                     a.href = url;
-                    a.download = `${clientName || 'images'}_catalog.xlsx`;
+                    // Используем имя шаблона и временную метку для имени файла
+                    const timestamp = new Date().toISOString().slice(0, 19).replace(/:/g, '-');
+                    a.download = `${selectedTemplateName}_catalog_${timestamp}.xlsx`;
                     document.body.appendChild(a);
                     a.click();
                     window.URL.revokeObjectURL(url);
                     document.body.removeChild(a);
-                    showNotification('XLSX документ успешно сгенерирован и скачан!', 'success');
+                    showNotification('XLSX документ для шаблона ' + selectedTemplateName + ' успешно сгенерирован и скачан!', 'success');
                 })
                 .catch(error => {
-                    console.error('Ошибка при генерации XLSX:', error);
+                    console.error('Ошибка при генерации XLSX (index):', error);
                     showNotification('Ошибка при генерации XLSX: ' + error.message, 'error');
                 });
             }
+
             // --- Привязка событий для копирования при клике на ссылку ---
             document.querySelectorAll('.url-text').forEach(urlElement => {
                 urlElement.addEventListener('click', function(e) {
@@ -457,35 +440,60 @@
                     }
                 });
             });
-            // --- Привязка к кнопке "Копировать все" ---
+
+            // --- Привязка к кнопке "Копировать все" (через запятую) ---
             const copyAllBtn = document.getElementById('copyAllBtn');
             if (copyAllBtn) {
                 copyAllBtn.addEventListener('click', copyAllToClipboard);
             }
-            // --- Привязка к кнопке "Копировать все" (старая, разделённые запятой) ---
-            if (copyAllBtn) {
-                copyAllBtn.addEventListener('click', copyAllToClipboard);
-            }
+
             // --- Привязка к НОВОЙ кнопке "Копировать все ссылки списком" ---
             const copyAllListBtn = document.getElementById('copyAllListBtn');
             if (copyAllListBtn) {
                 copyAllListBtn.addEventListener('click', copyAllListToClipboard);
             }
-            // --- Привязка к кнопке "Скачать все" ---
-            // --- Привязка к кнопке "Скачать все" ---
-            const downloadAllBtn = document.getElementById('downloadAllBtn');
-            if (downloadAllBtn) {
-                downloadAllBtn.addEventListener('click', downloadAllLinks);
+
+            // --- Привязка к НОВОЙ кнопке "Сгенерировать документ XLSX" (модальное окно) ---
+            if (triggerXLSXModalBtn) {
+                triggerXLSXModalBtn.addEventListener('click', function() {
+                    xlsxModal.style.display = 'block';
+                });
             }
-            // --- Привязка к кнопке "Сгенерировать документ XLSX" ---
-            const downloadXLSXBtn = document.getElementById('downloadXLSXBtn');
-            if (downloadXLSXBtn) {
-                downloadXLSXBtn.addEventListener('click', downloadXLSXDocument);
+
+            // Обработчик подтверждения выбора шаблона
+            if (confirmXLSXBtn) {
+                confirmXLSXBtn.addEventListener('click', function() {
+                    const selectedTemplate = templateSelectForXLSX.value;
+                    if (selectedTemplate) {
+                        xlsxModal.style.display = 'none';
+                        templateSelectForXLSX.value = ''; // Сбрасываем выбор
+                        downloadXLSXDocument(selectedTemplate); // Вызываем функцию с выбранным шаблоном
+                    } else {
+                        showNotification('Пожалуйста, выберите шаблон.', 'error');
+                    }
+                });
             }
-            // --- Предпросмотр файлов ---
-            const imagesInput = document.getElementById('images');
-            if (imagesInput) {
-                imagesInput.addEventListener('change', function(e) {
+
+            // Обработчик отмены выбора шаблона
+            if (cancelXLSXBtn) {
+                cancelXLSXBtn.addEventListener('click', function() {
+                    xlsxModal.style.display = 'none';
+                    templateSelectForXLSX.value = ''; // Сбрасываем выбор
+                });
+            }
+
+            // Закрытие модального окна при клике вне его
+            window.addEventListener('click', function(event) {
+                if (event.target === xlsxModal) {
+                    xlsxModal.style.display = 'none';
+                    templateSelectForXLSX.value = ''; // Сбрасываем выбор
+                }
+            });
+
+            // --- Предпросмотр файлов для формы архива (опционально, если нужно) ---
+            const archiveInput = document.getElementById('archive');
+            if (archiveInput) {
+                archiveInput.addEventListener('change', function(e) {
                     const files = e.target.files;
                     let previewContainer = document.querySelector('.upload-preview');
                     // Удаляем старый превью если есть
@@ -495,18 +503,11 @@
                     if (files.length > 0) {
                         previewContainer = document.createElement('div');
                         previewContainer.className = 'upload-preview';
-                        previewContainer.innerHTML = '<h3>Выбранные файлы:</h3>';
+                        previewContainer.innerHTML = '<h3>Выбранный файл:</h3>';
                         Array.from(files).forEach(file => {
-                            if (file.type.startsWith('image/')) {
-                                const reader = new FileReader();
-                                reader.onload = function(e) {
-                                    const img = document.createElement('img');
-                                    img.src = e.target.result;
-                                    img.style.cssText = 'max-width: 100px; max-height: 100px; margin: 5px;';
-                                    previewContainer.appendChild(img);
-                                };
-                                reader.readAsDataURL(file);
-                            }
+                            const fileInfo = document.createElement('div');
+                            fileInfo.textContent = file.name;
+                            previewContainer.appendChild(fileInfo);
                         });
                         document.querySelector('.upload-section').appendChild(previewContainer);
                     }
